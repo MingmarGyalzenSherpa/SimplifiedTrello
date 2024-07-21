@@ -1,27 +1,26 @@
 import { Knex } from "knex";
 
-const TABLE_NAME = "workspaces";
+const TABLE_NAME = "workspace_members";
 
 /**
- * Create table workspace.
+ * Create table workspace_members.
  *
  * @param   {Knex} knex
  * @returns {Promise}
  */
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(TABLE_NAME, (table) => {
-    table.bigIncrements();
-
-    table.string("title", 30).notNullable();
-
-    table.timestamp("created_at").notNullable().defaultTo(knex.raw("now()"));
+    table.bigInteger("user_id").notNullable().references("id").inTable("users");
 
     table
-      .bigInteger("created_by")
-      .unsigned()
+      .bigInteger("workspace_id")
       .notNullable()
       .references("id")
-      .inTable("users");
+      .inTable("workspaces");
+
+    table.enum("role", ["admin", "member"]).notNullable();
+
+    table.timestamp("created_at").notNullable().defaultTo(knex.raw("now()"));
 
     table.timestamp("updated_at").nullable();
   });
