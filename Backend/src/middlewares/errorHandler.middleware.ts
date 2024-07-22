@@ -5,6 +5,13 @@ import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { UnauthorizedError } from "../errors/UnauthorizedError";
 import { ForbiddenError } from "../errors/ForbiddenError";
+
+export const notFound = (req: Request, res: Response) => {
+  res.status(HttpStatusCodes.NOT_FOUND).json({
+    message: "NOT FOUND",
+  });
+};
+
 export const genericErrorHandler = (
   err: Error,
   req: Request,
