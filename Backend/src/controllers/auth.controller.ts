@@ -1,6 +1,7 @@
+import { ILoginCredential } from "./../interfaces/ILoginCredential";
 import HttpStatusCodes from "http-status-codes";
 import { NextFunction, Request, Response } from "express";
-import * as UserServices from "../services/userServices";
+import * as AuthServices from "../services/authServices";
 import { interpolate } from "../utils/interpolate";
 import { successMessages } from "../utils/message";
 import { IExpressRequest } from "../interfaces/IExpressRequest";
@@ -20,7 +21,7 @@ export const signup = async (
   try {
     const { body } = req;
 
-    await UserServices.createUser(body);
+    await AuthServices.createUser(body);
 
     res.status(HttpStatusCodes.CREATED).json({
       message: interpolate(successMessages.CREATED, { item: "User" }),
@@ -43,8 +44,12 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
-    
+    const { body: credentials } = req;
+
+    const data = await AuthServices.login(credentials);
+    res.status(HttpStatusCodes.OK).json(data);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

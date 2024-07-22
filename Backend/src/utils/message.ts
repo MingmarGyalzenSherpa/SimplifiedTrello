@@ -7,6 +7,8 @@ export const successMessages = {
 
 export const errorMessages = {
   EXISTS: ":item already exists.",
+  DOES_NOT_EXIST: ":item doesn't exist.",
+  INCORRECT: "Incorrect :item",
   NOTFOUND: ":item not found.",
   INTERNAL_SERVER_ERROR: "Internal Server Error.",
   UNAUTHORIZED_ACCESS: "Unauthorized Access.",

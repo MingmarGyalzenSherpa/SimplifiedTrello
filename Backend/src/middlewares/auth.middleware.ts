@@ -4,7 +4,7 @@ import { errorMessages } from "../utils/message";
 import { IExpressRequest } from "../interfaces/IExpressRequest";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { config } from "../config";
-import { IUser } from "../interfaces/user.interface";
+import { IUser } from "../interfaces/IUser";
 
 export const authentication = (
   req: IExpressRequest,
@@ -24,7 +24,7 @@ export const authentication = (
   }
   let payload: IUser;
   try {
-    payload = jwt.verify(token[1], config.jwt_secret!) as IUser;
+    payload = jwt.verify(token[1], config.jwt.secret!) as IUser;
     req.user = payload;
   } catch (error) {
     next(new UnauthorizedError(errorMessages.UNAUTHORIZED_ACCESS));

@@ -1,5 +1,5 @@
-import { IUser } from "../interfaces/user.interface";
-import { createUser } from "./../services/userServices";
+import { IUser } from "../interfaces/IUser";
+import { IUserPayload } from "../interfaces/IUserPayload";
 import { BaseModel } from "./base";
 
 /**
@@ -19,15 +19,15 @@ export class UserModel extends BaseModel {
    * Get user by email
    *
    * @param email - email of the user
-   * @returns {Promise<string | undefined>} - id if user is found or undefined
+   * @returns {Promise<IUserPayload | undefined>} - id if user is found or undefined
    */
-  static getUserByEmail = async (email: string) => {
+  static getUserByEmail = async (email: string): Promise<IUser | undefined> => {
     const user = await this.queryBuilder()
       .table("users")
-      .select("id")
+      .select("id", "email", "username", "first_name", "last_name", "password")
       .where({ email })
       .first();
 
-    return user;
+    return user as IUser;
   };
 }
