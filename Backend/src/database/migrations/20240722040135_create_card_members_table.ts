@@ -3,7 +3,7 @@ import { Knex } from "knex";
 const TABLE_NAME = "card_members";
 
 /**
- * Create table TABLE_NAME.
+ * Create table card_members.
  *
  * @param   {Knex} knex
  * @returns {Promise}

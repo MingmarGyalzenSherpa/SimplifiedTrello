@@ -3,7 +3,7 @@ import { Knex } from "knex";
 const TABLE_NAME = "lists";
 
 /**
- * Create table TABLE_NAME.
+ * Create table lists.
  *
  * @param   {Knex} knex
  * @returns {Promise}
