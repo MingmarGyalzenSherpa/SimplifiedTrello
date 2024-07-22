@@ -1,3 +1,4 @@
+import { hash } from "bcrypt";
 import { BadRequestError } from "../errors/BadRequestError";
 import { IUser } from "../interfaces/user.interface";
 
@@ -15,6 +16,8 @@ export const createUser = async (body: IUser) => {
       interpolate(errorMessages.EXISTS, { item: "User" })
     );
   }
-  
-  await UserModel.createUser(body);
+
+  const hashedPassword = await hash(body.password, 10);
+
+  await UserModel.createUser({ ...body, password: hashedPassword });
 };
