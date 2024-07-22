@@ -4,6 +4,7 @@ dotenv.config({ path: __dirname + "/../.env" });
 
 export const config = {
   port: process.env.PORT,
+  jwt_secret: process.env.JWT_SECRET,
   database: {
     client: process.env.DB_CLIENT,
     host: process.env.DB_HOST,

@@ -1,11 +1,12 @@
 import HttpStatusCodes from "http-status-codes";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import * as UserServices from "../services/userServices";
 import { interpolate } from "../utils/interpolate";
 import { successMessages } from "../utils/message";
+import { IExpressRequest } from "../interfaces/IExpressRequest";
 
 export const signup = async (
-  req: Request,
+  req: IExpressRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -21,3 +22,5 @@ export const signup = async (
     next(error);
   }
 };
+
+// export const login = async (req:)
