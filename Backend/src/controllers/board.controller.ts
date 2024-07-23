@@ -13,7 +13,7 @@ export const getBoards = async (
     const { id: userId } = req.user!;
     console.log(req.user);
     console.log(req.params);
-    const users = await BoardServices.getBoards(userId!);
+    const users = await BoardServices.getBoardsByUser(userId!);
     res.status(HttpStatusCodes.OK).json({
       message: interpolate(successMessages.FETCHED, { item: "Users" }),
       data: users,

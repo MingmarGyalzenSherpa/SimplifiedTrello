@@ -7,7 +7,7 @@ import { BoardModel } from "../models/board";
  * @param boardId - id of the board
  * @returns {Promise<IBoard[]>} - users in the board
  */
-export const getBoards = async (userId: number): Promise<IBoard[]> => {
-  const data = await BoardModel.getBoards(userId);
+export const getBoardsByUser = async (userId: number): Promise<IBoard[]> => {
+  const data = await BoardModel.getBoardsByUser(userId);
   return data;
 };
