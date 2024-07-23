@@ -17,13 +17,34 @@ export const createWorkspace = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { id: userId } = req.user!;
-  const { body } = req;
+  try {
+    const { id: userId } = req.user!;
+    const { body } = req;
 
-  const data = await WorkspaceServices.createWorkspace(userId!, body);
+    const data = await WorkspaceServices.createWorkspace(userId!, body);
 
-  res.status(HttpStatusCodes.CREATED).json({
-    message: interpolate(successMessages.CREATED, { item: "Workspace" }),
-    data,
-  });
+    res.status(HttpStatusCodes.CREATED).json({
+      message: interpolate(successMessages.CREATED, { item: "Workspace" }),
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getWorkspacesByUser = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id: userId } = req.user!;
+    const data = await WorkspaceServices.getWorkspacesByUser(userId!);
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.FETCHED, { item: "Workspaces" }),
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

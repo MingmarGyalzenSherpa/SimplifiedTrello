@@ -13,6 +13,21 @@ export class BoardModel extends BaseModel {
       .table("boards")
       .innerJoin("board_members", "boards.id", "board_members.board_id")
       .where("board_members.user_id", userId);
+
+    return data;
+  };
+
+  /**
+   * Get boards by workspace
+   *
+   * @param workspaceId
+   * @returns
+   */
+  static getBoardsByWorkspace = async (workspaceId: number) => {
+    const data = await this.queryBuilder()
+      .table("boards")
+      .where({ workspaceId });
+
     return data;
   };
 }

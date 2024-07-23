@@ -4,7 +4,8 @@ import { IExpressRequest } from "../interfaces/IExpressRequest";
 import * as BoardServices from "../services/boardServices";
 import { interpolate } from "../utils/interpolate";
 import { successMessages } from "../utils/message";
-export const getBoards = async (
+
+export const getBoardsByUser = async (
   req: IExpressRequest,
   res: Response,
   next: NextFunction
