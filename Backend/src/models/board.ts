@@ -3,7 +3,7 @@ import { IBoard } from "../interfaces/IBoard";
 import { BaseModel } from "./base";
 
 export class BoardModel extends BaseModel {
-  static createBoards = async (userId: number, boardToCreate: IBoard) => {
+  static createBoard = async (userId: number, boardToCreate: IBoard) => {
     //create a board
     const data = await this.queryBuilder()
       .table("boards")

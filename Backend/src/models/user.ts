@@ -19,7 +19,7 @@ export class UserModel extends BaseModel {
    * Get user by email
    *
    * @param email - email of the user
-   * @returns {Promise<IUserPayload | undefined>} - id if user is found or undefined
+   * @returns {Promise<IUserPayload | undefined>} - user found or undefined
    */
   static getUserByEmail = async (email: string): Promise<IUser | undefined> => {
     const user = await this.queryBuilder()
@@ -31,5 +31,19 @@ export class UserModel extends BaseModel {
     return user as IUser;
   };
 
- 
+  /**
+   * Get users by board
+   *
+   * @param boardId - id of board
+   * @returns {Promise<IUser[] >} - users
+   */
+  static getUsersByBoard = async (boardId: number): Promise<IUser[]> => {
+    const data = await this.queryBuilder()
+      .table("board_members")
+      .innerJoin("users", "board_members.user_id", "users.id")
+      .select("users.*")
+      .where("board_members.board_id", boardId);
+
+    return data as IUser[];
+  };
 }

@@ -2,8 +2,16 @@ import { NotFoundError } from "./../errors/NotFoundError";
 import { IBoard } from "../interfaces/IBoard";
 import { BoardModel } from "../models/board";
 import * as WorkspaceServices from "./workspaceService";
+import * as UserServices from "./userServices";
 import { interpolate } from "../utils/interpolate";
 import { errorMessages } from "../utils/message";
+
+/**
+ *  Create a new board
+ * @param userId - id of user
+ * @param workspaceId - workspace id
+ * @param boardToCreate - new board details
+ */
 export const createBoard = async (
   userId: number,
   workspaceId: number,
@@ -19,7 +27,7 @@ export const createBoard = async (
     );
   }
   boardToCreate.workspaceId = workspaceId;
-  await BoardModel.createBoards(userId, boardToCreate);
+  await BoardModel.createBoard(userId, boardToCreate);
 };
 
 /**
@@ -44,4 +52,19 @@ export const getBoardsByWorkspace = async (
   const data = await BoardModel.getBoardsByWorkspace(workspaceId);
 
   return data;
+};
+
+/**
+ * Get users by board
+ * @param boardId - id of board
+ * @returns
+ */
+export const getUsersByBoard = async (boardId: number) => {
+  const data = await UserServices.getUsersByBoard(boardId);
+  const filteredData = data.map(
+    ({ id, username, firstName, lastName, email }) => {
+      return { id, username, firstName, lastName, email };
+    }
+  );
+  return filteredData;
 };

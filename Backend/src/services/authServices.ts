@@ -59,8 +59,8 @@ export const login = async (credentials: ILoginPayload): Promise<object> => {
     id: user.id!,
     username: user.username,
     email: user.email,
-    first_name: user.first_name,
-    last_name: user.last_name,
+    firstName: user.firstName,
+    lastName: user.lastName,
   };
 
   const accessToken = jwt.sign(payload, config.jwt.secret!, {

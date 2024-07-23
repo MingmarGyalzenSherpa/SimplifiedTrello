@@ -1,6 +1,7 @@
 import { WorkspaceModel } from "../models/workspace";
 import { IWorkspace } from "./../interfaces/IWorkspace";
 import * as BoardServices from "../services/boardServices";
+import { IBoard } from "../interfaces/IBoard";
 /**
  * Create a new workspace
  *
@@ -43,4 +44,12 @@ export const getWorkspaceById = async (
   const data = await WorkspaceModel.getWorkspaceById(workspaceId);
 
   return data;
+};
+
+export const createBoard = async (
+  userId: number,
+  workspaceId: number,
+  boardToCreate: IBoard
+) => {
+  await BoardServices.createBoard(userId, workspaceId, boardToCreate);
 };

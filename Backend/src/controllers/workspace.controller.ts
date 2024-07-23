@@ -48,3 +48,22 @@ export const getWorkspacesByUser = async (
     next(error);
   }
 };
+
+export const createBoard = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id: userId } = req.user!;
+    const { id: workspaceId } = req.params;
+    const { body } = req;
+    await WorkspaceServices.createBoard(userId!, +workspaceId, body);
+
+    res.status(HttpStatusCodes.CREATED).json({
+      message: interpolate(successMessages.CREATED, { item: "Board" }),
+    });
+  } catch (error) {
+    next(error);
+  }
+};

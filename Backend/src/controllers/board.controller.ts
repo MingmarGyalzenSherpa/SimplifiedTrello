@@ -14,7 +14,7 @@ export const getBoardsByUser = async (
     const { id: userId } = req.user!;
     const users = await BoardServices.getBoardsByUser(userId!);
     res.status(HttpStatusCodes.OK).json({
-      message: interpolate(successMessages.FETCHED, { item: "Users" }),
+      message: interpolate(successMessages.FETCHED, { item: "Boards" }),
       data: users,
     });
   } catch (error) {
@@ -23,19 +23,17 @@ export const getBoardsByUser = async (
   }
 };
 
-export const createBoard = async (
+export const getUsersByBoard = async (
   req: IExpressRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { id: userId } = req.user!;
-    const { id: workspaceId } = req.params;
-    const { body } = req;
-    await BoardServices.createBoard(userId!, +workspaceId, body);
-
-    res.status(HttpStatusCodes.CREATED).json({
-      message: interpolate(successMessages.CREATED, { item: "Board" }),
+    const { id: boardId } = req.params;
+    const data = await BoardServices.getUsersByBoard(+boardId);
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.FETCHED, { item: "Users" }),
+      data,
     });
   } catch (error) {
     next(error);
