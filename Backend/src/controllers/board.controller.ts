@@ -31,10 +31,27 @@ export const getUsersByBoard = async (
   try {
     const { id: boardId } = req.params;
     const data = await BoardServices.getUsersByBoard(+boardId);
+
     res.status(HttpStatusCodes.OK).json({
       message: interpolate(successMessages.FETCHED, { item: "Users" }),
       data,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateBoard = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id: userId } = req.user!;
+    const { id: boardId } = req.params;
+    const { body } = req;
+
+    await BoardServices.updateBoard(userId!, +boardId, body);
   } catch (error) {
     next(error);
   }

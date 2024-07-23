@@ -1,7 +1,10 @@
+import { ForbiddenError } from "./../errors/ForbiddenError";
 import { WorkspaceModel } from "../models/workspace";
 import { IWorkspace } from "./../interfaces/IWorkspace";
 import * as BoardServices from "../services/boardServices";
 import { IBoard } from "../interfaces/IBoard";
+import { interpolate } from "../utils/interpolate";
+import { errorMessages } from "../utils/message";
 /**
  * Create a new workspace
  *
@@ -51,5 +54,9 @@ export const createBoard = async (
   workspaceId: number,
   boardToCreate: IBoard
 ) => {
+  const isAdmin = await WorkspaceModel.checkIfAdmin(userId, workspaceId);
+
+  if (!isAdmin) throw new ForbiddenError(errorMessages.FORBIDDEN);
+
   await BoardServices.createBoard(userId, workspaceId, boardToCreate);
 };

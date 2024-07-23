@@ -10,3 +10,13 @@ export const createBoardBodySchema = joi
   .options({
     stripUnknown: true,
   });
+
+export const updateBoardBodySchema = joi
+  .object({
+    title: joi.string().required().optional(),
+    description: joi.string().optional(),
+    backgroundColor: joi.string().optional(),
+  })
+  .options({
+    stripUnknown: true,
+  });

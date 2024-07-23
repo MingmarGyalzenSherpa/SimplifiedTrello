@@ -68,4 +68,22 @@ export class WorkspaceModel extends BaseModel {
 
     return data;
   };
+
+  /**
+   * Check if admin of the workspace
+   *
+   * @param userId - id of the user
+   * @param workspaceId - id of the workspace
+   * @returns  - boolean
+   */
+  static checkIfAdmin = async (userId: number, workspaceId: number) => {
+    const data = await this.queryBuilder()
+      .table("workspace_members")
+      .where({ userId, workspaceId })
+      .first();
+
+    if (!data || data.role != Roles.ADMIN) return false;
+
+    return true;
+  };
 }

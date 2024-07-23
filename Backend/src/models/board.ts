@@ -31,9 +31,15 @@ export class BoardModel extends BaseModel {
       .innerJoin("board_members", "boards.id", "board_members.board_id")
       .select("boards.*")
       .where("board_members.user_id", userId);
-    console.log("heere");
     console.log(data);
     return data;
+  };
+
+  static getBoardById = async (boardId: number) => {
+    return await this.queryBuilder()
+      .table("boards")
+      .where({ id: boardId })
+      .first();
   };
 
   /**
@@ -48,5 +54,29 @@ export class BoardModel extends BaseModel {
       .where({ workspaceId });
 
     return data;
+  };
+
+  /**
+   * Update board
+   *
+   * @param boardId - board id
+   * @param updatedBoard - updated board details
+   */
+  static updateBoard = async (boardId: number, updatedBoard: IBoard) => {
+    await this.queryBuilder()
+      .table("boards")
+      .update(updatedBoard)
+      .where({ boardId });
+  };
+
+  static checkIfAdmin = async (userId: number, boardId: number) => {
+    const data = await this.queryBuilder()
+      .table("board_members")
+      .where({ userId, boardId })
+      .first();
+
+    if (!data || data.role != Roles.ADMIN) return false;
+
+    return true;
   };
 }

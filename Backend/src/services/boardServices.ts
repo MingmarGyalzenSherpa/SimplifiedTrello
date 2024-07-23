@@ -5,6 +5,8 @@ import * as WorkspaceServices from "./workspaceService";
 import * as UserServices from "./userServices";
 import { interpolate } from "../utils/interpolate";
 import { errorMessages } from "../utils/message";
+import { WorkspaceModel } from "../models/workspace";
+import { ForbiddenError } from "../errors/ForbiddenError";
 
 /**
  *  Create a new board
@@ -20,6 +22,8 @@ export const createBoard = async (
   const isValidWorkspace = await WorkspaceServices.getWorkspaceById(
     workspaceId
   );
+
+  //check if user is admin
 
   if (!isValidWorkspace) {
     throw new NotFoundError(
@@ -67,4 +71,25 @@ export const getUsersByBoard = async (boardId: number) => {
     }
   );
   return filteredData;
+};
+
+export const updateBoard = async (
+  userId: number,
+  boardId: number,
+  updatedBoard: IBoard
+) => {
+  const board = await BoardModel.getBoardById(boardId);
+
+  const isWorkspaceAdmin = await WorkspaceModel.checkIfAdmin(
+    userId,
+    board.workspaceId
+  );
+
+  const isBoardAdmin = await BoardModel.checkIfAdmin(userId, boardId);
+
+  if (!isWorkspaceAdmin && !isBoardAdmin) {
+    throw new ForbiddenError(errorMessages.FORBIDDEN);
+  }
+
+  await BoardModel.updateBoard(boardId, updatedBoard);
 };

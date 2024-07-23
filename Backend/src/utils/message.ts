@@ -13,4 +13,5 @@ export const errorMessages = {
   INTERNAL_SERVER_ERROR: "Internal Server Error.",
   UNAUTHORIZED_ACCESS: "Unauthorized Access.",
   BAD_REQUEST: "Bad request",
+  FORBIDDEN: "Forbidden",
 };
