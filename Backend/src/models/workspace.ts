@@ -1,3 +1,4 @@
+import { Roles } from "../constants/Roles";
 import { IWorkspace } from "../interfaces/IWorkspace";
 import { BaseModel } from "./base";
 
@@ -12,10 +13,23 @@ export class WorkspaceModel extends BaseModel {
     userId: number,
     workspaceToCreate: IWorkspace
   ) => {
+    //create a workspace
     const data = await this.queryBuilder()
+      .table("workspaces")
       .insert(workspaceToCreate)
-      .returning("*");
-    console.log(data);
+      .returning("*"); //result comes in array
+
+    const workspace = data[0];
+
+    //add creator as admin to workspace
+
+    await this.queryBuilder().table("workspace_members").insert({
+      userId,
+      workspaceId: workspace.id,
+      role: Roles.ADMIN,
+    });
+
+    return workspace;
   };
 
   /**
