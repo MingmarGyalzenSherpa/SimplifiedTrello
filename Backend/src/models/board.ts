@@ -69,6 +69,12 @@ export class BoardModel extends BaseModel {
       .where({ boardId });
   };
 
+  /**
+   * Get labels by board
+   * @param userId - id of user
+   * @param boardId - id of board
+   * @returns {Promise<boolean>}
+   */
   static checkIfAdmin = async (userId: number, boardId: number) => {
     const data = await this.queryBuilder()
       .table("board_members")
@@ -78,5 +84,16 @@ export class BoardModel extends BaseModel {
     if (!data || data.role != Roles.ADMIN) return false;
 
     return true;
+  };
+
+  /**
+   * Get labels by board
+   *
+   * @param boardId - board id
+   * @returns
+   */
+  static getLabelsByBoard = async (boardId: number) => {
+    const data = await this.queryBuilder().table("labels").where({ boardId });
+    return data;
   };
 }

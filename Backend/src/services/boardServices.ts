@@ -73,6 +73,12 @@ export const getUsersByBoard = async (boardId: number) => {
   return filteredData;
 };
 
+/**
+ * Update board
+ * @param userId
+ * @param boardId
+ * @param updatedBoard
+ */
 export const updateBoard = async (
   userId: number,
   boardId: number,
@@ -92,4 +98,15 @@ export const updateBoard = async (
   }
 
   await BoardModel.updateBoard(boardId, updatedBoard);
+};
+
+/**
+ * Get labels by board
+ *
+ * @param boardId
+ * @returns
+ */
+export const getLabelsByBoard = async (boardId: number) => {
+  const data = await BoardModel.getLabelsByBoard(boardId);
+  return data;
 };

@@ -2,9 +2,17 @@ import HttpStatusCodes from "http-status-codes";
 import { NextFunction, Response } from "express";
 import { IExpressRequest } from "../interfaces/IExpressRequest";
 import * as BoardServices from "../services/boardServices";
+import * as ListServices from "../services/ListServices";
 import { interpolate } from "../utils/interpolate";
 import { successMessages } from "../utils/message";
 
+/**
+ * Get boards by user
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 export const getBoardsByUser = async (
   req: IExpressRequest,
   res: Response,
@@ -23,13 +31,20 @@ export const getBoardsByUser = async (
   }
 };
 
+/**
+ * Get users by board
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 export const getUsersByBoard = async (
   req: IExpressRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { id: boardId } = req.params;
+    const { boardId } = req.params;
     const data = await BoardServices.getUsersByBoard(+boardId);
 
     res.status(HttpStatusCodes.OK).json({
@@ -41,6 +56,12 @@ export const getUsersByBoard = async (
   }
 };
 
+/**
+ * Update the board
+ * @param req
+ * @param res
+ * @param next
+ */
 export const updateBoard = async (
   req: IExpressRequest,
   res: Response,
@@ -48,10 +69,48 @@ export const updateBoard = async (
 ) => {
   try {
     const { id: userId } = req.user!;
-    const { id: boardId } = req.params;
+    const { boardId } = req.params;
     const { body } = req;
 
     await BoardServices.updateBoard(userId!, +boardId, body);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getLabelsByBoard = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { boardId } = req.params;
+
+    const data = await BoardServices.getLabelsByBoard(+boardId);
+
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.FETCHED, { item: "Labels" }),
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const createList = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { boardId } = req.params;
+    const { body } = req;
+
+    await ListServices.createList(+boardId, body);
+
+    res.status(HttpStatusCodes.CREATED).json({
+      message: interpolate(successMessages.CREATED, { item: "List" }),
+    });
   } catch (error) {
     next(error);
   }
