@@ -2,7 +2,7 @@ import { NextFunction, Response } from "express";
 import { UnauthorizedError } from "../errors/UnauthorizedError";
 import { errorMessages } from "../utils/message";
 import { IExpressRequest } from "../interfaces/IExpressRequest";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { config } from "../config";
 import { IUser } from "../interfaces/IUser";
 
@@ -12,7 +12,6 @@ export const authentication = (
   next: NextFunction
 ) => {
   const { authorization } = req.headers;
-
   if (!authorization) {
     next(new UnauthorizedError(errorMessages.UNAUTHORIZED_ACCESS));
   }

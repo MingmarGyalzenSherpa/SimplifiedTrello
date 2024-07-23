@@ -30,4 +30,6 @@ export class UserModel extends BaseModel {
 
     return user as IUser;
   };
+
+ 
 }
