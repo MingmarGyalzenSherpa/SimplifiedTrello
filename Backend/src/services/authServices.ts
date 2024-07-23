@@ -6,7 +6,7 @@ import { IUser } from "../interfaces/IUser";
 import { UserModel } from "../models/user";
 import { interpolate } from "../utils/interpolate";
 import { errorMessages } from "../utils/message";
-import { ILoginCredential } from "../interfaces/ILoginCredential";
+import { ILoginPayload } from "../interfaces/ILoginCredential";
 import { UnauthorizedError } from "../errors/UnauthorizedError";
 import { IUserPayload } from "../interfaces/IUserPayload";
 import { config } from "../config";
@@ -37,7 +37,7 @@ export const createUser = async (body: IUser) => {
  * @param credentials - credentials of the user
  * @returns {Promise<object>} - object containing access and refresh token
  */
-export const login = async (credentials: ILoginCredential): Promise<object> => {
+export const login = async (credentials: ILoginPayload): Promise<object> => {
   const user = await UserModel.getUserByEmail(credentials.email);
 
   if (!user) {

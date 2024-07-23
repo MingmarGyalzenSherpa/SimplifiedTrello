@@ -3,5 +3,5 @@ export interface IBoard {
   title: string;
   description: string;
   backgroundColor: string;
-  workspace_id: string;
+  workspaceId: number;
 }

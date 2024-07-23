@@ -30,3 +30,17 @@ export const getWorkspacesByUser = async (userId: number) => {
 
   return workspaces;
 };
+
+/**
+ *  Get workspace by id
+ *
+ * @param workspaceId - id of workspace
+ * @returns {Promise<IWorkspace | undefined>}
+ */
+export const getWorkspaceById = async (
+  workspaceId: number
+): Promise<IWorkspace | undefined> => {
+  const data = await WorkspaceModel.getWorkspaceById(workspaceId);
+
+  return data;
+};

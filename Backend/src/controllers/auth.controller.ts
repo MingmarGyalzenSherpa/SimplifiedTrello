@@ -1,4 +1,4 @@
-import { ILoginCredential } from "./../interfaces/ILoginCredential";
+import { ILoginPayload } from "./../interfaces/ILoginCredential";
 import HttpStatusCodes from "http-status-codes";
 import { NextFunction, Request, Response } from "express";
 import * as AuthServices from "../services/authServices";

@@ -1,5 +1,26 @@
+import { NotFoundError } from "./../errors/NotFoundError";
 import { IBoard } from "../interfaces/IBoard";
 import { BoardModel } from "../models/board";
+import * as WorkspaceServices from "./workspaceService";
+import { interpolate } from "../utils/interpolate";
+import { errorMessages } from "../utils/message";
+export const createBoard = async (
+  userId: number,
+  workspaceId: number,
+  boardToCreate: IBoard
+) => {
+  const isValidWorkspace = await WorkspaceServices.getWorkspaceById(
+    workspaceId
+  );
+
+  if (!isValidWorkspace) {
+    throw new NotFoundError(
+      interpolate(errorMessages.DOES_NOT_EXIST, { item: "Workspace" })
+    );
+  }
+  boardToCreate.workspaceId = workspaceId;
+  await BoardModel.createBoards(userId, boardToCreate);
+};
 
 /**
  * Get boards by a user

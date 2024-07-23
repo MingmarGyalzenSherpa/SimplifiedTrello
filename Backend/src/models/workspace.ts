@@ -51,4 +51,21 @@ export class WorkspaceModel extends BaseModel {
 
     return data as IWorkspace[];
   };
+
+  /**
+   *  Get workspace by id
+   *
+   * @param workspaceId - id of workspace
+   * @returns {Promise<IWorkspace | undefined>}
+   */
+  static getWorkspaceById = async (
+    workspaceId: number
+  ): Promise<IWorkspace | undefined> => {
+    const data = await this.queryBuilder()
+      .table("workspaces")
+      .where({ id: workspaceId })
+      .first();
+
+    return data;
+  };
 }
