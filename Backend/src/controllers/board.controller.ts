@@ -123,6 +123,12 @@ export const createList = async (
   }
 };
 
+/**
+ * Get lists in  a board
+ * @param req
+ * @param res
+ * @param next
+ */
 export const getLists = async (
   req: IExpressRequest,
   res: Response,
@@ -142,6 +148,12 @@ export const getLists = async (
   }
 };
 
+/**
+ * Update list
+ * @param req
+ * @param res
+ * @param next
+ */
 export const updateList = async (
   req: IExpressRequest,
   res: Response,
@@ -151,6 +163,10 @@ export const updateList = async (
     const { listId } = req.params;
     const { body } = req;
     await ListServices.updateList(+listId, body);
+
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.UPDATED, { item: "List" }),
+    });
   } catch (error) {
     next(error);
   }
