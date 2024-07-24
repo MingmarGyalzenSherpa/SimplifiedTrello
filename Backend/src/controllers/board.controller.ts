@@ -97,6 +97,13 @@ export const getLabelsByBoard = async (
   }
 };
 
+/**
+ * Create a new list
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 export const createList = async (
   req: IExpressRequest,
   res: Response,
@@ -111,6 +118,39 @@ export const createList = async (
     res.status(HttpStatusCodes.CREATED).json({
       message: interpolate(successMessages.CREATED, { item: "List" }),
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getLists = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { boardId } = req.params;
+
+    const data = await ListServices.getLists(+boardId);
+
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.FETCHED, { item: "Lists" }),
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateList = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { listId } = req.params;
+    const { body } = req;
+    await ListServices.updateList(+listId, body);
   } catch (error) {
     next(error);
   }

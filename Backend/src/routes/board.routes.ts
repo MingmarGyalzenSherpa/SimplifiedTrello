@@ -4,12 +4,17 @@ import {
   createList,
   getBoardsByUser,
   getLabelsByBoard,
+  getLists,
   getUsersByBoard,
   updateBoard,
+  updateList,
 } from "../controllers/board.controller";
 import { validateReqBody } from "../middlewares/validator.middleware";
 import { updateBoardBodySchema } from "../schema/board.schema";
-import { createListBodySchema } from "../schema/list.schema";
+import {
+  createListBodySchema,
+  updateListBodySchema,
+} from "../schema/list.schema";
 
 const router = express();
 
@@ -32,6 +37,16 @@ router.post(
   "/:boardId/lists/",
   validateReqBody(createListBodySchema),
   createList
+);
+
+//get lists in the board
+router.get("/:boardId/lists/", getLists);
+
+//update list
+router.put(
+  "/:boardId/lists/:listId",
+  validateReqBody(updateListBodySchema),
+  updateList
 );
 
 export default router;
