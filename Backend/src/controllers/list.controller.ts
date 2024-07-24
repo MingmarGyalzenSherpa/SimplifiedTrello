@@ -47,3 +47,22 @@ export const getCards = async (
     next(error);
   }
 };
+
+export const updateCard = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { cardId } = req.params;
+    const { body } = req;
+
+    await CardServices.updateCard(+cardId, body);
+
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.UPDATED, { item: "Card" }),
+    });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -22,4 +22,11 @@ export class CardModel extends BaseModel {
 
     return data;
   };
+
+  static updateCard = async (cardId: number, updatedCard: ICard) => {
+    await this.queryBuilder()
+      .table("cards")
+      .update(updatedCard)
+      .where({ id: cardId });
+  };
 }
