@@ -19,11 +19,29 @@ export const createCard = async (
   try {
     const { listId } = req.params;
     const { body } = req;
-
     await CardServices.createCard(+listId, body);
 
-    res.status(HttpStatusCodes.OK).json({
+    res.status(HttpStatusCodes.CREATED).json({
       message: interpolate(successMessages.CREATED, { item: "Card" }),
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+export const getCards = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { listId } = req.params;
+    const data = await CardServices.getCards(+listId);
+
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.FETCHED, { item: "Cards" }),
+      data,
     });
   } catch (error) {
     next(error);

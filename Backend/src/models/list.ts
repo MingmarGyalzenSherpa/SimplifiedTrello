@@ -30,4 +30,6 @@ export class ListModel extends BaseModel {
       .update(updatedList)
       .where({ id: listId });
   };
+
+  
 }
