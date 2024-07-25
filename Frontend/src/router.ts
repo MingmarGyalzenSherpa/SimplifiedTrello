@@ -1,10 +1,12 @@
 import UniversalRouter from "universal-router";
-import { Signup } from "./components/Signup";
+import { login } from "./components/Login";
+
+const appEl = document.querySelector<HTMLDivElement>("#app")!;
 
 const routes = [
   {
-    path: "/signup",
-    action: () => new Signup(),
+    path: "/login",
+    action: () => login(appEl),
   },
 ];
 
