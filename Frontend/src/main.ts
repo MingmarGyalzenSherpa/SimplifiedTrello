@@ -1,24 +1,35 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import { IComponent } from "./interfaces/IComponent";
+import { router } from "./router";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+const appEl = document.querySelector("#app")!;
+console.log(appEl);
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+//navigator
+const navigateTo = (path: string) => {
+  history.pushState({}, "", path);
+  router.resolve(path).then((component) => {
+    const comp = component as IComponent;
+    appEl.innerHTML = comp?.render();
+  });
+};
+
+//event listeners for nav click
+appEl.addEventListener("click", (e) => {
+  if (e.target.classList.contains("nav__link")) {
+    e.preventDefault();
+    history.pushState({}, "", e.target.dataset["to"]);
+    navigateTo(e.target.dataset["to"]!);
+  } else {
+    return;
+  }
+});
+
+// initial routing
+const token = localStorage.getItem("accessToken");
+
+let path = "";
+if (token) {
+  path = "/";
+} else {
+  path = "/signup";
+}
