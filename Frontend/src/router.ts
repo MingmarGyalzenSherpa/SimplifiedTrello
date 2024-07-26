@@ -1,12 +1,17 @@
 import UniversalRouter from "universal-router";
-import { login } from "./components/Login";
+import { Login } from "./components/Login";
+import { BoardView } from "./components/BoardView";
 
-const appEl = document.querySelector<HTMLDivElement>("#app")!;
+const body = document.body;
 
 const routes = [
   {
     path: "/login",
-    action: () => login(appEl),
+    action: () => Login(body),
+  },
+  {
+    path: "/",
+    action: () => BoardView(body),
   },
 ];
 

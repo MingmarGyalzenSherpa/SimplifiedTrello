@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@material-tailwind/html": "^2.2.2",
+    "axios": "^1.7.2",
     "on-change": "^5.0.1",
     "universal-router": "^9.2.0"
   }

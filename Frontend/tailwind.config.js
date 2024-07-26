@@ -5,10 +5,14 @@ import withMT from "@material-tailwind/html/utils/withMT";
 const config = {
   content: [
     "./index.html",
-    "./src/**/*.html",
+    "./src/**/*.{ts,html}",
     "./node_modules/@material-tailwind/html/**/*.{js,ts,html}",
   ],
-  theme: {},
+  theme: {
+    colors: {
+      primary: "#1d2125",
+    },
+  },
   plugins: [],
 };
 
