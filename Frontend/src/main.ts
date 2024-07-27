@@ -1,6 +1,7 @@
+import { Routes } from "./constants/Routes";
 import { navigateTo } from "./utils/Navigate";
 
-navigateTo("/signup");
+navigateTo(Routes.LOGIN);
 const accessToken = localStorage.getItem("accessToken");
 console.log(accessToken);
 

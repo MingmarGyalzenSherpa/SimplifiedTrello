@@ -2,20 +2,21 @@ import UniversalRouter from "universal-router";
 import { Login } from "./components/Login";
 import { BoardView } from "./components/BoardView";
 import { Signup } from "./components/Signup";
+import { Routes } from "./constants/Routes";
 
 const body = document.body;
 
 const routes = [
   {
-    path: "/login",
+    path: Routes.LOGIN,
     action: () => Login(body),
   },
   {
-    path: "/",
+    path: Routes.BOARD,
     action: () => BoardView(body),
   },
   {
-    path: "/signup",
+    path: Routes.SIGNUP,
     action: () => Signup(body),
   },
 ];
