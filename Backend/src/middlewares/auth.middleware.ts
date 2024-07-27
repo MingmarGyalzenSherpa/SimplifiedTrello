@@ -24,6 +24,7 @@ export const authentication = (
     next(new UnauthorizedError(errorMessages.UNAUTHORIZED_ACCESS));
   }
   let payload: IUser;
+
   try {
     payload = jwt.verify(token[1], config.jwt.secret!) as IUser;
     req.user = payload;

@@ -3,8 +3,9 @@ import HttpStatusCodes from "http-status-codes";
 import { NextFunction, Request, Response } from "express";
 import * as AuthServices from "../services/authServices";
 import { interpolate } from "../utils/interpolate";
-import { successMessages } from "../utils/message";
+import { errorMessages, successMessages } from "../utils/message";
 import { IExpressRequest } from "../interfaces/IExpressRequest";
+import { BadRequestError } from "../errors/BadRequestError";
 
 /**
  * Signup a user
@@ -50,6 +51,23 @@ export const login = async (
     res.status(HttpStatusCodes.OK).json(data);
   } catch (error) {
     console.log(error);
+    next(error);
+  }
+};
+
+export const refresh = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+      throw new BadRequestError(errorMessages.BAD_REQUEST);
+    }
+    const data = AuthServices.refresh(refreshToken);
+    res.status(HttpStatusCodes.OK).json(data);
+  } catch (error) {
     next(error);
   }
 };

@@ -76,3 +76,35 @@ export const login = async (credentials: ILoginPayload): Promise<object> => {
     refreshToken,
   };
 };
+
+export const refresh = (refreshToken: string) => {
+  try {
+    const payload = jwt.verify(
+      refreshToken,
+      config.jwt.secret!
+    ) as IUserPayload;
+
+    const { id, username, email, firstName, lastName } = payload;
+
+    const newPayload = {
+      id,
+      username,
+      email,
+      firstName,
+      lastName,
+    };
+    const accessToken = jwt.sign(newPayload, config.jwt.secret!, {
+      expiresIn: config.jwt.accessTokenExpiryMS,
+    });
+    const newRefreshToken = jwt.sign(newPayload, config.jwt.secret!, {
+      expiresIn: config.jwt.refreshTokenExpiryMS,
+    });
+
+    return {
+      accessToken,
+      refreshToken: newRefreshToken,
+    };
+  } catch (error) {
+    throw new UnauthorizedError(errorMessages.UNAUTHORIZED_ACCESS);
+  }
+};
