@@ -3,25 +3,29 @@ export const createUserBodySchema = joi
   .object({
     id: joi.number().optional(),
 
+    firstName: joi.string().required().messages({
+      "any.required": "First name is required.",
+      "string.empty": "First name is required",
+    }),
+    lastName: joi.string().required().messages({
+      "any.required": "Last name is required",
+      "string.empty": "Last name is required",
+    }),
     username: joi.string().required().messages({
       "any.required": "Username is required.",
-    }),
-
-    first_name: joi.string().required().messages({
-      "any.required": "First name is required.",
-    }),
-    last_name: joi.string().required().messages({
-      "any.required": "Last name is required",
+      "string.empty": "Username is required",
     }),
 
     email: joi.string().email().required().messages({
       "any.required": "Email is required.",
       "string.email": "Not a valid email",
+      "string.empty": "Email is required",
     }),
 
     password: joi.string().min(5).required().messages({
       "any.required": "Password is required",
       "string.min": "Password must be at least five characters.",
+      "string.empty": "Password is required",
     }),
   })
   .options({
