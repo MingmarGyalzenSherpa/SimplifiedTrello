@@ -55,6 +55,13 @@ export const login = async (
   }
 };
 
+/**
+ * Refresh tokens
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 export const refresh = async (
   req: Request,
   res: Response,
@@ -67,6 +74,19 @@ export const refresh = async (
     }
     const data = AuthServices.refresh(refreshToken);
     res.status(HttpStatusCodes.OK).json(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getMe = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { user } = req;
+    res.status(HttpStatusCodes.OK).json(user);
   } catch (error) {
     next(error);
   }
