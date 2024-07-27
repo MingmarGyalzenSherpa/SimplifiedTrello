@@ -9,7 +9,7 @@ const body = document.body;
 const routes = [
   {
     path: Routes.LOGIN,
-    action: () => Login(body),
+    action: () => new Login(body),
   },
   {
     path: Routes.BOARD,
@@ -17,7 +17,7 @@ const routes = [
   },
   {
     path: Routes.SIGNUP,
-    action: () => Signup(body),
+    action: () => new Signup(body),
   },
 ];
 

@@ -18,7 +18,6 @@ const lists = {
 };
 
 lists.data.sort((a, b) => a.position - b.position);
-console.log(lists);
 
 /**
  * Board component
