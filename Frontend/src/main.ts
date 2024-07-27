@@ -1,6 +1,8 @@
 import { navigateTo } from "./utils/Navigate";
 
-navigateTo("/login");
+navigateTo("/signup");
+const accessToken = localStorage.getItem("accessToken");
+console.log(accessToken);
 
 window.onpopstate = (event) => {
   const path = window.location.pathname;

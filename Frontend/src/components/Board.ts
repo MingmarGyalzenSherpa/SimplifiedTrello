@@ -19,6 +19,12 @@ const lists = {
 
 lists.data.sort((a, b) => a.position - b.position);
 console.log(lists);
+
+/**
+ * Board component
+ *
+ * @param parentEl
+ */
 export function Board(parentEl: HTMLElement) {
   //create a board element
   const boardEl = document.createElement("div");

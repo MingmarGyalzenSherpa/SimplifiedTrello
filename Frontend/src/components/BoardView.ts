@@ -3,8 +3,10 @@ import { NavBar } from "./NavBar";
 import { SideNav } from "./SideNav";
 
 export function BoardView(parentEl: HTMLElement) {
-  NavBar(parentEl);
+  //reset innerHtml
 
+  parentEl.innerHTML = "";
+  NavBar(parentEl);
   const sectionWrapper = document.createElement("div");
   sectionWrapper.classList.add("flex");
 
