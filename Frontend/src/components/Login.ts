@@ -194,7 +194,7 @@ export class Login {
         localStorage.setItem("refreshToken", refreshToken);
 
         //redirect to dashboard
-        navigateTo("/");
+        navigateTo(Routes.DASHBOARD);
       } catch (error: any) {
         //check if there is response
         if (error.response) {
