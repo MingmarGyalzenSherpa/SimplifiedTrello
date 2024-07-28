@@ -6,7 +6,7 @@ export function BoardView(parentEl: HTMLElement) {
   //reset innerHtml
 
   parentEl.innerHTML = "";
-  NavBar(parentEl);
+  // new NavBar(parentEl);
   const sectionWrapper = document.createElement("div");
   sectionWrapper.classList.add("flex");
 

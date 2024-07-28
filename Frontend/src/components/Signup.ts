@@ -311,14 +311,14 @@ export class Signup {
     <p class="error text-red-400">  </p>
     
     <button id="submit"
-      class="mt-6 block w-full select-none rounded-md bg-blue-700 py-3 px-6 text-center align-middle  text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+      class="mt-0 block w-full select-none rounded-md bg-blue-700 py-3 px-6 text-center align-middle  text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
       type="button">
       Log in
     </button>
     <p class="block mt-4  text-base antialiased font-normal leading-relaxed text-center text-gray-700">
       Already have an account?
       <a href="#" id="login-link" class="font-medium text-blue-700 ">
-        Sign up
+        Login
       </a>
     </p>
   </form>
