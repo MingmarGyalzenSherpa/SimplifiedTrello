@@ -2,7 +2,7 @@ import HttpStatusCodes from "http-status-codes";
 import { NextFunction, Response } from "express";
 import { IExpressRequest } from "../interfaces/IExpressRequest";
 import * as BoardServices from "../services/boardServices";
-import * as ListServices from "../services/listServices";
+import * as ListServices from "../services/ListServices";
 import { interpolate } from "../utils/interpolate";
 import { successMessages } from "../utils/message";
 
@@ -113,10 +113,11 @@ export const createList = async (
     const { boardId } = req.params;
     const { body } = req;
 
-    await ListServices.createList(+boardId, body);
+    const data = await ListServices.createList(+boardId, body);
 
     res.status(HttpStatusCodes.CREATED).json({
       message: interpolate(successMessages.CREATED, { item: "List" }),
+      data,
     });
   } catch (error) {
     next(error);

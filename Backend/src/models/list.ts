@@ -4,11 +4,22 @@ import { BaseModel } from "./base";
 export class ListModel extends BaseModel {
   /**
    * Create a new list
-   *
-   * @param listDetails - list details
+   * @param listDetails - details of new list
+   * @returns {Promise<IList>} - promise resolving created list details
    */
   static createList = async (listDetails: IList) => {
-    await this.queryBuilder().table("lists").insert(listDetails);
+    const [data] = await this.queryBuilder()
+      .table("lists")
+      .insert(listDetails)
+      .returning("*");
+    console.log(data);
+    const createdList: IList = {
+      id: data.id,
+      title: data.title,
+      position: data.position,
+      boardId: data.boardId,
+    };
+    return createdList;
   };
 
   /**
@@ -30,6 +41,4 @@ export class ListModel extends BaseModel {
       .update(updatedList)
       .where({ id: listId });
   };
-
-  
 }

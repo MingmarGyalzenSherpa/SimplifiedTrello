@@ -1,9 +1,17 @@
 import { ListModel } from "../models/list";
 import { IList } from "../interfaces/IList";
+
+/**
+ * Create a new list
+ * @param boardId - id of the board
+ * @param listDetails - details of the list
+ * @returns {Promise<IList>} - promise resolving new list details
+ */
 export const createList = async (boardId: number, listDetails: IList) => {
   listDetails.boardId = boardId;
 
-  await ListModel.createList(listDetails);
+  const data = await ListModel.createList(listDetails);
+  return data as IList;
 };
 
 export const getLists = async (boardId: number) => {
