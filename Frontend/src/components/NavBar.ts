@@ -144,7 +144,7 @@ export class NavBar {
   render = () => {
     this.elements.parentEl.innerHTML = `
     <nav
-  class="block w-full px-4 py-2 mx-auto text-white bg-primary border  border-black    lg:px-8 ">
+  class="block w-full px-4 py-2 mx-auto text-white bg-primary border  border-black  h-[7vh]  lg:px-8 ">
   <div class="container flex items-center justify-between mx-auto ">
     <div class="flex items-center gap-1">
     <img src="/trello.png" class="w-7 h-6 " />

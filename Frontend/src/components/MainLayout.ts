@@ -5,6 +5,7 @@ import { IUser } from "../interfaces/IUser";
 import { navigateTo } from "../utils/Navigate";
 import { Routes } from "../constants/Routes";
 import { SideNav } from "./SideNav";
+import { Board } from "./Board";
 export class MainLayout {
   state: {
     navBar?: {
@@ -16,6 +17,7 @@ export class MainLayout {
     parentEl: HTMLElement;
     navBar?: HTMLElement;
     sideBar?: HTMLElement;
+    container?: HTMLElement;
     content?: HTMLElement;
   };
   constructor(parentEl: HTMLElement) {
@@ -60,7 +62,21 @@ export class MainLayout {
     this.elements.parentEl.innerHTML = "";
 
     this.renderNavBar();
+    this.renderContainer();
     this.renderSideBar();
+    this.renderContent();
+  };
+
+  renderContainer = () => {
+    this.elements.container = document.createElement("div");
+    this.elements.container.classList.add("flex");
+    this.elements.parentEl.appendChild(this.elements.container);
+  };
+
+  renderContent = () => {
+    this.elements.content = document.createElement("div");
+    new Board(this.elements.content!, "7");
+    this.elements.container!.appendChild(this.elements.content);
   };
 
   renderNavBar = () => {
@@ -75,6 +91,6 @@ export class MainLayout {
 
     console.log(this.elements.sideBar);
     console.log(this.elements.parentEl);
-    this.elements.parentEl.appendChild(this.elements.sideBar!);
+    this.elements.container!.appendChild(this.elements.sideBar!);
   };
 }

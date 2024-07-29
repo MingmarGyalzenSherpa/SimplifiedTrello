@@ -23,7 +23,6 @@ export class SideNav {
   }
 
   initialSetup = async () => {
-    console.log("he");
     await this.fetchWorkspaces();
     this.render();
     this.setupEventListener();
@@ -33,7 +32,6 @@ export class SideNav {
     try {
       const response = await axiosInstance.get("/workspaces");
       this.state.workspaces = response.data.data as IWorkspace[];
-      console.log("workspace updated");
     } catch (error) {
       console.log(error);
     }
@@ -44,9 +42,9 @@ export class SideNav {
   render = () => {
     this.elements.parentEl.innerHTML = `
         <div
-      class="relative flex h-[calc(93vh)] w-full max-w-[20rem] flex-col  bg-primary bg-clip-border p-4 text-white shadow-xl shadow-blue-gray-900/5">
+      class="relative flex h-[90vh] w-[20vw] flex-col  bg-primary bg-clip-border p-4 text-white shadow-xl shadow-blue-gray-900/5">
 
-      <nav class="flex min-w-[240px] flex-col gap-1 p-2 font-sans text-base font-normal ">
+      <nav class="flex w-[240px] flex-col gap-1 p-2 font-sans text-base font-normal ">
 
           <div role="button" id="nav_item"
             class="flex items-center w-full p-0 leading-tight transition-all rounded-lg outline-none bg-blue-gray-50/50 text-start  hover:bg-blue-gray-50 hover:bg-opacity-80 hover: focus:bg-blue-gray-50 focus:bg-opacity-80 focus: active:bg-blue-gray-50 active:bg-opacity-80 active:">
