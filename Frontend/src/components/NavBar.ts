@@ -144,8 +144,8 @@ export class NavBar {
   render = () => {
     this.elements.parentEl.innerHTML = `
     <nav
-  class="block w-full px-4 py-2 mx-auto text-white bg-white border  border-black bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200 lg:px-8 ">
-  <div class="container flex items-center justify-between mx-auto text-blue-gray-900">
+  class="block w-full px-4 py-2 mx-auto text-white bg-primary border  border-black    lg:px-8 ">
+  <div class="container flex items-center justify-between mx-auto ">
     <div class="flex items-center gap-1">
     <img src="/trello.png" class="w-7 h-6 " />
      <a href="#"
@@ -157,7 +157,7 @@ export class NavBar {
     <div class="hidden lg:block">
       <ul class="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
         <li
-          class="flex items-center p-1 font-sans text-sm antialiased font-medium leading-normal gap-x-2 text-blue-gray-900">
+          class="flex items-center p-1 font-sans text-sm antialiased font-medium leading-normal gap-x-2">
          
           <a href="#" id="workspaces-link" class="flex items-center px-4 py-2 rounded hover:bg-gray-600">
             Workspaces

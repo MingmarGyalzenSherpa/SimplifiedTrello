@@ -1,6 +1,6 @@
 import UniversalRouter from "universal-router";
 import { Login } from "./components/Login";
-import { BoardView } from "./components/BoardView";
+// import { BoardView } from "./components/BoardView";
 import { Signup } from "./components/Signup";
 import { Routes } from "./constants/Routes";
 import { MainLayout } from "./components/MainLayout";
@@ -12,10 +12,10 @@ const routes = [
     path: Routes.LOGIN,
     action: () => new Login(body),
   },
-  {
-    path: Routes.BOARD,
-    action: () => BoardView(body),
-  },
+  // {
+  //   path: Routes.BOARD,
+  //   action: () => BoardView(body),
+  // },
   {
     path: Routes.SIGNUP,
     action: () => new Signup(body),
