@@ -55,12 +55,14 @@ export class List {
 
           </ul>
            <div class=" flex flex-col  gap-1 h-[100px] rounded-t-xl pl-2 pr-3 py-2 w-[300px] bg-[#F1F2F4] bg-red-100  "  >
-          <input id="new-list-input" class="p-3 rounded shadow-md"  placeholder="Add a new card" />
-          <button class="add-list bg-blue-400 h-[50px] hover:bg-blue-600 text-white rounded"> Add </button>
+          <input id="new-card-input" class="p-3 rounded shadow-md"  placeholder="Add a new card" />
+          <button id="add-card-btn" class=" bg-blue-400 h-[50px] hover:bg-blue-600 text-white rounded"> Add </button>
         </div>
         </div>
     `;
 
+    console.log("pareEl of list");
+    console.log(this.elements.parentEl);
     this.elements.parentEl.appendChild(listEl);
 
     listEl.classList.add(
@@ -69,6 +71,8 @@ export class List {
       "rounded-2xl",
       "overflow-auto"
     );
+
+    this.setupEventListener();
 
     //create a new list div
     //append it to parent

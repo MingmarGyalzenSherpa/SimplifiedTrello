@@ -26,12 +26,11 @@ export class Board {
   }
 
   initialSetup = async () => {
-    await this.fetchList();
     this.render();
     this.setupEventListener();
   };
 
-  fetchList = async () => {
+  fetchAndShowList = async () => {
     try {
       const response = await axiosInstance.get(
         `/boards/${this.state.boardId}/lists`
@@ -41,7 +40,6 @@ export class Board {
       }
       const listContainerEl =
         document.querySelector<HTMLElement>("#lists-container")!;
-
       this.state.lists = response.data.data.map(
         (list: IList) => new List(listContainerEl, list)
       );
@@ -57,7 +55,7 @@ export class Board {
     this.elements.addListButtonEL = document.querySelector(".add-list")!;
 
     //add list button event
-    this.elements.addListButtonEL.addEventListener("click", (e) => {
+    this.elements.addListButtonEL.addEventListener("click", async (e) => {
       e.preventDefault();
 
       //get list title
@@ -66,16 +64,25 @@ export class Board {
       const newListTitle = inputEl?.value.trim();
       if (!newListTitle) return;
 
-      console.log(this.state.lists);
-      // this.state.lists.push(new List());
-      console.log(this.state.lists);
+      console.log(newListTitle);
+      const reqBody = {
+        title: newListTitle,
+        position: this.state.lists.length,
+      };
+      const response = await axiosInstance.post(
+        `/boards/${this.state.boardId}/lists`,
+        reqBody
+      );
+
+      const newList: IList = response.data.data;
+      this.state.lists.push();
+      this.render();
+
+      console.log(response);
 
       //add list
 
-      //re render
-      this.render();
-
-      this.setupEventListener();
+      // this.setupEventListener();
     });
   };
 
@@ -93,7 +100,7 @@ export class Board {
       
     `;
 
-    this.fetchList();
+    this.fetchAndShowList();
   }
 }
 
