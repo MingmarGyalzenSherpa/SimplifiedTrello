@@ -1,4 +1,7 @@
+import { ICard } from "../interfaces/ICard";
 import { IList } from "../interfaces/IList";
+import { axiosInstance } from "../utils/axiosConfig";
+import { Card } from "./Card";
 
 export class List {
   state: {
@@ -15,12 +18,28 @@ export class List {
       parentEl,
     };
 
-    console.log(this.state);
     this.render();
-    console.log("here");
+
+    setTimeout(this.initialSetup, 0);
   }
 
-  initialSetup = () => {};
+  initialSetup = () => {
+    this.fetchCard();
+  };
+
+  fetchCard = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/lists/${this.state.list.id}/cards`
+      );
+      const cards: ICard[] = response.data.data;
+
+      const cardListEl = document.querySelector<HTMLElement>("#card-list")!;
+      cards.forEach((card) => new Card(cardListEl, card));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   setupEventListener = () => {};
 
@@ -31,21 +50,12 @@ export class List {
     listEl.innerHTML += `
     <div id="list" class="bg-[#F1F2F4] min-w-[300px] max-h-[600px] ">
           <span class="block list-title mb-3 pt-3 px-4 text-[#3F506C]"> ${this.state.list.title}</span>
-          <ul class="text-black flex flex-col gap-5 max-h-[450px] p-2 overflow-y-scroll">
-            <li class="p-2 bg-white rounded shadow-md "> list 1</li>
-            <li class="p-2 bg-white rounded shadow-md  "> list 1</li>
-               <li class="p-2 bg-white rounded shadow-md  "> list 1</li>
-            <li class="p-2 bg-white rounded shadow-md "> list 1</li>
-               <li class="p-2 bg-white rounded shadow-md  "> list 1</li>
-            <li class="p-2 bg-white rounded shadow-md "> list 1</li>
-               <li class="p-2 bg-white rounded shadow-md "> list 1</li>
-            <li class="p-2 bg-white rounded shadow-md "> list 1</li>
-               <li class="p-2 bg-white rounded shadow-md "> list 1</li>
-            <li class="p-2 bg-white rounded shadow-md  ">list 3</li>
+          <ul id="card-list" class="text-black flex flex-col gap-5 max-h-[450px] p-2 overflow-y-scroll">
+         
 
           </ul>
            <div class=" flex flex-col  gap-1 h-[100px] rounded-t-xl pl-2 pr-3 py-2 w-[300px] bg-[#F1F2F4] bg-red-100  "  >
-          <input id="new-list-input" class="p-3 rounded shadow-md"  placeholder="Add a new list" />
+          <input id="new-list-input" class="p-3 rounded shadow-md"  placeholder="Add a new card" />
           <button class="add-list bg-blue-400 h-[50px] hover:bg-blue-600 text-white rounded"> Add </button>
         </div>
         </div>
