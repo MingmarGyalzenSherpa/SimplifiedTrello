@@ -185,6 +185,7 @@ export const deleteList = async (
       message: interpolate(successMessages.DELETED, { item: "List" }),
     });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
