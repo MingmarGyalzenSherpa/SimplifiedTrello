@@ -25,9 +25,7 @@ export class List {
     setTimeout(this.initialSetup, 0);
   }
 
-  initialSetup = () => {
-    this.fetchCard();
-  };
+  initialSetup = () => {};
 
   fetchCard = async () => {
     try {
@@ -36,10 +34,7 @@ export class List {
       const sortedCards = cards.sort(
         (a: ICard, b: ICard) => +a.position - +b.position
       );
-
-      console.log(this.state.list.id);
       console.log(cards);
-
       const cardListEl = document.querySelector<HTMLElement>(
         `#list-${this.state.list.id}-card-list`
       )!;
@@ -58,7 +53,6 @@ export class List {
     this.elements.addCardButtonEl.addEventListener("click", async (e) => {
       try {
         e.preventDefault();
-        console.log(this.state.list.id);
         const newCardTitle = document
           .querySelector<HTMLInputElement>(
             `#list-${this.state.list.id}-new-card-input`
@@ -83,13 +77,11 @@ export class List {
   };
 
   render = () => {
-    console.log("render called");
-    console.log(this.elements.parentEl);
     const listEl = document.createElement("div");
     listEl.innerHTML += `
     <div id="list" class="bg-[#F1F2F4] min-w-[300px] max-h-[600px] ">
           <span class="block list-title mb-3 pt-3 px-4 text-[#3F506C]"> ${this.state.list.title}</span>
-          <ul id="list-${this.state.list.id}-card-list" class="text-black flex flex-col gap-5 max-h-[450px] p-2 overflow-y-scroll">
+          <ul id="list-${this.state.list.id}-card-list" class="text-black flex flex-col gap-5 max-h-[450px] p-2 overflow-y-scroll ">
          
 
           </ul>
@@ -100,7 +92,6 @@ export class List {
         </div>
     `;
 
-    console.log("pareEl of list");
     console.log(this.elements.parentEl);
     this.elements.parentEl.appendChild(listEl);
 

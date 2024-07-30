@@ -1,4 +1,5 @@
 import { ICard } from "../interfaces/ICard";
+import { CardModal } from "./CardModal";
 
 export class Card {
   state: {
@@ -18,18 +19,36 @@ export class Card {
     this.render();
   }
 
-  initialSetup = () => {};
+  initialSetup = () => {
+    this.setupEventListener();
+  };
 
-  setupEventListener = () => {};
+  setupEventListener = () => {
+    const cardEl = document.querySelector(`.card-${this.state.card.id}`);
+    console.log(cardEl);
+    cardEl?.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      new CardModal(this.state.card);
+    });
+  };
 
   render = () => {
     const cardEl = document.createElement("div");
-    cardEl.classList.add("p-2", "bg-white", "rounded", "shadow-md");
+    cardEl.classList.add(
+      `card-${this.state.card.id}`,
+      "p-2",
+      "bg-white",
+      "rounded",
+      "shadow-md",
+      "hover:cursor-pointer"
+    );
 
     cardEl.innerHTML = `
       ${this.state.card.title}
     `;
 
     this.elements.parentEl.appendChild(cardEl);
+    this.setupEventListener();
   };
 }

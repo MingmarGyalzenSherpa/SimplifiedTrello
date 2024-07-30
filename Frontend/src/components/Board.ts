@@ -83,7 +83,7 @@ export class Board {
   render() {
     this.elements.parentEl.innerHTML = `
     
-    <div id="board" class="p-4 w-[80vw] h-[90vh] flex gap-2 bg-green-300 overflow-x-scroll">
+    <div id="board" class="p-4 w-[80vw] h-[93vh] flex gap-2 bg-green-300 overflow-x-scroll">
       <div id="lists-container" class=" flex  gap-2">
       </div>
         <div class=" bg-gray-300 flex flex-col p-1 gap-1 h-[100px] rounded-lg" >

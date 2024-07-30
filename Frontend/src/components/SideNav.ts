@@ -42,7 +42,7 @@ export class SideNav {
   render = () => {
     this.elements.parentEl.innerHTML = `
         <div
-      class="relative flex h-[90vh] w-[20vw] flex-col  bg-primary bg-clip-border p-4 text-white shadow-xl shadow-blue-gray-900/5">
+      class="relative flex h-[93vh] w-[20vw] flex-col  bg-primary bg-clip-border p-4 text-white shadow-xl shadow-blue-gray-900/5">
 
       <nav class="flex w-[240px] flex-col gap-1 p-2 font-sans text-base font-normal ">
 
