@@ -5,7 +5,7 @@ import * as CardService from "../services/cardService";
 export class List {
   state: {
     list: IList;
-    cards: ICard[];
+    cards: Card[];
   };
   elements: {
     parentEl: HTMLElement;
@@ -31,12 +31,19 @@ export class List {
 
   fetchCard = async () => {
     try {
-      const response = await CardService.getLists(+this.state.list.id);
+      const response = await CardService.getCards(+this.state.list.id);
       const cards: ICard[] = response.data.data;
-      const sortedCards = cards.sort((a, b) => +a.position - +b.position);
+      const sortedCards = cards.sort(
+        (a: ICard, b: ICard) => +a.position - +b.position
+      );
 
-      const cardListEl = document.querySelector<HTMLElement>("#card-list")!;
-      this.state.cards.forEach((card) => new Card(cardListEl, card));
+      console.log(this.state.list.id);
+      console.log(cards);
+
+      const cardListEl = document.querySelector<HTMLElement>(
+        `#list-${this.state.list.id}-card-list`
+      )!;
+      this.state.cards = sortedCards.map((card) => new Card(cardListEl, card));
     } catch (error) {
       console.log(error);
     }
@@ -48,19 +55,30 @@ export class List {
       `#list-${this.state.list.id}-add-card-btn`
     )!;
 
-    this.elements.addCardButtonEl.addEventListener("click", (e) => {
-      const newCardTitle = document
-        .querySelector<HTMLInputElement>(
-          `#list-${this.state.list.id}-new-card-input`
-        )
-        ?.value.trim()!;
+    this.elements.addCardButtonEl.addEventListener("click", async (e) => {
+      try {
+        e.preventDefault();
+        console.log(this.state.list.id);
+        const newCardTitle = document
+          .querySelector<HTMLInputElement>(
+            `#list-${this.state.list.id}-new-card-input`
+          )
+          ?.value.trim()!;
 
-      if (!newCardTitle) return;
+        if (!newCardTitle) return;
+        const reqBody: Pick<ICard, "title" | "position"> = {
+          title: newCardTitle,
+          position: this.state.cards.length,
+        };
 
-      const reqBody: Pick<ICard, "title" | "position"> = {
-        title: newCardTitle,
-        position: this.state.cards.length,
-      };
+        const response = await CardService.addCard(
+          +this.state.list.id,
+          reqBody
+        );
+
+        console.log(response);
+        this.render();
+      } catch (error) {}
     });
   };
 
@@ -71,7 +89,7 @@ export class List {
     listEl.innerHTML += `
     <div id="list" class="bg-[#F1F2F4] min-w-[300px] max-h-[600px] ">
           <span class="block list-title mb-3 pt-3 px-4 text-[#3F506C]"> ${this.state.list.title}</span>
-          <ul id="card-list" class="text-black flex flex-col gap-5 max-h-[450px] p-2 overflow-y-scroll">
+          <ul id="list-${this.state.list.id}-card-list" class="text-black flex flex-col gap-5 max-h-[450px] p-2 overflow-y-scroll">
          
 
           </ul>
@@ -93,6 +111,7 @@ export class List {
       "overflow-auto"
     );
 
+    this.fetchCard();
     this.setupEventListener();
 
     //create a new list div

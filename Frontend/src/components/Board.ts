@@ -32,9 +32,7 @@ export class Board {
   fetchAndShowList = async () => {
     try {
       const response = await ListService.getLists(+this.state.boardId);
-      if (response.status !== 200) {
-        return;
-      }
+
       const listContainerEl =
         document.querySelector<HTMLElement>("#lists-container")!;
 
@@ -45,7 +43,6 @@ export class Board {
         (list: IList) => new List(listContainerEl, list)
       );
 
-      console.log("here");
       console.log(this.state.lists);
     } catch (error) {
       console.log(error);

@@ -171,8 +171,10 @@ export class Signup {
    */
   private handleSubmit = () => {
     const submitBtn = document?.querySelector("#submit");
-    submitBtn?.addEventListener("click", async (_) => {
+    submitBtn?.addEventListener("click", async (e) => {
       try {
+        e.preventDefault();
+
         const { errors, success } = validate(
           createUserBodySchema,
           this.state.credential
@@ -182,17 +184,11 @@ export class Signup {
         }
         if (this.passwordMismatch) return;
 
-        const response = await AuthService.Signup(this.state);
+        await AuthService.signup(this.state.credential);
 
         //redirect to login
         navigateTo(Routes.LOGIN);
-      } catch (error: any) {
-        //check if there is response
-        if (error.response) {
-          const { message } = error.response.data;
-          this.showError(message);
-        }
-      }
+      } catch (error: any) {}
     });
   };
 

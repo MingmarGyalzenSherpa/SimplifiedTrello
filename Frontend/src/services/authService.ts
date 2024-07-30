@@ -6,5 +6,5 @@ import { interpolate } from "../utils/interpolate";
 export const login = (loginCredential: ILoginCredential) =>
   axiosInstance.post(interpolate(Endpoints.AUTH.LOGIN, {}), loginCredential);
 
-export const Signup = (signupCredential: object) =>
+export const signup = (signupCredential: object) =>
   axiosInstance.post(interpolate(Endpoints.AUTH.SIGNUP, {}), signupCredential);
