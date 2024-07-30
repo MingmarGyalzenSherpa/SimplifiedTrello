@@ -6,13 +6,16 @@ import { Card } from "./Card";
 export class List {
   state: {
     list: IList;
+    cards: ICard[];
   };
   elements: {
     parentEl: HTMLElement;
+    addCardButtonEl?: HTMLButtonElement;
   };
   constructor(parentEl: HTMLElement, list: IList) {
     this.state = {
       list,
+      cards: [],
     };
     this.elements = {
       parentEl,
@@ -33,15 +36,23 @@ export class List {
         `/lists/${this.state.list.id}/cards`
       );
       const cards: ICard[] = response.data.data;
+      this.state.cards = cards.sort((a, b) => +a.position - +b.position);
 
       const cardListEl = document.querySelector<HTMLElement>("#card-list")!;
-      cards.forEach((card) => new Card(cardListEl, card));
+      this.state.cards.forEach((card) => new Card(cardListEl, card));
     } catch (error) {
       console.log(error);
     }
   };
 
-  setupEventListener = () => {};
+  setupEventListener = () => {
+    //add new card
+    this.elements.addCardButtonEl = document.querySelector("#add-card-btn")!;
+
+    this.elements.addCardButtonEl.addEventListener("click", (e) => {
+      console.log("hey");
+    });
+  };
 
   render = () => {
     console.log("render called");

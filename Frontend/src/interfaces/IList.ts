@@ -1,5 +1,5 @@
 export interface IList {
   id: string;
-  position: string;
+  position: number;
   title: string;
 }

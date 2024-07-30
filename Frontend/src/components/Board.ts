@@ -2,7 +2,7 @@
 import { IList } from "../interfaces/IList";
 import { axiosInstance } from "../utils/axiosConfig";
 import { List } from "./List";
-
+import * as ListServices from "../services/listService";
 export class Board {
   state: {
     boardId: string;
@@ -32,9 +32,10 @@ export class Board {
 
   fetchAndShowList = async () => {
     try {
-      const response = await axiosInstance.get(
-        `/boards/${this.state.boardId}/lists`
-      );
+      // const response = await axiosInstance.get(
+      //   `/boards/${this.state.boardId}/lists`
+      // );
+      const response = await ListServices.getLists(+this.state.boardId);
       if (response.status !== 200) {
         return;
       }
@@ -73,13 +74,9 @@ export class Board {
         title: newListTitle,
         position: this.state.lists.length,
       };
-      const response = await axiosInstance.post(
-        `/boards/${this.state.boardId}/lists`,
-        reqBody
-      );
 
-      const newList: IList = response.data.data;
-      this.state.lists.push();
+      const response = await ListServices.addList(+this.state.boardId, reqBody);
+
       this.render();
 
       console.log(response);
