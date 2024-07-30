@@ -4,9 +4,7 @@ export const createCardBodySchema = joi
     title: joi.string().required().messages({
       "any.required": "Title is required",
     }),
-    description: joi.string().required().messages({
-      "any.required": "Description is required",
-    }),
+    description: joi.string().optional(),
     position: joi.number().required().messages({
       "any.required": "Position is required",
       "base.number": "Position must be a number",
