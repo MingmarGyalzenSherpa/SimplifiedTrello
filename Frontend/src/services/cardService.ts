@@ -7,3 +7,5 @@ export const getLists = (listId: number) => {
     interpolate(Endpoints.CARD.GET_CARDS_IN_LIST, { listId })
   );
 };
+
+// export const addCard = (listId:number,reqBody)

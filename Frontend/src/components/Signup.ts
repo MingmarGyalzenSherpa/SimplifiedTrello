@@ -1,7 +1,7 @@
 import { Routes } from "../constants/Routes";
 import { axiosInstance } from "../utils/axiosConfig";
 import { navigateTo } from "../utils/Navigate";
-
+import * as AuthService from "../services/authService";
 export class Signup {
   state: {
     firstName: string;
@@ -159,8 +159,7 @@ export class Signup {
         if (this.passwordMismatch) return;
         console.log(this.state);
 
-        const response = await axiosInstance.post("/auth/signup", this.state);
-
+        const response = await AuthService.Signup(this.state);
         console.log(response);
 
         //redirect to login

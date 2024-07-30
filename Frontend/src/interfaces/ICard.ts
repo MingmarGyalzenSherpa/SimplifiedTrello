@@ -1,6 +1,6 @@
 export interface ICard {
   id: string;
-  position: string;
+  position: number;
   title: string;
   description: string;
   listId: string;

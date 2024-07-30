@@ -33,7 +33,7 @@ export class List {
     try {
       const response = await CardService.getLists(+this.state.list.id);
       const cards: ICard[] = response.data.data;
-      this.state.cards = cards.sort((a, b) => +a.position - +b.position);
+      const sortedCards = cards.sort((a, b) => +a.position - +b.position);
 
       const cardListEl = document.querySelector<HTMLElement>("#card-list")!;
       this.state.cards.forEach((card) => new Card(cardListEl, card));
@@ -44,10 +44,23 @@ export class List {
 
   setupEventListener = () => {
     //add new card
-    this.elements.addCardButtonEl = document.querySelector("#add-card-btn")!;
+    this.elements.addCardButtonEl = document.querySelector(
+      `#list-${this.state.list.id}-add-card-btn`
+    )!;
 
     this.elements.addCardButtonEl.addEventListener("click", (e) => {
-      console.log("hey");
+      const newCardTitle = document
+        .querySelector<HTMLInputElement>(
+          `#list-${this.state.list.id}-new-card-input`
+        )
+        ?.value.trim()!;
+
+      if (!newCardTitle) return;
+
+      const reqBody: Pick<ICard, "title" | "position"> = {
+        title: newCardTitle,
+        position: this.state.cards.length,
+      };
     });
   };
 
@@ -63,8 +76,8 @@ export class List {
 
           </ul>
            <div class=" flex flex-col  gap-1 h-[100px] rounded-t-xl pl-2 pr-3 py-2 w-[300px] bg-[#F1F2F4] bg-red-100  "  >
-          <input id="new-card-input" class="p-3 rounded shadow-md"  placeholder="Add a new card" />
-          <button id="add-card-btn" class=" bg-blue-400 h-[50px] hover:bg-blue-600 text-white rounded"> Add </button>
+          <input id="list-${this.state.list.id}-new-card-input" class="p-3 rounded shadow-md"  placeholder="Add a new card" />
+          <button id="list-${this.state.list.id}-add-card-btn" class=" bg-blue-400 h-[50px] hover:bg-blue-600 text-white rounded"> Add </button>
         </div>
         </div>
     `;
