@@ -75,6 +75,7 @@ export class MainLayout {
 
   renderContent = () => {
     this.elements.content = document.createElement("div");
+    this.elements.content.className = "w-[90%]";
     new Board(this.elements.content!, "7");
     this.elements.container!.appendChild(this.elements.content);
   };
@@ -89,8 +90,6 @@ export class MainLayout {
     this.elements.sideBar = document.createElement("aside");
     new SideNav(this.elements.sideBar!, this.state.user);
 
-    console.log(this.elements.sideBar);
-    console.log(this.elements.parentEl);
     this.elements.container!.appendChild(this.elements.sideBar!);
   };
 }

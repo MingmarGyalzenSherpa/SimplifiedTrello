@@ -82,8 +82,13 @@ export class Board {
 
   render() {
     this.elements.parentEl.innerHTML = `
-    
-    <div id="board" class="p-4 w-[80vw] h-[93vh] flex gap-2 bg-green-300 overflow-x-scroll">
+    <div class="h-[93vh]">
+    <nav class="h-[8%] fixed bg-white bg-opacity-50 w-[100%] px-10 py-5">
+      <div>
+        <h2> ${this.state.boardId} </h2>
+      </div>
+    </nav>
+    <div id="board" class="p-4 pt-[100px] w-full h-[100%]   flex gap-2 bg-green-300 overflow-x-scroll">
       <div id="lists-container" class=" flex  gap-2">
       </div>
         <div class=" bg-gray-300 flex flex-col p-1 gap-1 h-[100px] rounded-lg" >
@@ -91,7 +96,7 @@ export class Board {
           <button class="add-list bg-green-300 h-[50px] hover:bg-green-600"> Add </button>
         </div>
       </div>
-      
+    </div>
     `;
 
     this.fetchAndShowList();

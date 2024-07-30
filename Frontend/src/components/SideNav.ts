@@ -6,6 +6,7 @@ export class SideNav {
   state: {
     user: IUser;
     workspaces: IWorkspace[];
+    isWorkspacesVisible: boolean;
   };
   elements: {
     parentEl: HTMLElement;
@@ -14,6 +15,7 @@ export class SideNav {
     this.state = {
       user,
       workspaces: [],
+      isWorkspacesVisible: false,
     };
     this.elements = {
       parentEl,
@@ -37,12 +39,17 @@ export class SideNav {
     }
   };
 
-  setupEventListener = () => {};
+  setupEventListener = () => {
+    //add event listener for workspace toggle
+    const workspaceToggleButton =
+      this.elements.parentEl.querySelector("#workspaces-toggle");
+    console.log(workspaceToggleButton);
+  };
 
   render = () => {
     this.elements.parentEl.innerHTML = `
         <div
-      class="relative flex h-[93vh] w-[20vw] flex-col  bg-primary bg-clip-border p-4 text-white shadow-xl shadow-blue-gray-900/5">
+      class="relative flex h-[93vh] w-min-[10%]   w-max-[10%] flex-col  bg-primary bg-clip-border p-4 text-white shadow-xl shadow-blue-gray-900/5">
 
       <nav class="flex w-[240px] flex-col gap-1 p-2 font-sans text-base font-normal ">
 
@@ -74,9 +81,8 @@ export class SideNav {
         </div>
         <hr class="my-2 border-blue-gray-50" />
 
-         <div role="button"
+         <div id="workspaces-toggle"
           class="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover: focus:bg-blue-gray-50 focus:bg-opacity-80 focus: active:bg-blue-gray-50 active:bg-opacity-80 active:">
-
           Workspaces
           <span class="ml-4">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
@@ -84,7 +90,9 @@ export class SideNav {
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
                 </svg>
         </div>
-        <ul class="w-full p-3 leading-tight transition-all rounded-lg outline-none text-start">
+        <ul id="workspaces-list" class="w-full p-3 leading-tight transition-all rounded-lg outline-none text-start ${
+          this.state.isWorkspacesVisible ? "" : "hidden"
+        }">
       
              ${this.state.workspaces
                .map(

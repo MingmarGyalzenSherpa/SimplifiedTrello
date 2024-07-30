@@ -40,7 +40,7 @@ export class Card {
       "p-2",
       "bg-white",
       "rounded",
-      "shadow-md",
+      "shadow-lg",
       "hover:cursor-pointer"
     );
 
