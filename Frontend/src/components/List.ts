@@ -1,8 +1,7 @@
 import { ICard } from "../interfaces/ICard";
 import { IList } from "../interfaces/IList";
-import { axiosInstance } from "../utils/axiosConfig";
 import { Card } from "./Card";
-
+import * as CardService from "../services/cardService";
 export class List {
   state: {
     list: IList;
@@ -32,9 +31,7 @@ export class List {
 
   fetchCard = async () => {
     try {
-      const response = await axiosInstance.get(
-        `/lists/${this.state.list.id}/cards`
-      );
+      const response = await CardService.getLists(+this.state.list.id);
       const cards: ICard[] = response.data.data;
       this.state.cards = cards.sort((a, b) => +a.position - +b.position);
 

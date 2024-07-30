@@ -1,8 +1,7 @@
 // import { IList } from "./../interfaces/IList";
 import { IList } from "../interfaces/IList";
-import { axiosInstance } from "../utils/axiosConfig";
 import { List } from "./List";
-import * as ListServices from "../services/listService";
+import * as ListService from "../services/listService";
 export class Board {
   state: {
     boardId: string;
@@ -32,10 +31,7 @@ export class Board {
 
   fetchAndShowList = async () => {
     try {
-      // const response = await axiosInstance.get(
-      //   `/boards/${this.state.boardId}/lists`
-      // );
-      const response = await ListServices.getLists(+this.state.boardId);
+      const response = await ListService.getLists(+this.state.boardId);
       if (response.status !== 200) {
         return;
       }
@@ -75,7 +71,7 @@ export class Board {
         position: this.state.lists.length,
       };
 
-      const response = await ListServices.addList(+this.state.boardId, reqBody);
+      const response = await ListService.addList(+this.state.boardId, reqBody);
 
       this.render();
 
