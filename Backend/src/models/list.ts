@@ -41,4 +41,8 @@ export class ListModel extends BaseModel {
       .update(updatedList)
       .where({ id: listId });
   };
+
+  static deleteList = async (listId: number) => {
+    await this.queryBuilder().table("lists").delete().where({ id: listId });
+  };
 }

@@ -172,3 +172,19 @@ export const updateList = async (
     next(error);
   }
 };
+
+export const deleteList = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { listId } = req.params;
+    await ListServices.deleteList(+listId);
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.DELETED, { item: "List" }),
+    });
+  } catch (error) {
+    next(error);
+  }
+};

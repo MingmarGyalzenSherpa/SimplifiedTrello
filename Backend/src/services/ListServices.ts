@@ -23,3 +23,7 @@ export const getLists = async (boardId: number) => {
 export const updateList = async (listId: number, updatedList: IList) => {
   await ListModel.updateList(listId, updatedList);
 };
+
+export const deleteList = async (listId: number) => {
+  await ListModel.deleteList(listId);
+};

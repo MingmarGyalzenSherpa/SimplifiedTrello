@@ -2,6 +2,7 @@ import express from "express";
 import { authentication } from "../middlewares/auth.middleware";
 import {
   createList,
+  deleteList,
   getBoardsByUser,
   getLabelsByBoard,
   getLists,
@@ -48,5 +49,8 @@ router.put(
   validateReqBody(updateListBodySchema),
   updateList
 );
+
+//delete list
+router.delete("/:boardId/lists/:listId", deleteList);
 
 export default router;
