@@ -40,7 +40,11 @@ export class Board {
       }
       const listContainerEl =
         document.querySelector<HTMLElement>("#lists-container")!;
-      this.state.lists = response.data.data.map(
+
+      const sortedList = response.data.data.sort(
+        (a: IList, b: IList) => +a.position - +b.position
+      );
+      this.state.lists = sortedList.map(
         (list: IList) => new List(listContainerEl, list)
       );
 
