@@ -45,7 +45,7 @@ export class Workspace {
         const boardEl = document.createElement("div");
 
         //add classes to element
-        boardEl.className = `min-w-[150px] h-[100px] border border-black flex justify-center items-center rounded-lg ${
+        boardEl.className = `min-w-[150px] h-[100px] shadow-lg flex justify-center items-center rounded-lg hover:scale-105 hover:cursor-pointer ${
           board.backgroundColor ? `${board.backgroundColor}` : ""
         } ${board.backgroundColor === "bg-gray-800" ? "text-white" : ""}
         }`;
