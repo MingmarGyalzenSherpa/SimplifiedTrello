@@ -36,7 +36,7 @@ export const authentication = (
 };
 
 export const workspaceAuthorization =
-  (role: Roles) =>
+  (roles: Roles[]) =>
   async (req: IExpressRequest, res: Response, next: NextFunction) => {
     try {
       //get id of user
@@ -52,7 +52,7 @@ export const workspaceAuthorization =
         +workspaceId
       );
 
-      if (roleInDb !== role) {
+      if (roles.includes(roleInDb)) {
         throw new ForbiddenError(errorMessages.FORBIDDEN);
       }
       next();

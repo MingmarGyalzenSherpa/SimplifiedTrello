@@ -25,7 +25,7 @@ router.post("/", validateReqBody(createWorkspaceBodySchema), createWorkspace);
 //create a board
 router.post(
   "/:workspaceId/boards",
-  workspaceAuthorization(Roles.ADMIN),
+  workspaceAuthorization([Roles.ADMIN]),
   validateReqBody(createBoardBodySchema),
   createBoard
 );
