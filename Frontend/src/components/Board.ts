@@ -83,7 +83,7 @@ export class Board {
   render() {
     this.elements.parentEl.innerHTML = `
     <div class="h-[93vh]">
-    <nav class="h-[8%] fixed bg-white bg-opacity-50 w-[100%] px-10 py-5">
+    <nav class="h-[8%] fixed  bg-red-300 bg-opacity-50 w-full px-10 py-5">
       <div>
         <h2> ${this.state.boardId} </h2>
       </div>

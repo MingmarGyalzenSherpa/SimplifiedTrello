@@ -7,6 +7,7 @@ export class SideNav {
     user: IUser;
     workspaces: IWorkspace[];
     isWorkspacesVisible: boolean;
+    activeLink?: string;
   };
   elements: {
     parentEl: HTMLElement;
@@ -27,7 +28,6 @@ export class SideNav {
   initialSetup = async () => {
     await this.fetchWorkspaces();
     this.render();
-    this.setupEventListener();
   };
 
   fetchWorkspaces = async () => {
@@ -41,9 +41,40 @@ export class SideNav {
 
   setupEventListener = () => {
     //add event listener for workspace toggle
-    const workspaceToggleButton =
-      this.elements.parentEl.querySelector("#workspaces-toggle");
-    console.log(workspaceToggleButton);
+    const workspaceToggleButton = document.querySelector("#workspaces-toggle");
+    console.log("clicked");
+    workspaceToggleButton?.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.state.isWorkspacesVisible = !this.state.isWorkspacesVisible;
+      this.render();
+    });
+
+    //add event listener to set active link
+    const linkELs = document.querySelectorAll(".link");
+    linkELs.forEach((link) => {
+      link.addEventListener("click", this.setActiveLink);
+    });
+  };
+
+  setActiveLink = (e: Event) => {
+    const clickedElement = e.currentTarget as HTMLElement;
+    console.log(e.currentTarget);
+    const linkName = clickedElement.dataset.link;
+
+    if (linkName) {
+      // Remove active class from previously active link
+      const previousActiveLink =
+        this.elements.parentEl.querySelector(".active");
+      if (previousActiveLink) {
+        previousActiveLink.classList.remove("bg-blue-gray-50/50", "active");
+      }
+
+      // Add active class to clicked link
+      clickedElement.classList.add("bg-blue-gray-50/50", "active");
+
+      // Update state
+      this.state.activeLink = linkName;
+    }
   };
 
   render = () => {
@@ -53,10 +84,10 @@ export class SideNav {
 
       <nav class="flex w-[240px] flex-col gap-1 p-2 font-sans text-base font-normal ">
 
-          <div role="button" id="nav_item"
-            class="flex items-center w-full p-0 leading-tight transition-all rounded-lg outline-none bg-blue-gray-50/50 text-start  hover:bg-blue-gray-50 hover:bg-opacity-80 hover: focus:bg-blue-gray-50 focus:bg-opacity-80 focus: active:bg-blue-gray-50 active:bg-opacity-80 active:">
-            <button type="button"
-              class="flex items-center justify-between w-full p-3 font-sans text-xl antialiased font-semibold leading-snug text-left transition-colors border-b-0 select-none border-b-blue-gray-100  hover:">
+          <div role="button" id="nav_item" data-link="home"
+            class="link flex items-center w-full p-0 leading-tight transition-all rounded-lg outline-none bg-blue-gray-50/50 text-start  hover:bg-blue-gray-50  focus:bg-blue-gray-50 focus:bg-opacity-80 active">
+            <button type="button" 
+              class=" flex items-center justify-between w-full p-3 font-sans text-xl antialiased font-semibold leading-snug text-left transition-colors border-b-0 select-none border-b-blue-gray-100  hover:">
               <div class="grid mr-3 place-items-center">
                 <i class="fa-solid fa-house"></i>
               </div>
@@ -66,10 +97,10 @@ export class SideNav {
 
             </button>
           </div>
-          <div role="button" id="nav_item"
-            class="flex items-center w-full p-0 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover: focus:bg-blue-gray-50 focus:bg-opacity-80 focus: active:bg-blue-gray-50 active:bg-opacity-80 active:">
-            <button type="button"
-              class="flex items-center justify-between w-full p-3 font-sans text-xl antialiased font-semibold leading-snug text-left transition-colors border-b-0 select-none border-b-blue-gray-100  hover:">
+          <div role="button" id="nav_item" data-link="boards"
+            class="link flex items-center w-full p-0 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover: focus:bg-blue-gray-50 focus:bg-opacity-80 focus: active:bg-blue-gray-50 active:bg-opacity-80 active:">
+            <button type="button" 
+              class=" flex items-center justify-between w-full p-3 font-sans text-xl antialiased font-semibold leading-snug text-left transition-colors border-b-0 select-none border-b-blue-gray-100  hover:">
                 <div class="grid mr-3 place-items-center">
                <i class="fa-solid fa-square"></i>
               </div>
@@ -97,7 +128,7 @@ export class SideNav {
              ${this.state.workspaces
                .map(
                  (workspace) =>
-                   `<li class="py-3 px-2 rounded hover:bg-blue-gray-50 hover:bg-opacity-80 hover: focus:bg-blue-gray-50 focus:bg-opacity-80 focus: active:bg-blue-gray-50 active:bg-opacity-80 active:">${workspace.title}</li>`
+                   `<li data-link="workspace-${workspace.id}" data-workspace-id="${workspace.id}" class="link py-3 px-2 mb-2 rounded hover:bg-blue-gray-50 hover:bg-opacity-80 hover: focus:bg-blue-gray-50 focus:bg-opacity-80 focus: active:bg-blue-gray-50 active:bg-opacity-80 active:">${workspace.title}</li>`
                )
                .join("")}
 
@@ -110,6 +141,8 @@ export class SideNav {
         </div>
       </nav>
     </div>`;
+
+    this.setupEventListener();
   };
 }
 
