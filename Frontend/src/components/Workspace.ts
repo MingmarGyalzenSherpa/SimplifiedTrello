@@ -10,6 +10,8 @@ export class Workspace {
   elements: {
     parentEl: HTMLElement;
     boardListEl?: HTMLElement;
+    workspaceLogoEl?: HTMLElement;
+    workspaceTitleEl?: HTMLElement;
   };
   constructor(parentEl: HTMLElement, workspaceId: number) {
     this.state = {
@@ -24,7 +26,6 @@ export class Workspace {
     };
 
     this.render();
-    setTimeout(this.initialSetup, 0);
   }
 
   fetchAndAddBoards = async () => {
@@ -64,10 +65,6 @@ export class Workspace {
     }
   };
 
-  initialSetup = () => {
-    this.fetchWorkspaceInfo();
-  };
-
   fetchWorkspaceInfo = async () => {
     try {
       const response = await WorkspaceService.getWorkspaceById(
@@ -75,7 +72,12 @@ export class Workspace {
       );
       console.log(response.data.data);
       this.state.workspace = response.data.data;
-      this.render();
+
+      //add workspace title and logo
+      this.elements.workspaceLogoEl!.textContent =
+        this.state.workspace.title[0];
+
+      this.elements.workspaceTitleEl!.textContent = this.state.workspace.title;
     } catch (error) {
       console.log(error);
     }
@@ -97,10 +99,10 @@ export class Workspace {
       <div class="h-[93vh]  p-16">
 <div class="flex justify-between   mb-10 ">
     <div class="flex gap-4  items-center ">
-    <div class="bg-blue-300 w-20 h-20 font-extrabold text-7xl flex justify-center items-center shadow-md rounded-md" >${
+    <div class="workspace-logo bg-blue-300 w-20 h-20 font-extrabold text-7xl flex justify-center items-center shadow-md rounded-md" >${
       this.state.workspace.title && this.state.workspace.title[0]
     }</div>
-    <h2 class="text-3xl font-semibold">${
+    <h2 class="workspace-title text-3xl font-semibold">${
       this.state.workspace.title ? this.state.workspace.title : ""
     }</h2>
     </div>
@@ -120,9 +122,17 @@ export class Workspace {
   </div>
     `;
 
+    //store reference of workspace logo
+    this.elements.workspaceLogoEl = document.querySelector(".workspace-logo")!;
+
+    //store reference of workspace title
+    this.elements.workspaceTitleEl =
+      document.querySelector(".workspace-title")!;
+
     //store reference to board list container
     this.elements.boardListEl = document.querySelector(".board-list")!;
 
+    this.fetchWorkspaceInfo();
     this.fetchAndAddBoards();
     this.setupEventListener();
   };
