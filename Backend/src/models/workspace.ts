@@ -70,6 +70,19 @@ export class WorkspaceModel extends BaseModel {
     return data;
   };
 
+  static getUserRoleInWorkspace = async (
+    userId: number,
+    workspaceId: number
+  ) => {
+    const data = await this.queryBuilder()
+      .table("workspace_members")
+      .select("role")
+      .where({ userId, workspaceId })
+      .first();
+    console.log(data);
+    return data;
+  };
+
   /**
    * Check if admin of the workspace
    *

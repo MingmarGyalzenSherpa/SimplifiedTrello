@@ -51,3 +51,4 @@ export const createBoard = async (
 
   await BoardServices.createBoard(userId, workspaceId, boardToCreate);
 };
+

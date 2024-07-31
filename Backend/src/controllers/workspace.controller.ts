@@ -81,7 +81,7 @@ export const createBoard = async (
 ) => {
   try {
     const { id: userId } = req.user!;
-    const { id: workspaceId } = req.params;
+    const { workspaceId } = req.params;
     const { body } = req;
     await WorkspaceServices.createBoard(userId!, +workspaceId, body);
 

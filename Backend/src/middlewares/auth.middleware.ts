@@ -7,6 +7,7 @@ import { config } from "../config";
 import { IUser } from "../interfaces/IUser";
 import { Roles } from "../constants/Roles";
 import { WorkspaceModel } from "../models/workspace";
+import { ForbiddenError } from "../errors/ForbiddenError";
 
 export const authentication = (
   req: IExpressRequest,
@@ -34,15 +35,30 @@ export const authentication = (
   next();
 };
 
-export const authorization =
-  (table: string, role: Roles) =>
+export const workspaceAuthorization =
+  (role: Roles) =>
   async (req: IExpressRequest, res: Response, next: NextFunction) => {
-    //get id of the table
-    const { id: tableId } = req.params;
+    try {
+      //get id of user
+      const { id } = req.user!;
+      //get id of workspace
+      const { workspaceId } = req.params;
 
-    //check if table is workspace or boards
+      //get role of user id with workspace id
+      console.log(id);
+      console.log(workspaceId);
+      const roleInDb = await WorkspaceModel.getUserRoleInWorkspace(
+        id!,
+        +workspaceId
+      );
+
+      if (roleInDb !== role) {
+        throw new ForbiddenError(errorMessages.FORBIDDEN);
+      }
+      next();
+    } catch (error) {
+      next(error);
+    }
   };
 
-  const hasAccess = (role:string) => {
-      
-  }
+const hasAccess = (role: string) => {};
