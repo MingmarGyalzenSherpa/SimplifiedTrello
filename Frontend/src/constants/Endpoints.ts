@@ -13,6 +13,7 @@ export const Endpoints = {
   },
   BOARD: {
     GET_BOARDS_OF_USER: "/boards",
+    GET_BOARD_BY_ID: "/boards/:boardId",
     GET_USERS_IN_BOARD: "/boards/:boardId/users",
     GET_BOARDS_BY_WORKSPACE_ID: "/workspaces/:workspaceId/boards",
     CREATE_BOARD: "/workspaces/:workspaceId/boards",

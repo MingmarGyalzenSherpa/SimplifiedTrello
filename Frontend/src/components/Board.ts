@@ -2,9 +2,13 @@
 import { IList } from "../interfaces/IList";
 import { List } from "./List";
 import * as ListService from "../services/listService";
+import * as BoardService from "../services/boardService";
+import { IBoard } from "../interfaces/IBoard";
+import { HttpStatusCode } from "axios";
 export class Board {
   state: {
     boardId: string;
+    board?: IBoard;
     lists: List[];
   };
   elements: {
@@ -26,15 +30,27 @@ export class Board {
 
   initialSetup = async () => {
     this.render();
-    this.setupEventListener();
   };
 
   fetchBoard = async () => {
     try {
-      
+      const response = await BoardService.getBoardById(+this.state.boardId);
+      console.log(response);
+      if (response.status === HttpStatusCode.Ok) {
+        this.state.board = response.data.data;
+
+        //show board
+        this.showBoard();
+      }
     } catch (error) {
       console.log(error);
     }
+  };
+
+  showBoard = async () => {
+    //set background color
+    const boardEl = document.querySelector("#board");
+    boardEl?.classList.add(this.state.board?.backgroundColor || "");
   };
 
   fetchAndShowList = async () => {
@@ -43,6 +59,8 @@ export class Board {
 
       const listContainerEl =
         document.querySelector<HTMLElement>("#lists-container")!;
+
+      listContainerEl.innerHTML = "";
 
       const sortedList = response.data.data.sort(
         (a: IList, b: IList) => +a.position - +b.position
@@ -107,7 +125,13 @@ export class Board {
     </div>
     `;
 
+    //fetch and show list
     this.fetchAndShowList();
+
+    //fetch board
+    this.fetchBoard();
+
+    this.setupEventListener();
   }
 }
 

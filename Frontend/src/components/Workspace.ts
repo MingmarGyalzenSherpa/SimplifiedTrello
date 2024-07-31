@@ -3,6 +3,7 @@ import { IWorkspace } from "./../interfaces/IWorkspace";
 import * as WorkspaceService from "../services/workspaceService";
 import * as BoardService from "../services/boardService";
 import { CreateBoardModal } from "./CreateBoardModal";
+import { Board } from "./Board";
 export class Workspace {
   state: {
     workspace: IWorkspace;
@@ -45,7 +46,7 @@ export class Workspace {
         const boardEl = document.createElement("div");
 
         //add classes to element
-        boardEl.className = `min-w-[150px] h-[100px] shadow-lg flex justify-center items-center rounded-lg hover:scale-105 hover:cursor-pointer ${
+        boardEl.className = `min-w-[150px] h-[100px] shadow-lg flex justify-center font-semibold items-center rounded-lg hover:scale-105 hover:cursor-pointer ${
           board.backgroundColor ? `${board.backgroundColor}` : ""
         } ${board.backgroundColor === "bg-gray-800" ? "text-white" : ""}
         }`;
@@ -55,6 +56,16 @@ export class Workspace {
 
         //assign unique dataset
         boardEl.dataset.boardId = `${board.id}`;
+
+        //add event listener
+        boardEl.addEventListener("click", (e) => {
+          e.preventDefault();
+
+          //render board view
+          const contentEl = document.querySelector<HTMLElement>(".content");
+
+          new Board(contentEl!, `${board.id}`);
+        });
 
         //append to board
         this.elements.boardListEl!.appendChild(boardEl);

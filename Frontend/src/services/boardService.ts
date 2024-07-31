@@ -17,3 +17,6 @@ export const getBoardsByWorkspaceId = (workspaceId: number) =>
   axiosInstance.get(
     interpolate(Endpoints.BOARD.GET_BOARDS_BY_WORKSPACE_ID, { workspaceId })
   );
+
+export const getBoardById = (boardId: number) =>
+  axiosInstance.get(interpolate(Endpoints.BOARD.GET_BOARD_BY_ID, { boardId }));
