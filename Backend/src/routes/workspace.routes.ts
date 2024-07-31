@@ -34,9 +34,17 @@ router.post(
 router.get("/", getWorkspacesByUser);
 
 //get workspace by id
-router.get("/:workspaceId", getWorkspacesById);
+router.get(
+  "/:workspaceId",
+  workspaceAuthorization([Roles.ADMIN, Roles.MEMBER]),
+  getWorkspacesById
+);
 
 //get boards by workspace id
-router.get("/:workspaceId/boards", getBoardByWorkspaceId);
+router.get(
+  "/:workspaceId/boards",
+  workspaceAuthorization([Roles.ADMIN, Roles.MEMBER]),
+  getBoardByWorkspaceId
+);
 
 export default router;
