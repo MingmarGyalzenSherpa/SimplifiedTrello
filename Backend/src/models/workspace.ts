@@ -63,6 +63,7 @@ export class WorkspaceModel extends BaseModel {
   ): Promise<IWorkspace | undefined> => {
     const data = await this.queryBuilder()
       .table("workspaces")
+      .select("*")
       .where({ id: workspaceId })
       .first();
 

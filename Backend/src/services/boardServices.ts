@@ -59,6 +59,18 @@ export const getBoardsByWorkspace = async (
 };
 
 /**
+ * Get a board by id
+ * @param boardId  - id of the board
+ * @returns {Promise<IBoard | undefined>} - promise resolving in board or undefined
+ */
+export const getBoardById = async (
+  boardId: number
+): Promise<IBoard | undefined> => {
+  const data = await BoardModel.getBoardById(boardId);
+  return data;
+};
+
+/**
  * Get users by board
  * @param boardId - id of board
  * @returns

@@ -20,10 +20,28 @@ export const getBoardsByUser = async (
 ) => {
   try {
     const { id: userId } = req.user!;
-    const users = await BoardServices.getBoardsByUser(userId!);
+    const boards = await BoardServices.getBoardsByUser(userId!);
     res.status(HttpStatusCodes.OK).json({
       message: interpolate(successMessages.FETCHED, { item: "Boards" }),
-      data: users,
+      data: boards,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+export const getBoardById = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { boardId } = req.params;
+    const board = await BoardServices.getBoardById(+boardId);
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.FETCHED, { item: "Boards" }),
+      data: board,
     });
   } catch (error) {
     console.log(error);

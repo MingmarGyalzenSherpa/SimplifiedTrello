@@ -3,6 +3,7 @@ import { authentication } from "../middlewares/auth.middleware";
 import {
   createList,
   deleteList,
+  getBoardById,
   getBoardsByUser,
   getLabelsByBoard,
   getLists,
@@ -23,6 +24,9 @@ router.use(authentication);
 
 //get boards by user
 router.get("/", getBoardsByUser);
+
+//get board by id
+router.get("/:boardId", getBoardById);
 
 //update board
 router.put("/:boardId", validateReqBody(updateBoardBodySchema), updateBoard);

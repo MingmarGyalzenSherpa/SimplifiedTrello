@@ -3,6 +3,7 @@ import { authentication } from "../middlewares/auth.middleware";
 import {
   createBoard,
   createWorkspace,
+  getWorkspacesById,
   getWorkspacesByUser,
 } from "../controllers/workspace.controller";
 import { validateReqBody } from "../middlewares/validator.middleware";
@@ -21,5 +22,8 @@ router.post("/:id/boards", validateReqBody(createBoardBodySchema), createBoard);
 
 //get all workspaces for a user
 router.get("/", getWorkspacesByUser);
+
+//get workspace by id
+router.get("/:workspaceId", getWorkspacesById);
 
 export default router;

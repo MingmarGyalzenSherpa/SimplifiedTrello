@@ -49,6 +49,30 @@ export const getWorkspacesByUser = async (
   }
 };
 
+export const getWorkspacesById = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { workspaceId } = req.params;
+    const data = await WorkspaceServices.getWorkspaceById(+workspaceId);
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.FETCHED, { item: "Workspaces" }),
+      data,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+/**
+ * Create a new board
+ * @param req
+ * @param res
+ * @param next
+ */
 export const createBoard = async (
   req: IExpressRequest,
   res: Response,

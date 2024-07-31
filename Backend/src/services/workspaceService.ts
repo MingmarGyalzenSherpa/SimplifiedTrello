@@ -44,9 +44,10 @@ export const getWorkspacesByUser = async (userId: number) => {
 export const getWorkspaceById = async (
   workspaceId: number
 ): Promise<IWorkspace | undefined> => {
-  const data = await WorkspaceModel.getWorkspaceById(workspaceId);
-
-  return data;
+  const workspace = await WorkspaceModel.getWorkspaceById(workspaceId);
+  const boards = await BoardServices.getBoardsByWorkspace(workspaceId);
+  workspace!.boards = boards;
+  return workspace;
 };
 
 export const createBoard = async (

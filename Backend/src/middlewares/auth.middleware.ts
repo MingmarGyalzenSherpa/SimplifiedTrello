@@ -42,3 +42,7 @@ export const authorization =
 
     //check if table is workspace or boards
   };
+
+  const hasAccess = (role:string) => {
+      
+  }
