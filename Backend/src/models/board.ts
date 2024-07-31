@@ -48,7 +48,7 @@ export class BoardModel extends BaseModel {
    * @param workspaceId
    * @returns
    */
-  static getBoardsByWorkspace = async (workspaceId: number) => {
+  static getBoardsByWorkspaceId = async (workspaceId: number) => {
     const data = await this.queryBuilder()
       .table("boards")
       .where({ workspaceId });

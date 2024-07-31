@@ -4,6 +4,7 @@ import { IExpressRequest } from "../interfaces/IExpressRequest";
 import * as WorkspaceServices from "../services/workspaceService";
 import { interpolate } from "../utils/interpolate";
 import { successMessages } from "../utils/message";
+import * as BoardServices from "../services/boardServices";
 
 /**
  * Create a workspace
@@ -88,6 +89,30 @@ export const createBoard = async (
       message: interpolate(successMessages.CREATED, { item: "Board" }),
     });
   } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Get boards by workspace id
+ * @param req
+ * @param res
+ * @param next
+ */
+export const getBoardByWorkspaceId = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { workspaceId } = req.params;
+    const boards = await BoardServices.getBoardsByWorkspaceId(+workspaceId);
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.FETCHED, { item: "Boards" }),
+      data: boards,
+    });
+  } catch (error) {
+    console.log(error);
     next(error);
   }
 };

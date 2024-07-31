@@ -50,10 +50,10 @@ export const getBoardsByUser = async (userId: number): Promise<IBoard[]> => {
  * @param workspaceId - id of workspace
  * @returns {Promise<IBoard[]>} - boards of a user
  */
-export const getBoardsByWorkspace = async (
+export const getBoardsByWorkspaceId = async (
   workspaceId: number
 ): Promise<IBoard[]> => {
-  const data = await BoardModel.getBoardsByWorkspace(workspaceId);
+  const data = await BoardModel.getBoardsByWorkspaceId(workspaceId);
 
   return data;
 };

@@ -24,14 +24,6 @@ export const getWorkspacesByUser = async (userId: number) => {
   //get workspaces
   const workspaces = await WorkspaceModel.getWorkspaceByUser(userId);
 
-  //get boards of those workspaces
-
-  for (let i = 0; i < workspaces.length; i++) {
-    workspaces[i].boards = await BoardServices.getBoardsByWorkspace(
-      workspaces[i].id
-    );
-  }
-
   return workspaces;
 };
 
@@ -45,8 +37,6 @@ export const getWorkspaceById = async (
   workspaceId: number
 ): Promise<IWorkspace | undefined> => {
   const workspace = await WorkspaceModel.getWorkspaceById(workspaceId);
-  const boards = await BoardServices.getBoardsByWorkspace(workspaceId);
-  workspace!.boards = boards;
   return workspace;
 };
 
