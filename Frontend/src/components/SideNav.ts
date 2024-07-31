@@ -1,7 +1,7 @@
 import { IWorkspace } from "./../interfaces/IWorkspace";
 import { IUser } from "../interfaces/IUser";
-import { axiosInstance } from "../utils/axiosConfig";
-
+import * as WorkspaceService from "../services/workspaceService";
+import { Workspace } from "./Workspace";
 export class SideNav {
   state: {
     user: IUser;
@@ -32,7 +32,7 @@ export class SideNav {
 
   fetchWorkspaces = async () => {
     try {
-      const response = await axiosInstance.get("/workspaces");
+      const response = await WorkspaceService.getWorkspaces();
       this.state.workspaces = response.data.data as IWorkspace[];
     } catch (error) {
       console.log(error);
@@ -53,6 +53,19 @@ export class SideNav {
     const linkELs = document.querySelectorAll(".link");
     linkELs.forEach((link) => {
       link.addEventListener("click", this.setActiveLink);
+    });
+
+    //add event listener for workspace link click
+    const workspaceLinks =
+      document.querySelectorAll<HTMLElement>(".workspace-link");
+
+    workspaceLinks.forEach((workspaceLink) => {
+      workspaceLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const workspaceId = workspaceLink.dataset.workspaceId!;
+        const contentElement = document.querySelector<HTMLElement>(".content")!;
+        new Workspace(contentElement, +workspaceId);
+      });
     });
   };
 
@@ -128,7 +141,7 @@ export class SideNav {
              ${this.state.workspaces
                .map(
                  (workspace) =>
-                   `<li data-link="workspace-${workspace.id}" data-workspace-id="${workspace.id}" class="link py-3 px-2 mb-2 rounded hover:bg-blue-gray-50 hover:bg-opacity-80 hover: focus:bg-blue-gray-50 focus:bg-opacity-80 focus: active:bg-blue-gray-50 active:bg-opacity-80 active:">${workspace.title}</li>`
+                   `<li data-link="workspace-${workspace.id}" data-workspace-id="${workspace.id}" class="link workspace-link py-3 px-2 mb-2 rounded hover:bg-blue-gray-50 hover:bg-opacity-80 hover: focus:bg-blue-gray-50 focus:bg-opacity-80 focus: active:bg-blue-gray-50 active:bg-opacity-80 active:">${workspace.title}</li>`
                )
                .join("")}
 

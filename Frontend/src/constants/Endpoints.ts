@@ -14,6 +14,7 @@ export const Endpoints = {
   BOARD: {
     GET_BOARDS_OF_USER: "/boards",
     GET_USERS_IN_BOARD: "/boards/:boardId/users",
+    GET_BOARDS_BY_WORKSPACE_ID: "/workspaces/:workspaceId/boards",
     CREATE_BOARD: "/workspaces/:workspaceId/boards",
     UPDATE_BOARD: "/boards/:boardId",
     GET_LABELS_IN_BOARD: "/boards/:boardId/labels",
@@ -24,6 +25,7 @@ export const Endpoints = {
   },
   WORKSPACE: {
     CREATE_WORKSPACE: "/workspaces",
-    GET_WORKSPACE: "/workspaces",
+    GET_WORKSPACES: "/workspaces",
+    GET_WORKSPACE_BY_ID: "/workspaces/:workspaceId",
   },
 };

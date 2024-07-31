@@ -75,7 +75,7 @@ export class MainLayout {
 
   renderContent = () => {
     this.elements.content = document.createElement("div");
-    this.elements.content.className = "w-[90%] overflow-scroll";
+    this.elements.content.className = "content w-[90%] overflow-scroll";
     new Board(this.elements.content!, "7");
     this.elements.container!.appendChild(this.elements.content);
   };

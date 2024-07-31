@@ -29,6 +29,14 @@ export class Board {
     this.setupEventListener();
   };
 
+  fetchBoard = async () => {
+    try {
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   fetchAndShowList = async () => {
     try {
       const response = await ListService.getLists(+this.state.boardId);
