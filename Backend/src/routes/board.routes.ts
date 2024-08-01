@@ -27,11 +27,7 @@ const router = express();
 router.use(authentication);
 
 //get boards by user
-router.get(
-  "/",
-  boardAuthorization([Roles.ADMIN, Roles.MEMBER]),
-  getBoardsByUser
-);
+router.get("/", getBoardsByUser);
 
 //get board by id
 router.get(
@@ -49,7 +45,11 @@ router.put(
 );
 
 //get users in a board
-router.get("/:boardId/users", getUsersByBoard);
+router.get(
+  "/:boardId/users",
+  boardAuthorization([Roles.ADMIN, Roles.MEMBER]),
+  getUsersByBoard
+);
 
 //get labels in a board
 router.get("/:boardId/labels", getLabelsByBoard);
@@ -57,21 +57,31 @@ router.get("/:boardId/labels", getLabelsByBoard);
 //add list in the board
 router.post(
   "/:boardId/lists",
+  boardAuthorization([Roles.ADMIN]),
   validateReqBody(createListBodySchema),
   createList
 );
 
 //get lists in the board
-router.get("/:boardId/lists", getLists);
+router.get(
+  "/:boardId/lists",
+  boardAuthorization([Roles.ADMIN, Roles.MEMBER]),
+  getLists
+);
 
 //update list
 router.put(
   "/:boardId/lists/:listId",
+  boardAuthorization([Roles.ADMIN]),
   validateReqBody(updateListBodySchema),
   updateList
 );
 
 //delete list
-router.delete("/:boardId/lists/:listId", deleteList);
+router.delete(
+  "/:boardId/lists/:listId",
+  boardAuthorization([Roles.ADMIN]),
+  deleteList
+);
 
 export default router;
