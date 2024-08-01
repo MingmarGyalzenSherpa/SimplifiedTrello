@@ -4,6 +4,7 @@ import * as WorkspaceService from "../services/workspaceService";
 import * as BoardService from "../services/boardService";
 import { CreateBoardModal } from "./CreateBoardModal";
 import { Board } from "./Board";
+import { AddWorkspaceMemberModal } from "./AddWorkspaceMemberModal";
 export class Workspace {
   state: {
     workspace: IWorkspace;
@@ -13,6 +14,7 @@ export class Workspace {
     boardListEl?: HTMLElement;
     workspaceLogoEl?: HTMLElement;
     workspaceTitleEl?: HTMLElement;
+    addWorkspaceMemberEl?: HTMLElement;
   };
   constructor(parentEl: HTMLElement, workspaceId: number) {
     this.state = {
@@ -102,6 +104,12 @@ export class Workspace {
       e.preventDefault();
       new CreateBoardModal(this.state.workspace.id, this.render.bind(this));
     });
+
+    //event listener to add workspace member
+    this.elements.addWorkspaceMemberEl?.addEventListener("click", (e) => {
+      e.preventDefault();
+      new AddWorkspaceMemberModal(this.state.workspace.id);
+    });
   };
 
   render = () => {
@@ -123,7 +131,7 @@ export class Workspace {
   </div>
   <hr class="mb-4 border-gray-300" />
   <div class="py-4">
-    <button class="flex items-center justify-center px-4 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300">
+    <button class="add-workspace-member flex items-center justify-center px-4 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300">
   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
     <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
   </svg>
@@ -142,6 +150,12 @@ export class Workspace {
   </div>
   </div>
     `;
+
+    //store reference to add workspace member button
+    this.elements.addWorkspaceMemberEl = document.querySelector(
+      ".add-workspace-member"
+    )!;
+    console.log(this.elements.addWorkspaceMemberEl);
 
     //store reference of workspace logo
     this.elements.workspaceLogoEl = document.querySelector(".workspace-logo")!;

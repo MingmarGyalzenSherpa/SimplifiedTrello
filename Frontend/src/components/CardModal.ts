@@ -28,6 +28,7 @@ export class CardModal {
       this.elements.modalEl?.remove();
     });
 
+    //add event listener to close modal
     this.elements.modalEl?.addEventListener("click", (e) => {
       console.log(e);
       const el = e.target as HTMLElement;
