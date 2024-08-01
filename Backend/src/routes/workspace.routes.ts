@@ -8,6 +8,7 @@ import {
   createBoard,
   createWorkspace,
   getBoardByWorkspaceId,
+  getUsersInWorkspace,
   getWorkspacesById,
   getWorkspacesByUser,
 } from "../controllers/workspace.controller";
@@ -57,6 +58,13 @@ router.post(
   workspaceAuthorization([Roles.ADMIN]),
   validateReqBody(addUserToWorkspaceBodySchema),
   addUserToWorkspace
+);
+
+//get users in workspace
+router.get(
+  "/:workspaceId/users",
+  workspaceAuthorization([Roles.ADMIN, Roles.MEMBER]),
+  getUsersInWorkspace
 );
 
 export default router;

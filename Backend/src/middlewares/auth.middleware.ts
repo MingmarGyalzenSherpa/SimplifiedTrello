@@ -12,6 +12,13 @@ import { BoardModel } from "../models/board";
 import { NotFoundError } from "../errors/NotFoundError";
 import { interpolate } from "../utils/interpolate";
 
+/**
+ * Authentication for user
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 export const authentication = (
   req: IExpressRequest,
   res: Response,
@@ -38,6 +45,11 @@ export const authentication = (
   next();
 };
 
+/**
+ * Authorization for workspace
+ * @param roles - roles in workspace
+ * @returns
+ */
 export const workspaceAuthorization =
   (roles: Roles[]) =>
   async (req: IExpressRequest, res: Response, next: NextFunction) => {
@@ -60,7 +72,7 @@ export const workspaceAuthorization =
         );
       }
 
-      //if role doesnt exist
+      //if role doesn't exist
       if (!roles.includes(roleInWorkspace.role)) {
         throw new ForbiddenError(errorMessages.FORBIDDEN);
       }
@@ -70,6 +82,11 @@ export const workspaceAuthorization =
     }
   };
 
+/**
+ * Authorization middleware for boards
+ * @param roles - roles of user
+ * @returns
+ */
 export const boardAuthorization =
   (roles: Roles[]) =>
   async (req: IExpressRequest, res: Response, next: NextFunction) => {

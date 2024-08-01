@@ -79,6 +79,7 @@ export class WorkspaceModel extends BaseModel {
       .select("role")
       .where({ userId, workspaceId })
       .first();
+
     return data;
   };
 
@@ -114,5 +115,24 @@ export class WorkspaceModel extends BaseModel {
     await this.queryBuilder()
       .table("workspace_members")
       .insert({ workspaceId, userId, role });
+  };
+
+  /**
+   * Get users in a workspace
+   *
+   * @param workspaceId - workspace id
+   */
+  static getUsersInWorkspace = async (workspaceId: number) => {
+    return await this.queryBuilder()
+      .table("workspace_members")
+      .select(
+        "users.id",
+        "users.firstName",
+        "users.lastName",
+        "users.username",
+        "users.email"
+      )
+      .leftJoin("users", "workspace_members.userId", "=", "users.id")
+      .where({ workspaceId });
   };
 }

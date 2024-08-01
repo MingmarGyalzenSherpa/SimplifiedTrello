@@ -56,9 +56,28 @@ export const createBoard = async (
   await BoardServices.createBoard(userId, workspaceId, boardToCreate);
 };
 
+/**
+ * Add user to workspace
+ *
+ * @param workspaceId - workspace id
+ * @param userId - user id
+ */
 export const addUserToWorkspace = async (
   workspaceId: number,
   userId: number
 ) => {
+  //check if user is already a member
+
   await WorkspaceModel.addUserToWorkspace(workspaceId, userId, Roles.MEMBER);
+};
+
+/**
+ * Get users in a workspace
+ *
+ * @param workspaceId - workspace id
+ * @returns
+ */
+export const getUsersInWorkspace = async (workspaceId: number) => {
+  const data = await WorkspaceModel.getUsersInWorkspace(workspaceId);
+  return data;
 };

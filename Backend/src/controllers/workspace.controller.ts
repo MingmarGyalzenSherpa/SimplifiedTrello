@@ -135,3 +135,23 @@ export const addUserToWorkspace = async (
     next(error);
   }
 };
+
+export const getUsersInWorkspace = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { workspaceId } = req.params;
+    const data = await WorkspaceServices.getUsersInWorkspace(+workspaceId);
+
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.FETCHED, {
+        item: "Users in workspace",
+      }),
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
