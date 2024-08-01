@@ -96,7 +96,7 @@ export const boardAuthorization =
 
       if (!roleInWorkspace) {
         throw new NotFoundError(
-          interpolate(errorMessages.NOTFOUND, { item: "Workspace " })
+          interpolate(errorMessages.FORBIDDEN, { item: "Workspace " })
         );
       }
 
@@ -106,9 +106,11 @@ export const boardAuthorization =
         +boardId
       );
 
+      console.log(roleInBoard);
+      console.log(roleInWorkspace);
       if (
         !roles.includes(roleInBoard.role) &&
-        !roles.includes(roleInWorkspace.role)
+        !roles.includes(roleInWorkspace?.role)
       ) {
         throw new ForbiddenError(errorMessages.FORBIDDEN);
       }

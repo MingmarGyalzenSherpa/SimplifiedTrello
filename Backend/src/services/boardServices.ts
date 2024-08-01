@@ -60,6 +60,7 @@ export const getBoardsByWorkspaceId = async (
 
 /**
  * Get a board by id
+ *
  * @param boardId  - id of the board
  * @returns {Promise<IBoard | undefined>} - promise resolving in board or undefined
  */
@@ -68,6 +69,15 @@ export const getBoardById = async (
 ): Promise<IBoard | undefined> => {
   const data = await BoardModel.getBoardById(boardId);
   return data;
+};
+
+/**
+ * Delete a board by id
+ *
+ * @param boardId - board id
+ */
+export const deleteBoardById = async (boardId: number) => {
+  await BoardModel.deleteBoardById(boardId);
 };
 
 /**
@@ -97,17 +107,6 @@ export const updateBoard = async (
   updatedBoard: IBoard
 ) => {
   const board = await BoardModel.getBoardById(boardId);
-
-  const isWorkspaceAdmin = await WorkspaceModel.checkIfAdmin(
-    userId,
-    board.workspaceId
-  );
-
-  const isBoardAdmin = await BoardModel.checkIfAdmin(userId, boardId);
-
-  if (!isWorkspaceAdmin && !isBoardAdmin) {
-    throw new ForbiddenError(errorMessages.FORBIDDEN);
-  }
 
   await BoardModel.updateBoard(boardId, updatedBoard);
 };

@@ -5,6 +5,7 @@ import {
 } from "../middlewares/auth.middleware";
 import {
   createList,
+  deleteBoardById,
   deleteList,
   getBoardById,
   getBoardsByUser,
@@ -43,6 +44,9 @@ router.put(
   validateReqBody(updateBoardBodySchema),
   updateBoard
 );
+
+//delete board
+router.delete("/:boardId", boardAuthorization([Roles.ADMIN]), deleteBoardById);
 
 //get users in a board
 router.get(

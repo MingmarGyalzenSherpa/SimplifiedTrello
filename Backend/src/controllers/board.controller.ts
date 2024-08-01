@@ -91,6 +91,29 @@ export const updateBoard = async (
     const { body } = req;
 
     await BoardServices.updateBoard(userId!, +boardId, body);
+
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.UPDATED, { item: "Board" }),
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+export const deleteBoardById = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { boardId } = req.params;
+
+    await BoardServices.deleteBoardById(+boardId);
+
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.DELETED, { item: "Board" }),
+    });
   } catch (error) {
     next(error);
   }

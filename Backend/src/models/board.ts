@@ -82,24 +82,7 @@ export class BoardModel extends BaseModel {
     await this.queryBuilder()
       .table("boards")
       .update(updatedBoard)
-      .where({ boardId });
-  };
-
-  /**
-   * Get labels by board
-   * @param userId - id of user
-   * @param boardId - id of board
-   * @returns {Promise<boolean>}
-   */
-  static checkIfAdmin = async (userId: number, boardId: number) => {
-    const data = await this.queryBuilder()
-      .table("board_members")
-      .where({ userId, boardId })
-      .first();
-
-    if (!data || data.role != Roles.ADMIN) return false;
-
-    return true;
+      .where({ id: boardId });
   };
 
   /**
@@ -111,5 +94,12 @@ export class BoardModel extends BaseModel {
   static getLabelsByBoard = async (boardId: number) => {
     const data = await this.queryBuilder().table("labels").where({ boardId });
     return data;
+  };
+
+  static deleteBoardById = async (boardId: number) => {
+    await this.queryBuilder()
+      .table("boards")
+      .update({ deleted: true })
+      .where({ id: boardId });
   };
 }
