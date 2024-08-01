@@ -5,6 +5,7 @@ import * as BoardServices from "../services/boardServices";
 import { IBoard } from "../interfaces/IBoard";
 import { interpolate } from "../utils/interpolate";
 import { errorMessages } from "../utils/message";
+import { Roles } from "../constants/Roles";
 /**
  * Create a new workspace
  *
@@ -40,15 +41,24 @@ export const getWorkspaceById = async (
   return workspace;
 };
 
+/**
+ * Create a new board
+ *
+ * @param userId - id of user
+ * @param workspaceId - id of workspace
+ * @param boardToCreate - details of new board
+ */
 export const createBoard = async (
   userId: number,
   workspaceId: number,
   boardToCreate: IBoard
 ) => {
-  const isAdmin = await WorkspaceModel.checkIfAdmin(userId, workspaceId);
-
-  if (!isAdmin) throw new ForbiddenError(errorMessages.FORBIDDEN);
-
   await BoardServices.createBoard(userId, workspaceId, boardToCreate);
 };
 
+export const addUserToWorkspace = async (
+  workspaceId: number,
+  userId: number
+) => {
+  await WorkspaceModel.addUserToWorkspace(workspaceId, userId, Roles.MEMBER);
+};

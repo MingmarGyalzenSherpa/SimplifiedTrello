@@ -99,4 +99,20 @@ export class WorkspaceModel extends BaseModel {
 
     return true;
   };
+
+  /**
+   * Add user to workspace
+   *
+   * @param workspaceId - workspace id
+   * @param userId - user id
+   */
+  static addUserToWorkspace = async (
+    workspaceId: number,
+    userId: number,
+    role: Roles
+  ) => {
+    await this.queryBuilder()
+      .table("workspace_members")
+      .insert({ workspaceId, userId, role });
+  };
 }

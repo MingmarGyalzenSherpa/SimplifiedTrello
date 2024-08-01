@@ -4,6 +4,7 @@ import {
   workspaceAuthorization,
 } from "../middlewares/auth.middleware";
 import {
+  addUserToWorkspace,
   createBoard,
   createWorkspace,
   getBoardByWorkspaceId,
@@ -11,7 +12,10 @@ import {
   getWorkspacesByUser,
 } from "../controllers/workspace.controller";
 import { validateReqBody } from "../middlewares/validator.middleware";
-import { createWorkspaceBodySchema } from "../schema/workspace.schema";
+import {
+  addUserToWorkspaceBodySchema,
+  createWorkspaceBodySchema,
+} from "../schema/workspace.schema";
 import { createBoardBodySchema } from "../schema/board.schema";
 import { Roles } from "../constants/Roles";
 
@@ -22,7 +26,7 @@ router.use(authentication);
 //create a workspace
 router.post("/", validateReqBody(createWorkspaceBodySchema), createWorkspace);
 
-//create a board  
+//create a board
 router.post(
   "/:workspaceId/boards",
   workspaceAuthorization([Roles.ADMIN]),
@@ -45,6 +49,14 @@ router.get(
   "/:workspaceId/boards",
   workspaceAuthorization([Roles.ADMIN, Roles.MEMBER]),
   getBoardByWorkspaceId
+);
+
+//add user to workspace
+router.post(
+  "/:workspaceId/users",
+  workspaceAuthorization([Roles.ADMIN]),
+  validateReqBody(addUserToWorkspaceBodySchema),
+  addUserToWorkspace
 );
 
 export default router;

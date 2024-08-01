@@ -108,8 +108,9 @@ export const boardAuthorization =
 
       console.log(roleInBoard);
       console.log(roleInWorkspace);
+
       if (
-        !roles.includes(roleInBoard.role) &&
+        !roles.includes(roleInBoard?.role) &&
         !roles.includes(roleInWorkspace?.role)
       ) {
         throw new ForbiddenError(errorMessages.FORBIDDEN);

@@ -116,3 +116,22 @@ export const getBoardByWorkspaceId = async (
     next(error);
   }
 };
+
+export const addUserToWorkspace = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { workspaceId } = req.params;
+    const { userId } = req.body;
+    console.log(userId);
+    await WorkspaceServices.addUserToWorkspace(+workspaceId, userId);
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.FETCHED, { item: "Boards" }),
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
