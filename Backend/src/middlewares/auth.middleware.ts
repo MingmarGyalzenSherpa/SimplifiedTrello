@@ -9,6 +9,8 @@ import { Roles } from "../constants/Roles";
 import { WorkspaceModel } from "../models/workspace";
 import { ForbiddenError } from "../errors/ForbiddenError";
 import { BoardModel } from "../models/board";
+import { NotFoundError } from "../errors/NotFoundError";
+import { interpolate } from "../utils/interpolate";
 
 export const authentication = (
   req: IExpressRequest,
@@ -46,12 +48,20 @@ export const workspaceAuthorization =
       const { workspaceId } = req.params;
 
       //get role of user id with workspace id
-      const roleInDb = await WorkspaceModel.getUserRoleInWorkspace(
+      const roleInWorkspace = await WorkspaceModel.getUserRoleInWorkspace(
         id!,
         +workspaceId
       );
 
-      if (roles.includes(roleInDb)) {
+      //check if workspace exists
+      if (!roleInWorkspace) {
+        throw new NotFoundError(
+          interpolate(errorMessages.NOTFOUND, { item: "Workspace " })
+        );
+      }
+
+      //if role doesnt exist
+      if (!roles.includes(roleInWorkspace.role)) {
         throw new ForbiddenError(errorMessages.FORBIDDEN);
       }
       next();
@@ -69,30 +79,43 @@ export const boardAuthorization =
       //get id of board
       const { boardId } = req.params;
 
-      const roleInBoard = await BoardModel.getUserRoleInBoard(
-        userId!,
-        +boardId
-      );
-
       //board detail
       const boardDetail = await BoardModel.getBoardById(+boardId);
-      console.log(boardDetail);
 
+      if (!boardDetail) {
+        throw new NotFoundError(
+          interpolate(errorMessages.NOTFOUND, { item: "Board " })
+        );
+      }
+
+      //get role in workspace
       const roleInWorkspace = await WorkspaceModel.getUserRoleInWorkspace(
         userId!,
         boardDetail.workspaceId
       );
 
-      console.log(roleInWorkspace);
+      if (!roleInWorkspace) {
+        throw new NotFoundError(
+          interpolate(errorMessages.NOTFOUND, { item: "Workspace " })
+        );
+      }
 
-      console.log("role = " + roleInBoard);
+      //get role in board
+      const roleInBoard = await BoardModel.getUserRoleInBoard(
+        userId!,
+        +boardId
+      );
 
-      if (!roles.includes(roleInBoard) && !roles.includes(roleInWorkspace)) {
+      if (
+        !roles.includes(roleInBoard.role) &&
+        !roles.includes(roleInWorkspace.role)
+      ) {
         throw new ForbiddenError(errorMessages.FORBIDDEN);
       }
 
       next();
     } catch (error) {
+      console.log(error);
       next(error);
     }
   };
