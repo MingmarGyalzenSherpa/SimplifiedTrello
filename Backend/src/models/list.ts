@@ -7,7 +7,7 @@ export class ListModel extends BaseModel {
    * @param listDetails - details of new list
    * @returns {Promise<IList>} - promise resolving created list details
    */
-  static createList = async (listDetails: IList) => {
+  static createList = async (listDetails: IList): Promise<IList> => {
     const [data] = await this.queryBuilder()
       .table("lists")
       .insert(listDetails)
@@ -30,7 +30,7 @@ export class ListModel extends BaseModel {
     const data = await this.queryBuilder()
       .table("lists")
       .select("id", "title", "position")
-      .where({ boardId });
+      .where({ boardId, deleted: false });
 
     return data;
   };
@@ -43,6 +43,10 @@ export class ListModel extends BaseModel {
   };
 
   static deleteList = async (listId: number) => {
-    await this.queryBuilder().table("lists").delete().where({ id: listId });
+    // await this.queryBuilder().table("lists").delete().where({ id: listId });
+    await this.queryBuilder()
+      .table("lists")
+      .update({ deleted: true })
+      .where({ id: listId });
   };
 }
