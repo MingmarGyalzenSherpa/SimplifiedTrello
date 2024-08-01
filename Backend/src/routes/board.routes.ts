@@ -1,5 +1,8 @@
 import express from "express";
-import { authentication } from "../middlewares/auth.middleware";
+import {
+  authentication,
+  boardAuthorization,
+} from "../middlewares/auth.middleware";
 import {
   createList,
   deleteList,
@@ -17,19 +20,33 @@ import {
   createListBodySchema,
   updateListBodySchema,
 } from "../schema/list.schema";
+import { Roles } from "../constants/Roles";
 
 const router = express();
 
 router.use(authentication);
 
 //get boards by user
-router.get("/", getBoardsByUser);
+router.get(
+  "/",
+  boardAuthorization([Roles.ADMIN, Roles.MEMBER]),
+  getBoardsByUser
+);
 
 //get board by id
-router.get("/:boardId", getBoardById);
+router.get(
+  "/:boardId",
+  boardAuthorization([Roles.ADMIN, Roles.MEMBER]),
+  getBoardById
+);
 
 //update board
-router.put("/:boardId", validateReqBody(updateBoardBodySchema), updateBoard);
+router.put(
+  "/:boardId",
+  boardAuthorization([Roles.ADMIN]),
+  validateReqBody(updateBoardBodySchema),
+  updateBoard
+);
 
 //get users in a board
 router.get("/:boardId/users", getUsersByBoard);

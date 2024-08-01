@@ -79,7 +79,6 @@ export class WorkspaceModel extends BaseModel {
       .select("role")
       .where({ userId, workspaceId })
       .first();
-    console.log(data);
     return data;
   };
 

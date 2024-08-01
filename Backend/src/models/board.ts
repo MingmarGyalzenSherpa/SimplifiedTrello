@@ -57,6 +57,21 @@ export class BoardModel extends BaseModel {
   };
 
   /**
+   * Get user role in board
+   * @param userId
+   * @param workspaceId
+   * @returns
+   */
+  static getUserRoleInBoard = async (userId: number, boardId: number) => {
+    const data = await this.queryBuilder()
+      .table("board_members")
+      .select("role")
+      .where({ userId, boardId })
+      .first();
+    return data;
+  };
+
+  /**
    * Update board
    *
    * @param boardId - board id
