@@ -22,7 +22,7 @@ router.use(authentication);
 //create a workspace
 router.post("/", validateReqBody(createWorkspaceBodySchema), createWorkspace);
 
-//create a board
+//create a board  
 router.post(
   "/:workspaceId/boards",
   workspaceAuthorization([Roles.ADMIN]),
