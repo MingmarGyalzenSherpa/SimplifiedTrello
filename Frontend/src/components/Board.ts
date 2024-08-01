@@ -106,12 +106,12 @@ export class Board {
   render() {
     this.elements.parentEl.innerHTML = `
     <div class="h-[93vh]">
-    <nav class="h-[8%] fixed  bg-white bg-opacity-60 w-full px-10 py-5">
+    <nav class="h-[8%] fixed  bg-black bg-opacity-30 w-full px-10 py-5">
       <div>
         <h2> ${this.state.boardId} </h2>
       </div>
     </nav>
-    <div id="board" class="p-4  pt-[100px] w-full h-[100%]  flex gap-2 bg-green-300 overflow-x-scroll">
+    <div id="board" class="p-4  pt-[100px] w-full h-[100%]  flex gap-2  overflow-x-scroll">
       <div id="lists-container" class=" flex  gap-2">
       </div>
         <div class=" bg-gray-300 flex flex-col p-1 gap-1 h-[100px] rounded-lg" >

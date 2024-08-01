@@ -13,4 +13,4 @@ window.onpopstate = (event) => {
 console.log(window.location.pathname);
 console.log(window.location);
 
-navigateTo(window.location.pathname);
+navigateTo(Routes.DASHBOARD);
