@@ -30,7 +30,8 @@ export class BoardModel extends BaseModel {
       .table("boards")
       .innerJoin("board_members", "boards.id", "board_members.board_id")
       .select("boards.*")
-      .where("board_members.user_id", userId);
+      .where("board_members.user_id", userId)
+      .andWhere("boards.deleted", false);
     console.log(data);
     return data;
   };
@@ -38,7 +39,7 @@ export class BoardModel extends BaseModel {
   static getBoardById = async (boardId: number) => {
     return await this.queryBuilder()
       .table("boards")
-      .where({ id: boardId })
+      .where({ id: boardId, deleted: false })
       .first();
   };
 
@@ -51,7 +52,7 @@ export class BoardModel extends BaseModel {
   static getBoardsByWorkspaceId = async (workspaceId: number) => {
     const data = await this.queryBuilder()
       .table("boards")
-      .where({ workspaceId });
+      .where({ workspaceId, deleted: false });
 
     return data;
   };
