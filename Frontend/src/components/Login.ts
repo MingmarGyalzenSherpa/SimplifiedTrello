@@ -5,8 +5,9 @@ import { ILoginCredential } from "../interfaces/ILoginCredential";
 import { validate } from "../utils/validator";
 import { loginUserBodySchema } from "../schema/authSchema";
 import { IError } from "../interfaces/IError";
+import { IComponent } from "../interfaces/IComponent";
 
-export class Login {
+export class Login implements IComponent {
   state: {
     credential: ILoginCredential;
   };

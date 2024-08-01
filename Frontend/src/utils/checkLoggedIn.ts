@@ -1,3 +1,4 @@
+import { HttpStatusCode } from "axios";
 import { axiosInstance } from "./axiosConfig";
 
 export const isLoggedIn = async () => {
@@ -5,7 +6,7 @@ export const isLoggedIn = async () => {
     //get user
     const response = await axiosInstance.get("/auth/me");
 
-    if (response.status === 200) {
+    if (response.status === HttpStatusCode.Ok) {
       return { isLoggedIn: true, user: response.data };
     }
   } catch (error) {

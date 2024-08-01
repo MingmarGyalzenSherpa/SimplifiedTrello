@@ -6,7 +6,9 @@ import { navigateTo } from "../utils/Navigate";
 import { Routes } from "../constants/Routes";
 import { SideNav } from "./SideNav";
 import { Board } from "./Board";
-export class MainLayout {
+import { IComponent } from "../interfaces/IComponent";
+import { Endpoints } from "../constants/Endpoints";
+export class MainLayout implements IComponent {
   state: {
     navBar?: {
       activeLink: string;
@@ -42,8 +44,17 @@ export class MainLayout {
       parentEl,
     };
 
+    this.getSubPath();
     setTimeout(this.initialSetup, 0);
   }
+
+  getSubPath = () => {
+    const path = window.location.pathname;
+    console.log(path.slice(Routes.DASHBOARD.length - "(.*)".length));
+    const subPath = path.slice(Routes.DASHBOARD.length - "(.*)".length);
+    if (subPath[0] != "/") navigateTo(Routes.CATCHALL);
+    console.log(Routes.DASHBOARD);
+  };
 
   initialSetup = () => {
     isLoggedIn().then((res) => {
