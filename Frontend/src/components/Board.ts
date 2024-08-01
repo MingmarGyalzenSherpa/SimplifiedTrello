@@ -67,7 +67,13 @@ export class Board {
         (a: IList, b: IList) => +a.position - +b.position
       );
       this.state.lists = sortedList.map(
-        (list: IList) => new List(listContainerEl, list)
+        (list: IList) =>
+          new List(
+            listContainerEl,
+            list,
+            +this.state.boardId,
+            this.render.bind(this)
+          )
       );
     } catch (error) {
       console.log(error);

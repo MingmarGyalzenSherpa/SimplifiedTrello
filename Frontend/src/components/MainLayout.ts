@@ -87,7 +87,7 @@ export class MainLayout implements IComponent {
   renderContent = () => {
     this.elements.content = document.createElement("div");
     this.elements.content.className = "content w-[90%] overflow-scroll";
-    new Board(this.elements.content!, "7");
+    new Board(this.elements.content!, "28");
     this.elements.container!.appendChild(this.elements.content);
   };
 

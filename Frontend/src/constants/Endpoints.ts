@@ -18,6 +18,7 @@ export const Endpoints = {
     GET_BOARDS_BY_WORKSPACE_ID: "/workspaces/:workspaceId/boards",
     CREATE_BOARD: "/workspaces/:workspaceId/boards",
     UPDATE_BOARD: "/boards/:boardId",
+
     GET_LABELS_IN_BOARD: "/boards/:boardId/labels",
   },
   CARD: {
