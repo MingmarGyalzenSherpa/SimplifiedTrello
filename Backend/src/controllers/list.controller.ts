@@ -25,7 +25,6 @@ export const createCard = async (
       message: interpolate(successMessages.CREATED, { item: "Card" }),
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };

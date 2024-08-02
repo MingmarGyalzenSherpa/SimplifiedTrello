@@ -26,7 +26,6 @@ export const getBoardsByUser = async (
       data: boards,
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -44,7 +43,6 @@ export const getBoardById = async (
       data: board,
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -96,7 +94,6 @@ export const updateBoard = async (
       message: interpolate(successMessages.UPDATED, { item: "Board" }),
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -226,7 +223,6 @@ export const deleteList = async (
       message: interpolate(successMessages.DELETED, { item: "List" }),
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };

@@ -32,7 +32,7 @@ export class BoardModel extends BaseModel {
       .select("boards.*")
       .where("board_members.user_id", userId)
       .andWhere("boards.deleted", false);
-    console.log(data);
+
     return data;
   };
 

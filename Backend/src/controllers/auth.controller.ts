@@ -49,7 +49,6 @@ export const login = async (
     const data = await AuthServices.login(credentials);
     res.status(HttpStatusCodes.OK).json(data);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };

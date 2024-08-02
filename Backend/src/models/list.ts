@@ -12,7 +12,6 @@ export class ListModel extends BaseModel {
       .table("lists")
       .insert(listDetails)
       .returning("*");
-    console.log(data);
     const createdList: IList = {
       id: data.id,
       title: data.title,

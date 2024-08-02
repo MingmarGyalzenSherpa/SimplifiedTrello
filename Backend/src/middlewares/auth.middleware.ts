@@ -122,9 +122,6 @@ export const boardAuthorization =
         +boardId
       );
 
-      console.log(roleInBoard);
-      console.log(roleInWorkspace);
-
       if (
         !roles.includes(roleInBoard?.role) &&
         !roles.includes(roleInWorkspace?.role)
@@ -134,7 +131,6 @@ export const boardAuthorization =
 
       next();
     } catch (error) {
-      console.log(error);
       next(error);
     }
   };

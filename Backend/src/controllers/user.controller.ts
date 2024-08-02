@@ -12,7 +12,6 @@ export const searchUsers = async (
   try {
     const { query } = req;
     const { id: userId } = req.user!;
-    console.log(query);
     const data = await UserServices.searchUsers(query, userId!);
 
     res.status(HttpStatusCodes.OK).json({

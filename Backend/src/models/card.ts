@@ -7,7 +7,6 @@ export class CardModel extends BaseModel {
    * @param cardDetails - new card details
    */
   static createCard = async (cardDetails: ICard) => {
-    console.log(cardDetails);
     await this.queryBuilder().table("cards").insert(cardDetails);
   };
 
@@ -36,6 +35,4 @@ export class CardModel extends BaseModel {
       .delete()
       .where({ id: cardId });
   };
-
-  
 }
