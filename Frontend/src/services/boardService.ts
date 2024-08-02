@@ -1,8 +1,7 @@
 import { Endpoints } from "../constants/Endpoints";
+import { IBoard } from "../interfaces/IBoard";
 import { axiosInstance } from "../utils/axiosConfig";
 import { interpolate } from "../utils/interpolate";
-
-// export const getBoardById = (boardId:number) => axiosInstance.get(interpolate(Endpoints.BOARD.))
 
 export const createBoard = (
   workspaceId: number,
@@ -20,3 +19,12 @@ export const getBoardsByWorkspaceId = (workspaceId: number) =>
 
 export const getBoardById = (boardId: number) =>
   axiosInstance.get(interpolate(Endpoints.BOARD.GET_BOARD_BY_ID, { boardId }));
+
+export const updateBoard = (
+  boardId: number,
+  boardDetail: Pick<IBoard, "title">
+) =>
+  axiosInstance.put(
+    interpolate(Endpoints.BOARD.UPDATE_BOARD, { boardId }),
+    boardDetail
+  );

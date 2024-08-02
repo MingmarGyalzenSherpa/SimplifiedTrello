@@ -15,11 +15,13 @@ export class Board {
     boardId: string;
     board?: IBoard;
     lists: List[];
+    inputTitleTimeoutId?: number;
   };
   elements: {
     parentEl: HTMLElement;
     boardEl?: HTMLElement;
     addListButtonEL?: HTMLButtonElement;
+    boardTitleInput?: HTMLInputElement;
   };
   constructor(parentEl: HTMLElement, id: string) {
     this.state = {
@@ -72,6 +74,9 @@ export class Board {
     this.elements.boardEl?.classList.add(
       this.state.board?.backgroundColor || ""
     );
+
+    //set title
+    this.elements.boardTitleInput!.value = this.state.board?.title!;
   };
 
   /**
@@ -145,6 +150,44 @@ export class Board {
         }).showToast();
       }
     });
+
+    //handle input listener to title input
+    this.elements.boardTitleInput?.addEventListener("input", (e) => {
+      if (this.state.inputTitleTimeoutId) {
+        clearTimeout(this.state.inputTitleTimeoutId);
+        this.state.inputTitleTimeoutId = undefined;
+      }
+      this.state.inputTitleTimeoutId = setTimeout(this.updateTitle, 3000);
+    });
+  };
+
+  /**
+   * function which calls update title
+   */
+  updateTitle = async () => {
+    try {
+      const response = await BoardService.updateBoard(+this.state.boardId, {
+        title: this.elements.boardTitleInput!.value,
+      });
+
+      if (response.status === HttpStatusCode.Ok) {
+        Toastify({
+          text: "Title updated successfully!!",
+          duration: 3000,
+          style: {
+            background: "green",
+          },
+        }).showToast();
+      }
+    } catch (error) {
+      Toastify({
+        text: "Error updating title!!",
+        duration: 3000,
+        style: {
+          background: "red",
+        },
+      }).showToast();
+    }
   };
 
   /**
@@ -155,7 +198,7 @@ export class Board {
     <div class="h-[93vh]">
     <nav class="h-[8%] fixed  bg-black bg-opacity-30 w-full px-10 py-5">
       <div>
-        <h2> ${this.state.boardId} </h2>
+        <input class="input-title bg-transparent text-2xl font-semibold p-1 " /> 
       </div>
     </nav>
     <div id="board" class="p-4  pt-[100px] w-full h-[100%]  flex gap-2  overflow-x-scroll">
@@ -168,6 +211,9 @@ export class Board {
       </div>
     </div>
     `;
+
+    //store reference to board title
+    this.elements.boardTitleInput = document.querySelector(".input-title")!;
 
     //store reference to board
     this.elements.boardEl = document.querySelector("#board")!;
