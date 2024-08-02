@@ -3,6 +3,10 @@ import { IWorkspace } from "./../interfaces/IWorkspace";
 import { IUser } from "../interfaces/IUser";
 import * as WorkspaceService from "../services/workspaceService";
 import { Workspace } from "./Workspace";
+
+/**
+ * Side nav component
+ */
 export class SideNav {
   state: {
     user: IUser;
@@ -31,6 +35,9 @@ export class SideNav {
     this.render();
   };
 
+  /**
+   * Fetch workspaces
+   */
   fetchWorkspaces = async () => {
     try {
       const response = await WorkspaceService.getWorkspaces();
@@ -46,6 +53,9 @@ export class SideNav {
     }
   };
 
+  /**
+   * Set up event listener
+   */
   setupEventListener = () => {
     //add event listener for workspace toggle
     const workspaceToggleButton = document.querySelector("#workspaces-toggle");
@@ -75,6 +85,10 @@ export class SideNav {
     });
   };
 
+  /**
+   * Function to set the active link
+   * @param e
+   */
   setActiveLink = (e: Event) => {
     const clickedElement = e.currentTarget as HTMLElement;
     const linkName = clickedElement.dataset.link;
@@ -96,6 +110,9 @@ export class SideNav {
     }
   };
 
+  /**
+   * Render html
+   */
   render = () => {
     this.elements.parentEl.innerHTML = `
         <div

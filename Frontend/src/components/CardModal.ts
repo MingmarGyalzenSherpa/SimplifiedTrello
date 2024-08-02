@@ -1,5 +1,9 @@
 import { ICard } from "../interfaces/ICard";
 
+/**
+ * Card modal component
+ */
+
 export class CardModal {
   state: {
     card: ICard;
@@ -20,6 +24,9 @@ export class CardModal {
     this.render();
   }
 
+  /**
+   * Setup event listener
+   */
   setupEventListener = () => {
     const closeButton = this.elements.modalEl?.querySelector("button");
 
@@ -38,6 +45,9 @@ export class CardModal {
     });
   };
 
+  /**
+   * Render html
+   */
   render = () => {
     // Create a new div
     const modalEl = document.createElement("div");

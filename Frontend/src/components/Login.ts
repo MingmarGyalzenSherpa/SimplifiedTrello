@@ -7,6 +7,9 @@ import { loginUserBodySchema } from "../schema/authSchema";
 import { IError } from "../interfaces/IError";
 import { IComponent } from "../interfaces/IComponent";
 
+/**
+ * Login component
+ */
 export class Login implements IComponent {
   state: {
     credential: ILoginCredential;
@@ -36,6 +39,9 @@ export class Login implements IComponent {
     this.setupEventListener();
   };
 
+  /**
+   * Setup event listener
+   */
   setupEventListener = () => {
     //input event listener
     const emailInputEl = document.querySelector("#email")!;
@@ -63,12 +69,20 @@ export class Login implements IComponent {
     this.handleSubmit();
   };
 
+  /**
+   *Function to show error
+
+   * @param errorDetail - error details
+   */
   private showError(errorDetail: IError) {
     const errorEl = document.querySelector(`.error-${errorDetail.error}`)!;
 
     errorEl.textContent = errorDetail.message;
   }
 
+  /**
+   * Handle submit
+   */
   private handleSubmit() {
     const submitBtn = document.querySelector("#submit");
 
@@ -90,16 +104,13 @@ export class Login implements IComponent {
 
         //redirect to dashboard
         navigateTo(Routes.DASHBOARD);
-      } catch (error: any) {
-        //check if there is response
-        // if (error.response) {
-        //   const { message } = error.response.data;
-        //   this.showError(message);
-        // }
-      }
+      } catch (error: any) {}
     });
   }
 
+  /**
+   * Render html
+   */
   render() {
     this.elements.parentEl!.innerHTML = `
     <div id="" class="mx-auto w-min h-min my-10 border px-5 py-10 shadow-lg relative flex flex-col text-gray-700 bg-transparent  rounded-xl bg-clip-border">

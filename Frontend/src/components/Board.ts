@@ -6,6 +6,10 @@ import * as ListService from "../services/listService";
 import * as BoardService from "../services/boardService";
 import { IBoard } from "../interfaces/IBoard";
 import { HttpStatusCode } from "axios";
+
+/**
+ * Board component
+ */
 export class Board {
   state: {
     boardId: string;
@@ -30,10 +34,16 @@ export class Board {
     setTimeout(this.initialSetup, 0);
   }
 
+  /**
+   * Function to handle initial setup
+   */
   initialSetup = async () => {
     this.render();
   };
 
+  /**
+   * Fetch board details
+   */
   fetchBoard = async () => {
     try {
       const response = await BoardService.getBoardById(+this.state.boardId);
@@ -54,6 +64,9 @@ export class Board {
     }
   };
 
+  /**
+   * Show board details
+   */
   showBoardDetails = async () => {
     //set background color
     this.elements.boardEl?.classList.add(
@@ -61,6 +74,9 @@ export class Board {
     );
   };
 
+  /**
+   * Fetch and show list
+   */
   fetchAndShowList = async () => {
     try {
       const response = await ListService.getLists(+this.state.boardId);
@@ -93,6 +109,9 @@ export class Board {
     }
   };
 
+  /**
+   * Setup event listeners
+   */
   setupEventListener = () => {
     this.elements.addListButtonEL = document.querySelector(".add-list")!;
 
@@ -128,6 +147,9 @@ export class Board {
     });
   };
 
+  /**
+   * Render html
+   */
   render() {
     this.elements.parentEl.innerHTML = `
     <div class="h-[93vh]">

@@ -7,7 +7,10 @@ import { Routes } from "../constants/Routes";
 import { SideNav } from "./SideNav";
 import { Board } from "./Board";
 import { IComponent } from "../interfaces/IComponent";
-import { Endpoints } from "../constants/Endpoints";
+
+/**
+ * Main layout for dashboard component
+ */
 export class MainLayout implements IComponent {
   state: {
     navBar?: {
@@ -27,17 +30,6 @@ export class MainLayout implements IComponent {
       user: {},
     };
 
-    this.state.navBar = onChange(
-      {
-        activeLink: "Home",
-      },
-      (
-        path: string,
-        value: unknown,
-        previousValue: unknown,
-        applyData: ApplyData
-      ) => {}
-    );
     this.elements = {
       parentEl,
     };
@@ -46,12 +38,18 @@ export class MainLayout implements IComponent {
     setTimeout(this.initialSetup, 0);
   }
 
+  /**
+   * Get sub path
+   */
   getSubPath = () => {
     const path = window.location.pathname;
     const subPath = path.slice(Routes.DASHBOARD.length - "(.*)".length);
     if (subPath[0] != "/") navigateTo(Routes.CATCHALL);
   };
 
+  /**
+   * Initial setup
+   */
   initialSetup = () => {
     isLoggedIn().then((res) => {
       if (!res?.isLoggedIn) {
@@ -63,8 +61,14 @@ export class MainLayout implements IComponent {
     });
   };
 
+  /**
+   * Setup event listeners
+   */
   setUpEventListener = () => {};
 
+  /**
+   * Render html
+   */
   render = () => {
     this.elements.parentEl.innerHTML = "";
 

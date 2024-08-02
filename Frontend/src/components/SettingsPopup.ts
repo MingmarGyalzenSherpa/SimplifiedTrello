@@ -1,4 +1,8 @@
 import { IComponent } from "./../interfaces/IComponent";
+
+/**
+ * SettingsPopup component
+ */
 export class SettingsPopup implements IComponent {
   state: {
     onDelete: (e: Event) => void;
@@ -27,6 +31,9 @@ export class SettingsPopup implements IComponent {
     this.render();
   }
 
+  /**
+   * Set up event listener
+   */
   setupEventListener = () => {
     //set delete btn event listener
     this.elements.deleteBtnEl?.addEventListener("click", this.state.onDelete);
@@ -45,6 +52,9 @@ export class SettingsPopup implements IComponent {
     }
   };
 
+  /**
+   * Render html
+   */
   render = () => {
     //create an element
     const settingOptionEl = document.createElement("div");

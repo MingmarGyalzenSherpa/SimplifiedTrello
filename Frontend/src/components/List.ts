@@ -6,6 +6,10 @@ import * as CardService from "../services/cardService";
 import * as ListService from "../services/listService";
 import { SettingsPopup } from "./SettingsPopup";
 import { HttpStatusCode } from "axios";
+
+/**
+ * List component
+ */
 export class List {
   state: {
     list: IList;
@@ -39,6 +43,9 @@ export class List {
     this.render();
   }
 
+  /**
+   * Fetch area
+   */
   fetchCard = async () => {
     try {
       const response = await CardService.getCards(+this.state.list.id);
@@ -67,6 +74,9 @@ export class List {
     }
   };
 
+  /**
+   * Set up event listener
+   */
   setupEventListener = () => {
     //add new card
     this.elements.addCardButtonEl = this.elements.listEl!.querySelector(
@@ -113,6 +123,10 @@ export class List {
     });
   };
 
+  /**
+   * Function to handle delete
+   * @param e
+   */
   handleDelete = async (e: Event) => {
     e.preventDefault();
     try {
@@ -141,6 +155,10 @@ export class List {
     }
   };
 
+  /**
+   * Handle dragover event
+   * @param e
+   */
   handleDragOver = (e: DragEvent) => {
     const cardEl = document.querySelector(".dragging");
     const afterElement = this.getDragAfterElement(e.clientY);
@@ -154,6 +172,9 @@ export class List {
     ];
   }
 
+  /**
+   * Render html
+   */
   render = () => {
     const listEl = document.createElement("div");
 

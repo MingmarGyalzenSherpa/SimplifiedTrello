@@ -2,6 +2,10 @@ import Toastify from "toastify-js";
 import { IUser } from "../interfaces/IUser";
 import * as UserService from "../services/userService";
 
+/**
+ * Add workspace member modal
+ */
+
 export class AddWorkspaceMemberModal {
   state: {
     workspaceId: number;
@@ -25,6 +29,9 @@ export class AddWorkspaceMemberModal {
     this.render();
   }
 
+  /**
+   * Setup event listener
+   */
   setupEventListener = () => {
     //add event listener to close modal
     this.elements.modalEl?.addEventListener("click", (e) => {
@@ -61,6 +68,10 @@ export class AddWorkspaceMemberModal {
     });
   };
 
+  /**
+   * Render user lists
+   * @param lists - list of user
+   */
   renderUserList = (lists: IUser[]) => {
     this.elements.userListEl!.innerHTML = `
         ${lists
@@ -74,6 +85,9 @@ export class AddWorkspaceMemberModal {
     this.selectUserEventListener();
   };
 
+  /**
+   * Setup user event listemer
+   */
   selectUserEventListener = () => {
     const lists = this.elements.userListEl?.querySelectorAll("li");
 
@@ -84,6 +98,10 @@ export class AddWorkspaceMemberModal {
       });
     });
   };
+
+  /**
+   * Render html
+   */
 
   render = () => {
     // Create a new div

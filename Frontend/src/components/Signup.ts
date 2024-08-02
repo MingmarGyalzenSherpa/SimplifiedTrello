@@ -6,6 +6,10 @@ import { validate } from "../utils/validator";
 import { createUserBodySchema } from "../schema/authSchema";
 import { IError } from "../interfaces/IError";
 import { IComponent } from "../interfaces/IComponent";
+
+/**
+ * Signup component
+ */
 export class Signup implements IComponent {
   state: {
     credential: ISignupCredential;
@@ -45,10 +49,16 @@ export class Signup implements IComponent {
     setTimeout(this.initialSetup, 0);
   }
 
+  /**
+   * Initial setup
+   */
   initialSetup = () => {
     this.setupEventListener();
   };
 
+  /**
+   * Set up event listeners
+   */
   setupEventListener = () => {
     //input event listener
     this.elements.firstNameInputEl = document?.querySelector("#first-name")!;
@@ -102,21 +112,37 @@ export class Signup implements IComponent {
     navigateTo(Routes.LOGIN);
   };
 
+  /**
+   * Handle First name
+   * @param e
+   */
   private handleFirstName = (e: Event) => {
     this.state.credential.firstName = (e.target as HTMLInputElement)?.value;
     this.showError({ error: "firstName", message: "" });
   };
 
+  /**
+   * Handle last name
+   * @param e
+   */
   private handleLastName = (e: Event) => {
     this.state.credential.lastName = (e.target as HTMLInputElement)?.value;
     this.showError({ error: "lastName", message: "" });
   };
 
+  /**
+   * Handle user name
+   * @param e 
+   */
   private handleUserName = (e: Event) => {
     this.state.credential.username = (e.target as HTMLInputElement)?.value;
     this.showError({ error: "username", message: "" });
   };
 
+  /**
+   * Handle email
+   * @param e 
+   */
   private handleEmail = (e: Event) => {
     this.state.credential.email = (e.target as HTMLInputElement)?.value;
     this.showError({ error: "email", message: "" });

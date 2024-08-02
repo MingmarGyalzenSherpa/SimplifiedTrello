@@ -1,6 +1,10 @@
 import { ICard } from "../interfaces/ICard";
 import { CardModal } from "./CardModal";
 
+/**
+ * Card component
+ */
+
 export class Card {
   state: {
     card: ICard;
@@ -20,10 +24,16 @@ export class Card {
     this.render();
   }
 
+  /**
+   * Function to handle initial setup
+   */
   initialSetup = () => {
     this.setupEventListener();
   };
 
+  /**
+   * Setup event listeners
+   */
   setupEventListener = () => {
     //card click event
     this.elements.cardEl?.addEventListener("click", (e) => {
@@ -39,16 +49,27 @@ export class Card {
     this.elements.cardEl?.addEventListener("dragend", this.handleDragEnd);
   };
 
+  /**
+   * Function to handle drag start
+   * @param e
+   */
   handleDragStart = (e: DragEvent) => {
     this.elements.cardEl?.classList.add("dragging");
 
     e.dataTransfer?.setData("text/plain", this.state.card.id);
   };
 
+  /**
+   * Function to handle drag end
+   * @param e
+   */
   handleDragEnd = (e: DragEvent) => {
     this.elements.cardEl?.classList.remove("dragging");
   };
 
+  /**
+   * Render html
+   */
   render = () => {
     const cardEl = document.createElement("div");
     cardEl.dataset.id = this.state.card.id;

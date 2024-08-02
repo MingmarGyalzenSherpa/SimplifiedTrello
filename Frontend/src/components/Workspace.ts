@@ -6,6 +6,10 @@ import * as BoardService from "../services/boardService";
 import { CreateBoardModal } from "./CreateBoardModal";
 import { Board } from "./Board";
 import { AddWorkspaceMemberModal } from "./AddWorkspaceMemberModal";
+
+/**
+ * Workspace component
+ */
 export class Workspace {
   state: {
     workspace: IWorkspace;
@@ -32,6 +36,9 @@ export class Workspace {
     this.render();
   }
 
+  /**
+   * Fetch and add boards
+   */
   fetchAndAddBoards = async () => {
     try {
       //fetch boards
@@ -84,6 +91,9 @@ export class Workspace {
     }
   };
 
+  /**
+   * Fetch workspace info
+   */
   fetchWorkspaceInfo = async () => {
     try {
       const response = await WorkspaceService.getWorkspaceById(
@@ -106,6 +116,10 @@ export class Workspace {
       }).showToast();
     }
   };
+
+  /**
+   * Setup event listener
+   */
   setupEventListener = () => {
     //add event listener on create board
     const createBoardButtonEl =
@@ -123,6 +137,9 @@ export class Workspace {
     });
   };
 
+  /**
+   * Render function
+   */
   render = () => {
     this.elements.parentEl.innerHTML = `
       <div class="h-[93vh]  p-16">

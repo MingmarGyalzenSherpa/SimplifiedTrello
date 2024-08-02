@@ -5,6 +5,10 @@ import { validate } from "../utils/validator";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 
+/**
+ * Create board component
+ */
+
 export class CreateBoardModal {
   state: {
     workspaceId: number;
@@ -41,6 +45,9 @@ export class CreateBoardModal {
     this.render();
   }
 
+  /**
+   * Setup event listener
+   */
   setupEventListener = () => {
     //event listener to close modal
     this.elements.modalEl?.addEventListener("click", (e) => {
@@ -117,6 +124,9 @@ export class CreateBoardModal {
     });
   };
 
+  /**
+   * Function to set active background color
+   */
   setActiveBackgroundColor = () => {
     const backgroundOptions =
       document.querySelectorAll<HTMLElement>(".background-option");
@@ -141,6 +151,9 @@ export class CreateBoardModal {
     );
   };
 
+  /**
+   * Render html
+   */
   render = () => {
     // Create a new div
     const modalEl = document.createElement("div");

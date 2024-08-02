@@ -1,6 +1,10 @@
 import { Routes } from "../constants/Routes";
 import { navigateTo } from "../utils/Navigate";
 
+/**
+ * Navbar component
+ */
+
 export class NavBar {
   elements: {
     parentEl: HTMLElement;
@@ -25,6 +29,9 @@ export class NavBar {
     this.setupEventListener();
   };
 
+  /**
+   * Setup event listener
+   */
   setupEventListener = () => {
     this.elements.logoutBtnEl = document.querySelector("#logout-button")!;
     this.elements.workspaceLinkEl = document.querySelector("#workspaces-link")!;
@@ -41,6 +48,9 @@ export class NavBar {
     });
   };
 
+  /**
+   * Render html
+   */
   render = () => {
     this.elements.parentEl.innerHTML = `
     <nav
