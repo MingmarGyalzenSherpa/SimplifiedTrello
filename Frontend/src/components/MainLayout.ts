@@ -36,9 +36,7 @@ export class MainLayout implements IComponent {
         value: unknown,
         previousValue: unknown,
         applyData: ApplyData
-      ) => {
-        console.log("update");
-      }
+      ) => {}
     );
     this.elements = {
       parentEl,
@@ -50,10 +48,8 @@ export class MainLayout implements IComponent {
 
   getSubPath = () => {
     const path = window.location.pathname;
-    console.log(path.slice(Routes.DASHBOARD.length - "(.*)".length));
     const subPath = path.slice(Routes.DASHBOARD.length - "(.*)".length);
     if (subPath[0] != "/") navigateTo(Routes.CATCHALL);
-    console.log(Routes.DASHBOARD);
   };
 
   initialSetup = () => {

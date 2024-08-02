@@ -30,4 +30,7 @@ export const Endpoints = {
     GET_WORKSPACES: "/workspaces",
     GET_WORKSPACE_BY_ID: "/workspaces/:workspaceId",
   },
+  USER: {
+    SEARCH_USER: "/users?q=:q",
+  },
 };

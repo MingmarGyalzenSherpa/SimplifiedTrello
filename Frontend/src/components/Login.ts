@@ -36,7 +36,7 @@ export class Login implements IComponent {
     this.setupEventListener();
   };
 
-  private setupEventListener = () => {
+  setupEventListener = () => {
     //input event listener
     const emailInputEl = document.querySelector("#email")!;
     const passwordInputEl = document.querySelector("#password")!;
@@ -65,20 +65,18 @@ export class Login implements IComponent {
 
   private showError(errorDetail: IError) {
     const errorEl = document.querySelector(`.error-${errorDetail.error}`)!;
+
     errorEl.textContent = errorDetail.message;
   }
 
   private handleSubmit() {
     const submitBtn = document.querySelector("#submit");
+
     submitBtn?.addEventListener("click", async (_) => {
       try {
         //validate
-        const { errors, success } = validate(
-          loginUserBodySchema,
-          this.state.credential
-        );
+        const { errors } = validate(loginUserBodySchema, this.state.credential);
         if (errors) {
-          console.log(errors);
           errors.forEach((error) => this.showError(error));
           return;
         }

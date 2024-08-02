@@ -37,11 +37,7 @@ export class List {
     };
 
     this.render();
-
-    setTimeout(this.initialSetup, 0);
   }
-
-  initialSetup = () => {};
 
   fetchCard = async () => {
     try {
@@ -61,7 +57,13 @@ export class List {
         (card) => new Card(this.elements.cardListEl!, card)
       );
     } catch (error) {
-      console.log(error);
+      Toastify({
+        text: "Something went wrong",
+        duration: 2000,
+        style: {
+          background: "red",
+        },
+      }).showToast();
     }
   };
 
@@ -106,7 +108,7 @@ export class List {
 
     optionBtnEl?.addEventListener("click", (e) => {
       e.preventDefault();
-      console.log("clicked");
+
       new SettingsPopup(this.elements.listEl!, this.handleDelete);
     });
   };
@@ -129,39 +131,20 @@ export class List {
         this.state.parentRender();
       }
     } catch (error) {
-      console.log(error);
+      Toastify({
+        text: "Something went wrong",
+        duration: 2000,
+        style: {
+          background: "green",
+        },
+      }).showToast();
     }
   };
 
-  // createSettingOption = () => {
-  //   //create an element
-  //   const settingOptionEl = document.createElement("div");
-
-  //   //assign classes
-  //   settingOptionEl.className =
-  //     "absolute left-[-125px] top-[0px] rounded-md z-20 bg-gray-400  w-[130px] h-[80px]  flex flex-col";
-  //   //append to option button
-  //   this.elements.optionBtnEl?.appendChild(settingOptionEl);
-
-  //   //set inner html
-  //   settingOptionEl.innerHTML = `
-  //     <button class=" hover:bg-blue-600 w-full text-white  font-semibold py-2 px-4 rounded flex-grow transition duration-300 ease-in-out">
-  //         Edit
-  //     </button>
-  //     <button class=" hover:bg-red-600 w-full text-white font-semibold py-2 px-4 rounded flex-grow  transition duration-300 ease-in-out">
-  //       Delete
-  //     </button>
-  //   `;
-
-  //   //add event listener for edit and delete
-  //   document.addEventListener("click", (e) => {});
-  // };
-
   handleDragOver = (e: DragEvent) => {
     const cardEl = document.querySelector(".dragging");
-    console.log(e.clientY);
     const afterElement = this.getDragAfterElement(e.clientY);
-    console.log(afterElement);
+
     this.elements.cardListEl?.appendChild(cardEl!);
   };
 
@@ -169,8 +152,6 @@ export class List {
     const draggableElements = [
       ...this.elements.cardListEl!.querySelectorAll(".card:not(.dragging)"),
     ];
-
-    console.log(draggableElements);
   }
 
   render = () => {

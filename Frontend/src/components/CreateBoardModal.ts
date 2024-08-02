@@ -26,7 +26,6 @@ export class CreateBoardModal {
     this.elements = {
       parentEl: document.body,
     };
-    console.log(renderParentMethod);
 
     this.state = {
       workspaceId,
@@ -71,7 +70,7 @@ export class CreateBoardModal {
         e.preventDefault();
 
         //validate
-        const { errors, success } = validate(
+        const { errors } = validate(
           createBoardBodySchema,
           this.state.boardForm
         );
@@ -107,7 +106,13 @@ export class CreateBoardModal {
           this.elements.modalEl?.remove();
         }
       } catch (error) {
-        console.log(error);
+        Toastify({
+          text: "Something went wrong",
+          duration: 2000,
+          style: {
+            background: "red",
+          },
+        }).showToast();
       }
     });
   };
@@ -117,7 +122,7 @@ export class CreateBoardModal {
       document.querySelectorAll<HTMLElement>(".background-option");
 
     backgroundOptions.forEach((backgroundOption) =>
-      backgroundOption.addEventListener("click", (e) => {
+      backgroundOption.addEventListener("click", (_) => {
         //set selected background
         this.state.boardForm.backgroundColor =
           backgroundOption.dataset.background;
@@ -206,6 +211,7 @@ export class CreateBoardModal {
     //store input element reference
     this.elements.inputTitleElement =
       this.elements.modalEl.querySelector<HTMLInputElement>(".input-title")!;
+
     //setup event listener
     this.setupEventListener();
   };

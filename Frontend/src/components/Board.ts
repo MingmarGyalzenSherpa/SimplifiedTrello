@@ -1,4 +1,5 @@
-// import { IList } from "./../interfaces/IList";
+import Toastify from "toastify-js";
+
 import { IList } from "../interfaces/IList";
 import { List } from "./List";
 import * as ListService from "../services/listService";
@@ -43,7 +44,13 @@ export class Board {
         this.showBoardDetails();
       }
     } catch (error) {
-      console.log(error);
+      Toastify({
+        text: "Something went wrong",
+        duration: 2000,
+        style: {
+          background: "red",
+        },
+      }).showToast();
     }
   };
 
@@ -76,7 +83,13 @@ export class Board {
           )
       );
     } catch (error) {
-      console.log(error);
+      Toastify({
+        text: "Error getting list",
+        duration: 2000,
+        style: {
+          background: "red",
+        },
+      }).showToast();
     }
   };
 
@@ -104,7 +117,13 @@ export class Board {
         );
         if ((response.status = HttpStatusCode.Created)) this.render();
       } catch (error) {
-        console.log(error);
+        Toastify({
+          text: "Something went wrong.",
+          duration: 2000,
+          style: {
+            background: "red",
+          },
+        }).showToast();
       }
     });
   };

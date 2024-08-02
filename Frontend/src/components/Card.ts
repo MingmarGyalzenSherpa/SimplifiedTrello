@@ -42,7 +42,6 @@ export class Card {
   handleDragStart = (e: DragEvent) => {
     this.elements.cardEl?.classList.add("dragging");
 
-    console.log(this.elements.cardEl);
     e.dataTransfer?.setData("text/plain", this.state.card.id);
   };
 

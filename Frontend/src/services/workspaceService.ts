@@ -9,3 +9,5 @@ export const getWorkspaceById = (workspaceId: number) =>
   axiosInstance.get(
     interpolate(Endpoints.WORKSPACE.GET_WORKSPACE_BY_ID, { workspaceId })
   );
+
+// export const addUserToWorkspace = (workspaceId:number,userId:number) => axiosInstance.post(Endpoints.WORKSPACE.)

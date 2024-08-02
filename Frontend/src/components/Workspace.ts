@@ -1,3 +1,4 @@
+import Toastify from "toastify-js";
 import { IBoard } from "./../interfaces/IBoard";
 import { IWorkspace } from "./../interfaces/IWorkspace";
 import * as WorkspaceService from "../services/workspaceService";
@@ -72,9 +73,14 @@ export class Workspace {
         //append to board
         this.elements.boardListEl!.appendChild(boardEl);
       });
-      console.log(response);
     } catch (error) {
-      console.log(error);
+      Toastify({
+        text: "Something went wrong",
+        duration: 2000,
+        style: {
+          background: "red",
+        },
+      }).showToast();
     }
   };
 
@@ -83,7 +89,6 @@ export class Workspace {
       const response = await WorkspaceService.getWorkspaceById(
         this.state.workspace.id
       );
-      console.log(response.data.data);
       this.state.workspace = response.data.data;
 
       //add workspace title and logo
@@ -92,7 +97,13 @@ export class Workspace {
 
       this.elements.workspaceTitleEl!.textContent = this.state.workspace.title;
     } catch (error) {
-      console.log(error);
+      Toastify({
+        text: "Something went wrong",
+        style: {
+          background: "red",
+        },
+        duration: 2000,
+      }).showToast();
     }
   };
   setupEventListener = () => {
@@ -113,7 +124,6 @@ export class Workspace {
   };
 
   render = () => {
-    console.log(this);
     this.elements.parentEl.innerHTML = `
       <div class="h-[93vh]  p-16">
 <div class="flex justify-between   mb-10 ">
@@ -155,7 +165,6 @@ export class Workspace {
     this.elements.addWorkspaceMemberEl = document.querySelector(
       ".add-workspace-member"
     )!;
-    console.log(this.elements.addWorkspaceMemberEl);
 
     //store reference of workspace logo
     this.elements.workspaceLogoEl = document.querySelector(".workspace-logo")!;

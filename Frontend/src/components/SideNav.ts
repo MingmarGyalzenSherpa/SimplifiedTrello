@@ -1,3 +1,4 @@
+import Toastify from "toastify-js";
 import { IWorkspace } from "./../interfaces/IWorkspace";
 import { IUser } from "../interfaces/IUser";
 import * as WorkspaceService from "../services/workspaceService";
@@ -35,14 +36,19 @@ export class SideNav {
       const response = await WorkspaceService.getWorkspaces();
       this.state.workspaces = response.data.data as IWorkspace[];
     } catch (error) {
-      console.log(error);
+      Toastify({
+        text: "Something went wrong",
+        duration: 2000,
+        style: {
+          background: "red",
+        },
+      }).showToast();
     }
   };
 
   setupEventListener = () => {
     //add event listener for workspace toggle
     const workspaceToggleButton = document.querySelector("#workspaces-toggle");
-    console.log("clicked");
     workspaceToggleButton?.addEventListener("click", (e) => {
       e.preventDefault();
       this.state.isWorkspacesVisible = !this.state.isWorkspacesVisible;
@@ -71,13 +77,13 @@ export class SideNav {
 
   setActiveLink = (e: Event) => {
     const clickedElement = e.currentTarget as HTMLElement;
-    console.log(e.currentTarget);
     const linkName = clickedElement.dataset.link;
 
     if (linkName) {
       // Remove active class from previously active link
       const previousActiveLink =
         this.elements.parentEl.querySelector(".active");
+
       if (previousActiveLink) {
         previousActiveLink.classList.remove("bg-blue-gray-50/50", "active");
       }
@@ -158,22 +164,3 @@ export class SideNav {
     this.setupEventListener();
   };
 }
-
-// export class SideNav {
-//   state: object;
-//   elements: {
-//     parentEl: HTMLElement;
-//   };
-//   constructor(parentEl: HTMLElement) {
-//     this.state = {};
-//     this.elements = {
-//       parentEl,
-//     };
-//   }
-
-//   initialSetup = () => {};
-
-//   setupEventListener = () => {};
-
-//   render = () => {};
-// }
