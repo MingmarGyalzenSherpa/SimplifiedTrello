@@ -1,6 +1,8 @@
 import Toastify from "toastify-js";
 import { IUser } from "../interfaces/IUser";
 import * as UserService from "../services/userService";
+import * as WorkspaceService from "../services/workspaceService";
+import { HttpStatusCode } from "axios";
 
 /**
  * Add workspace member modal
@@ -16,6 +18,7 @@ export class AddWorkspaceMemberModal {
     modalEl?: HTMLElement;
     userListEl?: HTMLElement;
     userSearchInputEl?: HTMLInputElement;
+    addMemberBtn?: HTMLButtonElement;
   };
   constructor(workspaceId: number) {
     this.elements = {
@@ -66,6 +69,33 @@ export class AddWorkspaceMemberModal {
         }
       }, 2000);
     });
+
+    //add event listener to add member btn
+    this.elements.addMemberBtn?.addEventListener("click", async (e) => {
+      try {
+        const response = await WorkspaceService.addUserToWorkspace(
+          this.state.workspaceId,
+          this.elements.userSearchInputEl!.value
+        );
+        if (response.status === HttpStatusCode.Ok) {
+          Toastify({
+            text: "User added successfully",
+            duration: 3000,
+            style: {
+              background: "green",
+            },
+          }).showToast();
+        }
+      } catch (error) {
+        Toastify({
+          text: "Something went wrong",
+          duration: 3000,
+          style: {
+            background: "green",
+          },
+        }).showToast();
+      }
+    });
   };
 
   /**
@@ -86,7 +116,7 @@ export class AddWorkspaceMemberModal {
   };
 
   /**
-   * Setup user event listemer
+   * Setup user event listener
    */
   selectUserEventListener = () => {
     const lists = this.elements.userListEl?.querySelectorAll("li");
@@ -116,12 +146,12 @@ export class AddWorkspaceMemberModal {
     modalEl.innerHTML = `
              <div class="bg-gray-100 rounded-lg flex items-center gap-2 justify-center shadow-xl w-full max-w-2xl h-[100px] mx-auto">
              <div class="w-[300px] flex flex-col relative">
-              <input class="search-input px-4 py-2 h-[60px] rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter member email">
+              <input active class="search-input px-4 py-2 h-[60px] rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter member email">
               <ul class="user-list absolute top-[60px]">
               </ul>
              </div>
 
-  <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out">
+  <button class="add-member-btn  bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out">
     Add Member
   </button>
           </div>
@@ -137,6 +167,9 @@ export class AddWorkspaceMemberModal {
     this.elements.userSearchInputEl = modalEl.querySelector(".search-input")!;
     //set reference to user list
     this.elements.userListEl = modalEl.querySelector(".user-list")!;
+
+    //set reference to add member button
+    this.elements.addMemberBtn = modalEl.querySelector(".add-member-btn")!;
 
     //setup event listener
     this.setupEventListener();

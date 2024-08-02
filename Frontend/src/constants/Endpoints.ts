@@ -29,6 +29,7 @@ export const Endpoints = {
     CREATE_WORKSPACE: "/workspaces",
     GET_WORKSPACES: "/workspaces",
     GET_WORKSPACE_BY_ID: "/workspaces/:workspaceId",
+    ADD_USER_TO_WORKSPACE: "/workspaces/:workspaceId/users",
   },
   USER: {
     SEARCH_USER: "/users?q=:q",

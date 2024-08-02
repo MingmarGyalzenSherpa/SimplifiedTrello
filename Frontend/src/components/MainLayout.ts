@@ -93,7 +93,7 @@ export class MainLayout implements IComponent {
 
   renderNavBar = () => {
     this.elements.navBar = document.createElement("header")!;
-    new NavBar(this.elements.navBar, this.state.navBar!);
+    new NavBar(this.elements.navBar, this.state.navBar!, this.state.user);
     this.elements.parentEl.appendChild(this.elements.navBar);
   };
 

@@ -1,4 +1,5 @@
 import { Routes } from "../constants/Routes";
+import { IUser } from "../interfaces/IUser";
 import { navigateTo } from "../utils/Navigate";
 
 /**
@@ -12,13 +13,19 @@ export class NavBar {
     workspaceLinkEl?: HTMLAnchorElement;
     createLinkEl?: HTMLAnchorElement;
   };
+  state: {
+    user: IUser;
+  };
   props: object;
-  constructor(parentEl: HTMLElement, props: object) {
+  constructor(parentEl: HTMLElement, props: object, user: IUser) {
     this.elements = {
       parentEl: parentEl,
     };
 
     this.props = props;
+    this.state = {
+      user,
+    };
 
     this.render();
 
@@ -64,31 +71,18 @@ export class NavBar {
     </a>
     </div>  
  
-    <div class="hidden lg:block">
-      <ul class="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-        <li
-          class="flex items-center p-1 font-sans text-sm antialiased font-medium leading-normal gap-x-2">
-         
-          <a href="#" id="workspaces-link" class="flex items-center px-4 py-2 rounded hover:bg-gray-600">
-            Workspaces
-          </a>
-        </li>
-        <li
-          class="bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded flex items-center p-1 font-sans text-sm antialiased font-medium leading-normal gap-x-2 text-blue-gray-900">
+      
           
-          <a href="#" id="create-link" class="text-white flex items-center">
-            Create
-          </a>
-        </li>
        
-      </ul>
-    </div>
-    <div class="flex items-center gap-x-1">
-    
+    <div class="flex items-center gap-x-1 ">
+    <span class="text-2xl mr-5">
+            Hi, ${this.state.user.username}
+
+          </span>
       <button id="logout-button"
         class="hidden select-none rounded bg-red-400 hover:bg-red-600 py-2.5 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
         type="button">
-        <span>Log out</span>
+        <span>Log out</span> 
       </button>
     </div>
     <button
