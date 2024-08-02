@@ -30,7 +30,6 @@ export const authentication = (
   }
 
   const token = authorization?.split(" ")!;
-
   if (token[0] != "Bearer" && token?.length != 2) {
     next(new UnauthorizedError(errorMessages.UNAUTHORIZED_ACCESS));
   }

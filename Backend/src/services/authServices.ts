@@ -17,10 +17,9 @@ import { config } from "../config";
  */
 export const createUser = async (body: IUser) => {
   const { email } = body;
+  const users = await UserModel.getUsersByEmail(email);
 
-  const userExists = await UserModel.getUserByEmail(email);
-
-  if (userExists) {
+  if (users?.length > 0) {
     throw new BadRequestError(
       interpolate(errorMessages.EXISTS, { item: "User" })
     );
@@ -38,14 +37,14 @@ export const createUser = async (body: IUser) => {
  * @returns {Promise<object>} - object containing access and refresh token
  */
 export const login = async (credentials: ILoginPayload): Promise<object> => {
-  const user = await UserModel.getUserByEmail(credentials.email);
+  const users = await UserModel.getUsersByEmail(credentials.email);
+  const user = users && users[0];
 
   if (!user) {
     throw new UnauthorizedError(
       interpolate(errorMessages.INCORRECT, { item: "email or password" })
     );
   }
-  console.log(credentials);
 
   const isValidPassword = await compare(credentials.password, user.password);
 

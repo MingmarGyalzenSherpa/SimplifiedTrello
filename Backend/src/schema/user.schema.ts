@@ -43,3 +43,11 @@ export const loginUserBodySchema = joi.object({
     "string.empty": "Password is required",
   }),
 });
+
+export const getUserQuerySchema = joi
+  .object({
+    q: joi.string().optional(),
+  })
+  .options({
+    stripUnknown: true,
+  });

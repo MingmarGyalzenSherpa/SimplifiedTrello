@@ -1,5 +1,5 @@
 import HttpStatusCodes from "http-status-codes";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import * as AuthServices from "../services/authServices";
 import { interpolate } from "../utils/interpolate";
 import { errorMessages, successMessages } from "../utils/message";
@@ -39,7 +39,7 @@ export const signup = async (
  * @param next
  */
 export const login = async (
-  req: Request,
+  req: IExpressRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -62,7 +62,7 @@ export const login = async (
  * @param next
  */
 export const refresh = async (
-  req: Request,
+  req: IExpressRequest,
   res: Response,
   next: NextFunction
 ) => {

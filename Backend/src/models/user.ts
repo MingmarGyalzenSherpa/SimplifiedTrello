@@ -1,3 +1,4 @@
+import { IGetRequestQuery } from "../interfaces/IGetRequestQuery";
 import { IUser } from "../interfaces/IUser";
 import { IUserPayload } from "../interfaces/IUserPayload";
 import { BaseModel } from "./base";
@@ -16,19 +17,38 @@ export class UserModel extends BaseModel {
   };
 
   /**
-   * Get user by email
+   * Get users by email
    *
    * @param email - email of the user
-   * @returns {Promise<IUserPayload | undefined>} - user found or undefined
+   * @returns {Promise<IUser[] | undefined>} - user found or undefined
    */
-  static getUserByEmail = async (email: string): Promise<IUser | undefined> => {
-    const user = await this.queryBuilder()
+  static getUsersByEmail = async (email: string): Promise<IUser[]> => {
+    const users = await this.queryBuilder()
       .table("users")
       .select("id", "email", "username", "first_name", "last_name", "password")
-      .where({ email })
-      .first();
+      .where({ email });
 
-    return user as IUser;
+    return users as IUser[];
+  };
+
+  /**
+   * Get users
+   *
+   * @param filter filter to search
+   * @returns
+   */
+  static searchUsers = async (filter: IGetRequestQuery, userId: number) => {
+    const { q } = filter;
+
+    if (!q) {
+      return;
+    }
+    const users = await this.queryBuilder()
+      .table("users")
+      .select("id", "firstName", "lastName", "username", "email")
+      .whereLike("email", `${q}%`)
+      .andWhereNot("id", userId);
+    return users;
   };
 
   /**
