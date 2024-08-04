@@ -2,6 +2,7 @@ import Toastify from "toastify-js";
 import { HttpStatusCode } from "axios";
 import { ICard } from "../interfaces/ICard";
 import * as CardService from "../services/cardService";
+import { Board } from "./Board";
 
 /**
  * Card modal component
@@ -10,9 +11,9 @@ import * as CardService from "../services/cardService";
 export class CardModal {
   state: {
     card: ICard;
+    boardId: number;
     titleInputTimeoutId?: number;
     descriptionInputTimeoutId?: number;
-    parentRender: Function;
   };
   elements: {
     parentEl: HTMLElement;
@@ -20,14 +21,14 @@ export class CardModal {
     titleInputEl?: HTMLInputElement;
     descriptionInputEl?: HTMLInputElement;
   };
-  constructor(card: ICard, parentRender: Function) {
+  constructor(card: ICard, boardId: number) {
     this.elements = {
       parentEl: document.body,
     };
 
     this.state = {
       card,
-      parentRender,
+      boardId,
     };
     console.log(this.state.card);
     this.render();
@@ -44,7 +45,8 @@ export class CardModal {
       e.preventDefault();
       this.elements.modalEl?.remove();
 
-      this.state.parentRender();
+      //render board again
+      new Board(document.querySelector(".content")!, `${this.state.boardId}`);
     });
 
     //add event listener to close modal
@@ -53,7 +55,7 @@ export class CardModal {
 
       if (el.classList.contains("modal-container")) {
         this.elements.modalEl?.remove();
-        this.state.parentRender();
+        new Board(document.querySelector(".content")!, `${this.state.boardId}`);
       }
     });
 

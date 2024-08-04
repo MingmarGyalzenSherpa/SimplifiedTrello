@@ -8,14 +8,16 @@ import { CardModal } from "./CardModal";
 export class Card {
   state: {
     card: ICard;
+    boardId: number;
   };
   elements: {
     parentEl: HTMLElement;
     cardEl?: HTMLElement;
   };
-  constructor(parentEl: HTMLElement, card: ICard) {
+  constructor(parentEl: HTMLElement, card: ICard, boardId: number) {
     this.state = {
       card,
+      boardId,
     };
     this.elements = {
       parentEl,
@@ -39,7 +41,7 @@ export class Card {
     this.elements.cardEl?.addEventListener("click", (e) => {
       e.preventDefault();
 
-      new CardModal(this.state.card, this.render.bind(this));
+      new CardModal(this.state.card, this.state.boardId);
     });
 
     //add drag start event

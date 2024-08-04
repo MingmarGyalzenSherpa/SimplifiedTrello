@@ -61,7 +61,7 @@ export class List {
       this.elements.cardListEl.innerHTML = "";
 
       this.state.cards = sortedCards.map(
-        (card) => new Card(this.elements.cardListEl!, card)
+        (card) => new Card(this.elements.cardListEl!, card,this.state.boardId)
       );
     } catch (error) {
       Toastify({

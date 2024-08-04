@@ -40,7 +40,6 @@ export class Home implements IComponent {
         this.showCardsOfUser(response.data.data);
       }
     } catch (error) {
-      console.log(error);
       Toastify({
         text: "Error getting data",
         duration: 3000,
