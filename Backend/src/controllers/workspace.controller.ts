@@ -122,11 +122,12 @@ export const addUserToWorkspace = async (
 ) => {
   try {
     const { workspaceId } = req.params;
-    const { userId } = req.body;
+    const { email } = req.body;
+    console.log(email);
 
-    await WorkspaceServices.addUserToWorkspace(+workspaceId, userId);
+    await WorkspaceServices.addUserToWorkspace(+workspaceId, email);
     res.status(HttpStatusCodes.OK).json({
-      message: interpolate(successMessages.FETCHED, { item: "Boards" }),
+      message: interpolate(successMessages.ADDED, { item: "User" }),
     });
   } catch (error) {
     next(error);

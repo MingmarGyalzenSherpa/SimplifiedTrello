@@ -1,3 +1,4 @@
+import { BadRequestError } from "./../errors/BadRequestError";
 import { ForbiddenError } from "./../errors/ForbiddenError";
 import { WorkspaceModel } from "../models/workspace";
 import { IWorkspace } from "./../interfaces/IWorkspace";
@@ -6,6 +7,8 @@ import { IBoard } from "../interfaces/IBoard";
 import { interpolate } from "../utils/interpolate";
 import { errorMessages } from "../utils/message";
 import { Roles } from "../constants/Roles";
+import { UserModel } from "../models/user";
+import { NotFoundError } from "../errors/NotFoundError";
 /**
  * Create a new workspace
  *
@@ -64,11 +67,36 @@ export const createBoard = async (
  */
 export const addUserToWorkspace = async (
   workspaceId: number,
-  userId: number
+  userEmail: string
 ) => {
-  //check if user is already a member
+  //get user
+  const users = await UserModel.getUsersByEmail(userEmail);
 
-  await WorkspaceModel.addUserToWorkspace(workspaceId, userId, Roles.MEMBER);
+  //check if user exists
+  if (users.length === 0) {
+    throw new NotFoundError(
+      interpolate(errorMessages.NOTFOUND, { item: "User" })
+    );
+  }
+
+  //get the user
+  const user = users[0];
+
+  //check if user is already a member
+  const usersInWorkspace = await WorkspaceModel.getUsersInWorkspace(
+    workspaceId
+  );
+  const userExists = usersInWorkspace.some(
+    (workspaceUser) => workspaceUser.id === user.id
+  );
+
+  if (userExists) {
+    throw new BadRequestError(
+      interpolate(errorMessages.EXISTS, { item: "User" })
+    );
+  }
+
+  await WorkspaceModel.addUserToWorkspace(workspaceId, user.id!, Roles.MEMBER);
 };
 
 /**

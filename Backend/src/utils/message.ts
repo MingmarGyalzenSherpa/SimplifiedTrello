@@ -3,6 +3,7 @@ export const successMessages = {
   CREATED: ":item created successfully.",
   UPDATED: ":item updated successfully.",
   DELETED: ":item deleted successfully.",
+  ADDED: ":item added successfully.",
 };
 
 export const errorMessages = {

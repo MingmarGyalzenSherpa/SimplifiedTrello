@@ -1,4 +1,5 @@
 import { Roles } from "../constants/Roles";
+import { IUser } from "../interfaces/IUser";
 import { IWorkspace } from "../interfaces/IWorkspace";
 import { BaseModel } from "./base";
 
@@ -84,24 +85,6 @@ export class WorkspaceModel extends BaseModel {
   };
 
   /**
-   * Check if admin of the workspace
-   *
-   * @param userId - id of the user
-   * @param workspaceId - id of the workspace
-   * @returns  - boolean
-   */
-  static checkIfAdmin = async (userId: number, workspaceId: number) => {
-    const data = await this.queryBuilder()
-      .table("workspace_members")
-      .where({ userId, workspaceId })
-      .first();
-
-    if (!data || data.role != Roles.ADMIN) return false;
-
-    return true;
-  };
-
-  /**
    * Add user to workspace
    *
    * @param workspaceId - workspace id
@@ -121,6 +104,7 @@ export class WorkspaceModel extends BaseModel {
    * Get users in a workspace
    *
    * @param workspaceId - workspace id
+   * @returns- users in a workspace
    */
   static getUsersInWorkspace = async (workspaceId: number) => {
     return await this.queryBuilder()

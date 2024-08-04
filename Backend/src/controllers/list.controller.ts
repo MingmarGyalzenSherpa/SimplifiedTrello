@@ -62,6 +62,7 @@ export const updateCard = async (
       message: interpolate(successMessages.UPDATED, { item: "Card" }),
     });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

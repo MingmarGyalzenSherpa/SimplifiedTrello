@@ -34,6 +34,19 @@ export class ListModel extends BaseModel {
     return data;
   };
 
+  /**
+   * Get list by id
+   *
+   * @param listId - id of the list
+   */
+  static getListById = async (listId: number) => {
+    const data = await this.queryBuilder()
+      .table("lists")
+      .where({ id: listId })
+      .first();
+    return data;
+  };
+
   static updateList = async (listId: number, updatedList: IList) => {
     await this.queryBuilder()
       .table("lists")
@@ -42,7 +55,6 @@ export class ListModel extends BaseModel {
   };
 
   static deleteList = async (listId: number) => {
-    // await this.queryBuilder().table("lists").delete().where({ id: listId });
     await this.queryBuilder()
       .table("lists")
       .update({ deleted: true })

@@ -11,8 +11,8 @@ export const createWorkspaceBodySchema = joi
 
 export const addUserToWorkspaceBodySchema = joi
   .object({
-    userId: joi.number().required().messages({
-      "any.required": "User id is required",
+    email: joi.string().required().messages({
+      "any.required": "Email is required",
     }),
   })
   .options({

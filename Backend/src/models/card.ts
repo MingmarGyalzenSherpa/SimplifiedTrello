@@ -35,4 +35,23 @@ export class CardModel extends BaseModel {
       .delete()
       .where({ id: cardId });
   };
+
+  static getCardsOfUser = async (userId: number) => {
+    const data = await this.queryBuilder()
+      .table("card_members")
+      .where({ userId });
+
+    return data;
+  };
+
+  static addUserToCard = async (cardId: number, userId: number) => {
+    await this.queryBuilder().table("card_members").insert({ cardId, userId });
+  };
+
+  static getCardById = async (cardId: number) => {
+    return await this.queryBuilder()
+      .table("cards")
+      .where({ id: cardId })
+      .first();
+  };
 }

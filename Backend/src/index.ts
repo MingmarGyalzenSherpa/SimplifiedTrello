@@ -2,6 +2,7 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import { config } from "./config";
+import { Server } from "socket.io";
 import router from "./routes/index.routes";
 import {
   genericErrorHandler,
@@ -35,6 +36,17 @@ app.use(notFound);
 app.use(genericErrorHandler);
 
 //server start
-app.listen(config.port, () => {
+const server = app.listen(config.port, () => {
   console.log(`Server listening at port: ${config.port}`);
+});
+
+//socket io server
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("a user connected");
 });
