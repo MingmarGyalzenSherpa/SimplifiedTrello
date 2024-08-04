@@ -1,5 +1,5 @@
+import { ICard } from "./../interfaces/ICard";
 import { Endpoints } from "../constants/Endpoints";
-import { ICard } from "../interfaces/ICard";
 import { axiosInstance } from "../utils/axiosConfig";
 import { interpolate } from "../utils/interpolate";
 
@@ -17,3 +17,15 @@ export const addCard = (
     interpolate(Endpoints.CARD.CREATE_CARD, { listId }),
     reqBody
   );
+
+export const updateCard = (
+  cardId: number,
+  reqBody: { title?: string; position?: number; description?: string }
+) =>
+  axiosInstance.put(
+    interpolate(Endpoints.CARD.UPDATE_CARD, { cardId }),
+    reqBody
+  );
+
+export const fetchCardsOfUser = () =>
+  axiosInstance.get(Endpoints.CARD.GET_CARDS_OF_USER);

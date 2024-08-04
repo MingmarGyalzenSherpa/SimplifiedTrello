@@ -24,6 +24,9 @@ export const Endpoints = {
   CARD: {
     CREATE_CARD: "/lists/:listId/cards",
     GET_CARDS_IN_LIST: "/lists/:listId/cards",
+    UPDATE_CARD: "/cards/:cardId",
+    GET_CARDS_OF_USER: "/cards/",
+    ADD_USER_TO_CARD: "/cards/:cardId/users",
   },
   WORKSPACE: {
     CREATE_WORKSPACE: "/workspaces",

@@ -1,4 +1,3 @@
-import onChange, { ApplyData } from "on-change";
 import { NavBar } from "./NavBar";
 import { isLoggedIn } from "../utils/checkLoggedIn";
 import { IUser } from "../interfaces/IUser";
@@ -7,9 +6,10 @@ import { Routes } from "../constants/Routes";
 import { SideNav } from "./SideNav";
 import { Board } from "./Board";
 import { IComponent } from "../interfaces/IComponent";
+import { Home } from "./Home";
 
 /**
- * Main layout for dashboard component
+ * Main layout for dashboard componentgoo
  */
 export class MainLayout implements IComponent {
   state: {
@@ -87,7 +87,8 @@ export class MainLayout implements IComponent {
   renderContent = () => {
     this.elements.content = document.createElement("div");
     this.elements.content.className = "content w-[90%] overflow-scroll";
-    new Board(this.elements.content!, "28");
+    // new Board(this.elements.content!, "28");
+    new Home(this.elements.content!, +this.state.user.id!);
     this.elements.container!.appendChild(this.elements.content);
   };
 

@@ -39,7 +39,7 @@ export class Card {
     this.elements.cardEl?.addEventListener("click", (e) => {
       e.preventDefault();
 
-      new CardModal(this.state.card);
+      new CardModal(this.state.card, this.render.bind(this));
     });
 
     //add drag start event

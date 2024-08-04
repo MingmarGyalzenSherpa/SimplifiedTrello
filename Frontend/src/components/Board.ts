@@ -6,6 +6,7 @@ import * as ListService from "../services/listService";
 import * as BoardService from "../services/boardService";
 import { IBoard } from "../interfaces/IBoard";
 import { HttpStatusCode } from "axios";
+import { Socket, io } from "socket.io-client";
 
 /**
  * Board component
@@ -15,6 +16,7 @@ export class Board {
     boardId: string;
     board?: IBoard;
     lists: List[];
+    socket?: Socket;
     inputTitleTimeoutId?: number;
   };
   elements: {
@@ -40,6 +42,7 @@ export class Board {
    * Function to handle initial setup
    */
   initialSetup = async () => {
+    this.setupSocket();
     this.render();
   };
 
@@ -112,6 +115,12 @@ export class Board {
         },
       }).showToast();
     }
+  };
+
+  setupSocket = () => {
+    this.state.socket = io("http://localhost:8000");
+
+    // this.state.socket.join
   };
 
   /**

@@ -6,6 +6,7 @@ import { validate } from "../utils/validator";
 import { loginUserBodySchema } from "../schema/authSchema";
 import { IError } from "../interfaces/IError";
 import { IComponent } from "../interfaces/IComponent";
+import { isLoggedIn } from "../utils/checkLoggedIn";
 
 /**
  * Login component
@@ -23,19 +24,24 @@ export class Login implements IComponent {
     this.elements = {};
     this.elements.parentEl = parentEL;
 
-    this.state = {
+    this.state = { 
       credential: {
         email: "",
         password: "",
       },
     };
-
     this.render();
 
     setTimeout(this.initialSetup, 0);
   }
 
   initialSetup = () => {
+    isLoggedIn().then((res) => {
+      if (res?.isLoggedIn) {
+        navigateTo(Routes.DASHBOARD);
+        return;
+      }
+    });
     this.setupEventListener();
   };
 
@@ -62,6 +68,7 @@ export class Login implements IComponent {
 
     signUpLink?.addEventListener("click", (e: Event) => {
       e.preventDefault();
+      console.log("clicked");
       navigateTo(Routes.SIGNUP);
     });
 
