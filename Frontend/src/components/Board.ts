@@ -205,10 +205,12 @@ export class Board {
   render() {
     this.elements.parentEl.innerHTML = `
     <div class="h-[93vh]">
-    <nav class="h-[8%] fixed  bg-black bg-opacity-30 w-full px-10 py-5">
-      <div>
+    <nav class="h-[8%] fixed  bg-black  bg-opacity-30 w-full px-10 py-5">
+      <div class="bg-red-300 flex items-center justify-between">
         <input class="input-title bg-transparent text-2xl font-semibold p-1 " /> 
+       
       </div>
+       
     </nav>
     <div id="board" class="p-4  pt-[100px] w-full h-[100%]  flex gap-2  overflow-x-scroll">
       <div id="lists-container" class=" flex  gap-2">
