@@ -20,7 +20,8 @@ export const getUsersByBoard = async (boardId: number): Promise<IUser[]> => {
  */
 export const searchUsers = async (
   query: IGetRequestQuery,
-  userId: number
+  userId: number,
+  workspaceId = undefined
 ): Promise<IUser[] | undefined> => {
-  return await UserModel.searchUsers(query, userId);
+  return await UserModel.searchUsers(query, userId, workspaceId);
 };

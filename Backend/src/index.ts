@@ -48,5 +48,7 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
+  socket.on("hello", (msg) => console.log(msg));
+
   console.log("a user connected");
 });

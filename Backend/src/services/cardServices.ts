@@ -26,12 +26,15 @@ export const updateCard = async (cardId: number, cardDetails: ICard) => {
 export const getCardsOfUser = async (userId: number) => {
   // Get cards
   const cards = await CardModel.getCardsOfUser(userId);
+  console.log(cards);
 
   // Use Promise.all to wait for all async operations to complete
   const updatedCards = await Promise.all(
     cards.map(async (card) => {
       // Get card details
       const cardDetail = await CardModel.getCardById(card.cardId);
+
+      if (!cardDetail) return {};
 
       // Get list of the card
       const list = await ListModel.getListById(cardDetail.listId);

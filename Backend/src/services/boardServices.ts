@@ -7,6 +7,8 @@ import { interpolate } from "../utils/interpolate";
 import { errorMessages } from "../utils/message";
 import { WorkspaceModel } from "../models/workspace";
 import { ForbiddenError } from "../errors/ForbiddenError";
+import { ListModel } from "../models/list";
+import { CardModel } from "../models/card";
 
 /**
  *  Create a new board
@@ -77,9 +79,21 @@ export const getBoardById = async (
  * @param boardId - board id
  */
 export const deleteBoardById = async (boardId: number) => {
+  // Get lists inside the board
+  const lists = await ListModel.getLists(boardId);
+
+  // Delete cards inside each list
+  await Promise.all(
+    lists.map(async (list) => {
+      const cards = await CardModel.getCards(list.id);
+      await Promise.all(cards.map((card) => CardModel.deleteCardById(card.id)));
+      await ListModel.deleteList(list.id);
+    })
+  );
+
+  // Delete the board
   await BoardModel.deleteBoardById(boardId);
 };
-
 /**
  * Get users by board
  * @param boardId - id of board

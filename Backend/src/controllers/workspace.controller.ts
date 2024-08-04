@@ -5,6 +5,7 @@ import * as WorkspaceServices from "../services/workspaceService";
 import { interpolate } from "../utils/interpolate";
 import { successMessages } from "../utils/message";
 import * as BoardServices from "../services/boardServices";
+import * as UserServices from "../services/userServices";
 
 /**
  * Create a workspace
@@ -147,6 +148,27 @@ export const getUsersInWorkspace = async (
       message: interpolate(successMessages.FETCHED, {
         item: "Users in workspace",
       }),
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const searchUsersInWorkspace = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { workspaceId } = req.params;
+    console.log(workspaceId);
+    const { query } = req;
+    const { id: userId } = req.user!;
+    const data = await UserServices.searchUsers(query, userId!, workspaceId);
+
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.FETCHED, { item: "Users" }),
       data,
     });
   } catch (error) {

@@ -11,6 +11,7 @@ import {
   getUsersInWorkspace,
   getWorkspacesById,
   getWorkspacesByUser,
+  searchUsersInWorkspace,
 } from "../controllers/workspace.controller";
 import { validateReqBody } from "../middlewares/validator.middleware";
 import {
@@ -67,5 +68,6 @@ router.get(
   getUsersInWorkspace
 );
 
+router.get("/:workspaceId/users/search", searchUsersInWorkspace);
 
 export default router;

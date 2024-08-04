@@ -30,10 +30,13 @@ export class CardModel extends BaseModel {
   };
 
   static deleteCardById = async (cardId: number) => {
-    const data = await this.queryBuilder()
+    await this.queryBuilder()
       .table("cards")
-      .delete()
+      .update({ deleted: true })
       .where({ id: cardId });
+
+    //delete card_members
+    await this.queryBuilder().table("card_members").delete().where({ cardId });
   };
 
   static getCardsOfUser = async (userId: number) => {

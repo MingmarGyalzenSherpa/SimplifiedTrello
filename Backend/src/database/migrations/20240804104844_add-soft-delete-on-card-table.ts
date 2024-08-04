@@ -1,9 +1,9 @@
 import { Knex } from "knex";
 
-const TABLE_NAME = "lists";
+const TABLE_NAME = "cards";
 
 /**
- * Add soft delete column to list table.
+ * Add soft delete column to cards table.
  *
  * @param {Knex} knex
  * @returns {Promise}
@@ -15,7 +15,7 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 /**
- * Remove soft delete column from list table.
+ * Remove soft delete column from cards table.
  *
  * @param {Knex} knex
  * @returns {Promise}

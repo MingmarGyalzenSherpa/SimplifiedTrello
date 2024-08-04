@@ -37,18 +37,40 @@ export class UserModel extends BaseModel {
    * @param filter filter to search
    * @returns
    */
-  static searchUsers = async (filter: IGetRequestQuery, userId: number) => {
+  static searchUsers = async (
+    filter: IGetRequestQuery,
+    userId: number,
+    workspaceId?: number
+  ) => {
     const { q } = filter;
 
     if (!q) {
-      return;
+      return; 
     }
-    const users = await this.queryBuilder()
-      .table("users")
-      .select("id", "firstName", "lastName", "username", "email")
-      .whereLike("email", `${q}%`)
-      .andWhereNot("id", userId);
-    return users;
+    let query;
+    if (workspaceId) {
+      query = this.queryBuilder()
+        .table("workspace_members")
+        .leftJoin("users", "users.id", "=", "workspace_members.user_id")
+        .select(
+          "users.id",
+          "users.firstName",
+          "users.lastName",
+          "users.username",
+          "users.email"
+        )
+        .where("workspace_members.workspace_id", workspaceId)
+        .andWhereLike("users.email", `${q}%`)
+        .andWhereNot("id", userId);
+    } else {
+      query ==
+        (await this.queryBuilder()
+          .table("users")
+          .select("id", "firstName", "lastName", "username", "email")
+          .whereLike("email", `${q}%`)
+          .andWhereNot("id", userId));
+    }
+    return await query;
   };
 
   /**
