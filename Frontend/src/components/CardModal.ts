@@ -59,15 +59,21 @@ export class CardModal {
       }
     });
 
-    //event listener for input el
+    //event listener for title input
     this.elements.titleInputEl?.addEventListener("input", (e) => {
+      if (this.state.titleInputTimeoutId) {
+        clearTimeout(this.state.titleInputTimeoutId);
+      }
+      this.state.titleInputTimeoutId = setTimeout(this.handleTitleUpdate, 2000);
+    });
+
+    //event listener for description input
+    this.elements.descriptionInputEl?.addEventListener("input", (e) => {
       if (this.state.descriptionInputTimeoutId) {
         clearTimeout(this.state.descriptionInputTimeoutId);
-
-        this.state.descriptionInputTimeoutId = undefined;
       }
       this.state.descriptionInputTimeoutId = setTimeout(
-        this.handleTitleUpdate,
+        this.handleDescriptionUpdate,
         2000
       );
     });
@@ -101,8 +107,27 @@ export class CardModal {
 
   handleDescriptionUpdate = async () => {
     try {
+      const response = await CardService.updateCard(+this.state.card.id, {
+        description: this.elements.descriptionInputEl!.value,
+      });
+
+      if (response.status === HttpStatusCode.Ok) {
+        Toastify({
+          text: "Description updated successfully",
+          duration: 2000,
+          style: {
+            background: "green",
+          },
+        }).showToast();
+      }
     } catch (error) {
-      console.log(error);
+      Toastify({
+        text: "Error updating description",
+        duration: 2000,
+        style: {
+          background: "red",
+        },
+      }).showToast();
     }
   };
 
@@ -137,7 +162,7 @@ export class CardModal {
         </svg>
         <div class="flex-grow">
           <h3 class="text-lg font-semibold mb-2">Description</h3>
-          <textarea class="description-input flex-grow p-2 border rounded-md w-full" rows="6" placeholder="Add a more detailed description..."></textarea>
+          <textarea  class="description-input flex-grow p-2 border rounded-md w-full" rows="6" placeholder="Add a more detailed description...">${this.state.card.description}</textarea>
         </div>
       </div>
       <div class="flex items-center space-x-4">
