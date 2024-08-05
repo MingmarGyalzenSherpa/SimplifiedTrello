@@ -15,3 +15,15 @@ export const addUserToWorkspace = (workspaceId: number, email: string) =>
     interpolate(Endpoints.WORKSPACE.ADD_USER_TO_WORKSPACE, { workspaceId }),
     { email }
   );
+
+export const getUsersInWorkspace = (workspaceId: number) =>
+  axiosInstance.get(
+    interpolate(Endpoints.WORKSPACE.GET_USERS_IN_WORKSPACE, { workspaceId })
+  );
+export const searchUsersInWorkspace = (workspaceId: number, email: string) =>
+  axiosInstance.get(
+    interpolate(Endpoints.WORKSPACE.SEARCH_USERS_IN_WORKSPACE, {
+      workspaceId,
+      email,
+    })
+  );

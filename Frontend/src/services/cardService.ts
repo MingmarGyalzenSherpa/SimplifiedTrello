@@ -29,3 +29,8 @@ export const updateCard = (
 
 export const fetchCardsOfUser = () =>
   axiosInstance.get(Endpoints.CARD.GET_CARDS_OF_USER);
+
+export const addUserToCard = (cardId: number, email: string) =>
+  axiosInstance.post(interpolate(Endpoints.CARD.ADD_USER_TO_CARD, { cardId }), {
+    email,
+  });

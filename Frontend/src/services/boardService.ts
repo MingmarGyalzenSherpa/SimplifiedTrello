@@ -28,3 +28,6 @@ export const updateBoard = (
     interpolate(Endpoints.BOARD.UPDATE_BOARD, { boardId }),
     boardDetail
   );
+
+export const deleteBoard = (boardId: number) =>
+  axiosInstance.delete(interpolate(Endpoints.BOARD.DELETE_BOARD, { boardId }));

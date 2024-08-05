@@ -18,7 +18,7 @@ export const Endpoints = {
     GET_BOARDS_BY_WORKSPACE_ID: "/workspaces/:workspaceId/boards",
     CREATE_BOARD: "/workspaces/:workspaceId/boards",
     UPDATE_BOARD: "/boards/:boardId",
-
+    DELETE_BOARD: "/boards/:boardId",
     GET_LABELS_IN_BOARD: "/boards/:boardId/labels",
   },
   CARD: {
@@ -33,6 +33,8 @@ export const Endpoints = {
     GET_WORKSPACES: "/workspaces",
     GET_WORKSPACE_BY_ID: "/workspaces/:workspaceId",
     ADD_USER_TO_WORKSPACE: "/workspaces/:workspaceId/users",
+    GET_USERS_IN_WORKSPACE: "/workspaces/:workspaceId/users",
+    SEARCH_USERS_IN_WORKSPACE: "/workspaces/:workspaceId/users/search?q=:email",
   },
   USER: {
     SEARCH_USER: "/users?q=:q",

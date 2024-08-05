@@ -57,6 +57,7 @@ export class MainLayout implements IComponent {
         return;
       }
       this.state.user = res.user;
+      localStorage.setItem("userId", this.state.user.id!);
       this.render();
     });
   };

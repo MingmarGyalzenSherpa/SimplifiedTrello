@@ -108,6 +108,7 @@ export class Login implements IComponent {
         //add to local storage
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
+        
 
         //redirect to dashboard
         navigateTo(Routes.DASHBOARD);

@@ -7,6 +7,7 @@ import * as BoardService from "../services/boardService";
 import { IBoard } from "../interfaces/IBoard";
 import { HttpStatusCode } from "axios";
 import { Socket, io } from "socket.io-client";
+import { Home } from "./Home";
 
 /**
  * Board component
@@ -24,6 +25,8 @@ export class Board {
     boardEl?: HTMLElement;
     addListButtonEL?: HTMLButtonElement;
     boardTitleInput?: HTMLInputElement;
+    toggleDeleteEl?: HTMLElement;
+    deleteBoardBtn?: HTMLButtonElement;
   };
   constructor(parentEl: HTMLElement, id: string) {
     this.state = {
@@ -34,7 +37,6 @@ export class Board {
     this.elements = {
       parentEl,
     };
-
     setTimeout(this.initialSetup, 0);
   }
 
@@ -54,6 +56,9 @@ export class Board {
       const response = await BoardService.getBoardById(+this.state.boardId);
       if (response.status === HttpStatusCode.Ok) {
         this.state.board = response.data.data;
+
+        //set active workspace id
+        localStorage.setItem("workspaceId", `${this.state.board!.workspaceId}`);
 
         //show board
         this.showBoardDetails();
@@ -120,6 +125,7 @@ export class Board {
   setupSocket = () => {
     this.state.socket = io("http://localhost:8000");
 
+    this.state.socket.emit("hello", "hello");
     // this.state.socket.join
   };
 
@@ -168,6 +174,32 @@ export class Board {
       }
       this.state.inputTitleTimeoutId = setTimeout(this.updateTitle, 3000);
     });
+
+    //toggle delete button event
+    this.elements.toggleDeleteEl?.addEventListener("click", (e) => {
+      this.elements.deleteBoardBtn?.classList.toggle("invisible");
+    });
+
+    //delete button event
+    this.elements.deleteBoardBtn?.addEventListener("click", async (e) => {
+      try {
+        const userId = localStorage.getItem("userId");
+        console.log(userId);
+
+        await BoardService.deleteBoard(+this.state.boardId);
+
+        new Home(document.querySelector(".content")!, +userId!);
+        // go to home
+      } catch (error) {
+        Toastify({
+          text: "Error deleting board",
+          duration: 3000,
+          style: {
+            background: "red",
+          },
+        }).showToast();
+      }
+    });
   };
 
   /**
@@ -205,10 +237,19 @@ export class Board {
   render() {
     this.elements.parentEl.innerHTML = `
     <div class="h-[93vh]">
-    <nav class="h-[8%] fixed  bg-black  bg-opacity-30 w-full px-10 py-5">
-      <div class="bg-red-300 flex items-center justify-between">
+    <nav class="h-[8%] fixed  bg-black w-[85vw]  bg-opacity-30 px-10 ">
+      <div class=" h-full flex items-center justify-between">
         <input class="input-title bg-transparent text-2xl font-semibold p-1 " /> 
-       
+        <div class="option-container relative">
+        <button class="toggle-delete" >
+         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+    </svg>
+        </button>
+        <button class="delete-btn w-[100px] h-[50px] absolute invisible rounded bg-red-400 hover:bg-red-700 right-5 p-3  flex justify-center items-center">
+              Delete
+        </button>
+       </div>
       </div>
        
     </nav>
@@ -228,6 +269,13 @@ export class Board {
 
     //store reference to board
     this.elements.boardEl = document.querySelector("#board")!;
+
+    //store reference to toggle delete
+    this.elements.toggleDeleteEl = document.querySelector(".toggle-delete")!;
+
+    //store reference to delete
+    this.elements.deleteBoardBtn = document.querySelector(".delete-btn")!;
+
     //fetch and show list
     this.fetchAndShowList();
 

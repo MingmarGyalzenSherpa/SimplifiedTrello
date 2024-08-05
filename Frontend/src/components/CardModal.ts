@@ -2,7 +2,9 @@ import Toastify from "toastify-js";
 import { HttpStatusCode } from "axios";
 import { ICard } from "../interfaces/ICard";
 import * as CardService from "../services/cardService";
+import * as WorkspaceService from "../services/workspaceService";
 import { Board } from "./Board";
+import { IUser } from "../interfaces/IUser";
 
 /**
  * Card modal component
@@ -14,12 +16,16 @@ export class CardModal {
     boardId: number;
     titleInputTimeoutId?: number;
     descriptionInputTimeoutId?: number;
+    searchMemberTimeoutId?: number;
   };
   elements: {
     parentEl: HTMLElement;
     modalEl?: HTMLElement;
     titleInputEl?: HTMLInputElement;
     descriptionInputEl?: HTMLInputElement;
+    searchMemberInputEl?: HTMLInputElement;
+    addMemberButtonEl?: HTMLElement;
+    userListEl?: HTMLElement;
   };
   constructor(card: ICard, boardId: number) {
     this.elements = {
@@ -77,8 +83,73 @@ export class CardModal {
         2000
       );
     });
+
+    //search member input element event
+    this.elements.searchMemberInputEl?.addEventListener("input", (e) => {
+      if (this.state.searchMemberTimeoutId) {
+        clearTimeout(this.state.searchMemberTimeoutId);
+      }
+
+      this.state.searchMemberTimeoutId = setTimeout(
+        this.handleSearchMemberInput,
+        2000
+      );
+    });
+
+    //event listener to add member btn
+    this.elements.addMemberButtonEl?.addEventListener("click", async (e) => {
+      try {
+        console.log(this.elements.searchMemberInputEl?.value);
+        // const response = await CardService.addUserToCard(
+        //   +this.state.card.id,
+        //   this.elements.searchMemberInputEl!.value
+        // );
+      } catch (error) {}
+    });
   };
 
+  handleSearchMemberInput = async () => {
+    try {
+      const email = this.elements.searchMemberInputEl!.value;
+      //get workspace id from local storage
+      const workspaceId = localStorage.getItem("workspaceId");
+      if (!workspaceId) return;
+      const response = await WorkspaceService.searchUsersInWorkspace(
+        +workspaceId,
+        email
+      );
+      console.log(response.data);
+      const users = response.data.data;
+      this.renderSearchedUserList(users);
+    } catch (error) {}
+  };
+
+  renderSearchedUserList = (lists: IUser[]) => {
+    this.elements.userListEl!.innerHTML = `
+      ${lists
+        .map(
+          (list) =>
+            `<li data-email=${list.email} class="p-3 border bg-white hover:cursor-pointer rounded-sm">${list.email}</li>`
+        )
+        .join("")}
+    `;
+
+    this.selectUserEventListener();
+  };
+
+  selectUserEventListener = () => {
+    const lists = this.elements.userListEl?.querySelectorAll("li");
+
+    lists?.forEach((list) =>
+      list.addEventListener("click", (_) => {
+        this.elements.searchMemberInputEl!.value = list.dataset.email!;
+      })
+    );
+  };
+
+  /**
+   * Function to handle title update
+   */
   handleTitleUpdate = async () => {
     try {
       const response = await CardService.updateCard(+this.state.card.id, {
@@ -105,6 +176,9 @@ export class CardModal {
     }
   };
 
+  /**
+   * Function to handle description update
+   */
   handleDescriptionUpdate = async () => {
     try {
       const response = await CardService.updateCard(+this.state.card.id, {
@@ -147,7 +221,9 @@ export class CardModal {
     modalEl.innerHTML = `
           <div class="bg-gray-100 rounded-lg shadow-xl w-full max-w-3xl mx-auto">
   <div class="flex justify-between items-start p-4 border-b border-gray-200">
-    <input class="title-input bg-transparent text-xl font-semibold text-gray-700" value=${this.state.card.title} placeholder="Enter title">
+    <input class="title-input bg-transparent text-xl font-semibold text-gray-700" value=${
+      this.state.card.title
+    } placeholder="Enter title">
     <button class="text-gray-500 hover:text-gray-700" id="closeBtn">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -162,9 +238,24 @@ export class CardModal {
         </svg>
         <div class="flex-grow">
           <h3 class="text-lg font-semibold mb-2">Description</h3>
-          <textarea  class="description-input flex-grow p-2 border rounded-md w-full" rows="6" placeholder="Add a more detailed description...">${this.state.card.description}</textarea>
+          <textarea  class="description-input flex-grow p-2 border rounded-md w-full" rows="6" placeholder="Add a more detailed description...">${
+            this.state.card.description || ""
+          }</textarea>
         </div>
       </div>
+         <div class="flex items-start space-x-4  justify-center">
+             <div class="w-full flex flex-col relative">
+              <input active class="search-member-input px-4 py-2 h-[60px] rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter member email">
+              <ul class="user-list  top-[60px]">
+             
+              </ul>
+             </div>
+
+  <button class="add-member-btn  bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out">
+    Add Member
+  </button>
+  
+          </div>
       <div class="flex items-center space-x-4">
         <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
@@ -207,6 +298,18 @@ export class CardModal {
     this.elements.titleInputEl = modalEl.querySelector(".title-input")!;
     console.log(this.elements.titleInputEl);
 
+    //store reference to member input element
+    this.elements.searchMemberInputEl = modalEl.querySelector(
+      ".search-member-input"
+    )!;
+
+    //store reference to user list container
+    this.elements.userListEl = modalEl.querySelector(".user-list")!;
+
+    this.elements.addMemberButtonEl = modalEl.querySelector(".add-member-btn")!;
+
+    console.log(this.elements.searchMemberInputEl);
+    console.log(this.elements.addMemberButtonEl);
     //store description input reference
     this.elements.descriptionInputEl =
       modalEl.querySelector(".description-input")!;
