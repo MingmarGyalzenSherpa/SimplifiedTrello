@@ -68,6 +68,7 @@ export class CardModal {
 
     //event listener for title input
     this.elements.titleInputEl?.addEventListener("input", (e) => {
+      console.log("heheheh");
       if (this.state.titleInputTimeoutId) {
         clearTimeout(this.state.titleInputTimeoutId);
       }
@@ -100,13 +101,48 @@ export class CardModal {
     //event listener to add member btn
     this.elements.addMemberButtonEl?.addEventListener("click", async (e) => {
       try {
-        console.log(this.elements.searchMemberInputEl?.value);
-        // const response = await CardService.addUserToCard(
-        //   +this.state.card.id,
-        //   this.elements.searchMemberInputEl!.value
-        // );
-      } catch (error) {}
+        const response = await CardService.addUserToCard(
+          +this.state.card.id,
+          this.elements.searchMemberInputEl!.value
+        );
+        console.log(response.data.data);
+        if (response.status === HttpStatusCode.Created) {
+          Toastify({
+            text: "User added successfully!",
+            duration: 2000,
+            style: {
+              background: "green",
+            },
+          }).showToast();
+
+          this.renderNewlyAddedMember(response.data.data[0]);
+        }
+      } catch (error) {
+        Toastify({
+          text: "Error adding user",
+          duration: 2000,
+          style: {
+            background: "green",
+          },
+        }).showToast();
+      }
     });
+  };
+
+  renderNewlyAddedMember = (
+    member: Pick<IUser, "id" | "username" | "email">
+  ) => {
+    this.elements.memberListEl!.innerHTML += `
+    <li class="flex items-center justify-between bg-white p-2 rounded-md mb-2">
+                <div class="flex items-center gap-5">
+                <span class="rounded-full flex justify-center items-center bg-blue-400 w-10 h-10" > ${member.username![0].toUpperCase()}</span>
+              <span>${member.email}</span>
+                </div>
+                
+              <button class="remove-${
+                member.id
+              } text-red-500 hover:text-red-700">Remove</button>
+            </li>`;
   };
 
   handleSearchMemberInput = async () => {
@@ -262,7 +298,7 @@ export class CardModal {
                   `<li class="flex items-center justify-between bg-white p-2 rounded-md mb-2">
                 <div class="flex items-center gap-5">
                 <span class="rounded-full flex justify-center items-center bg-blue-400 w-10 h-10" > ${member.username![0].toUpperCase()}</span>
-              <span>${member.username}</span>
+              <span>${member.email}</span>
                 </div>
                 
               <button class="remove-${
@@ -281,7 +317,6 @@ export class CardModal {
         <div class="w-full flex flex-col relative">
           <input class="search-member-input px-4 py-2 h-[60px] rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter member email">
           <ul class="search-user-list top-[60px]">
-            <!-- Search results would appear here -->
           </ul>
         </div>
         <button class="add-member-btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out">
@@ -328,7 +363,6 @@ export class CardModal {
 
     //store title input reference
     this.elements.titleInputEl = modalEl.querySelector(".title-input")!;
-    console.log(this.elements.titleInputEl);
 
     //store reference to member input element
     this.elements.searchMemberInputEl = modalEl.querySelector(
@@ -344,12 +378,10 @@ export class CardModal {
 
     //store reference to member list element
     this.elements.memberListEl = modalEl.querySelector(".member-list")!;
-    console.log(this.elements.memberListEl);
 
     //store description input reference
     this.elements.descriptionInputEl =
       modalEl.querySelector(".description-input")!;
-    console.log(this.elements.descriptionInputEl);
     //setup event listener
     this.setupEventListener();
   };
