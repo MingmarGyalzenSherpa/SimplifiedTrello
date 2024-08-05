@@ -59,3 +59,20 @@ export const removeUserFromCard = async (
     next(error);
   }
 };
+
+export const deleteCardById = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { cardId } = req.params;
+
+    await CardServices.deleteCardById(cardId);
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.DELETED, { item: "Card" }),
+    });
+  } catch (error) {
+    next(error);
+  }
+};

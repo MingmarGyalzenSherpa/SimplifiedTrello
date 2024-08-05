@@ -5,6 +5,7 @@ import { updateCardBodySchema } from "../schema/card.schema";
 import { updateCard } from "../controllers/list.controller";
 import {
   addUserToCard,
+  deleteCardById,
   getCardsOfUser,
   removeUserFromCard,
 } from "../controllers/card.controller";
@@ -23,4 +24,7 @@ router.post("/:cardId/users", addUserToCard);
 
 //remove user from card
 router.delete("/:cardId/users/:userId", removeUserFromCard);
+
+//delete card
+router.delete("/:cardId", deleteCardById);
 export default router;

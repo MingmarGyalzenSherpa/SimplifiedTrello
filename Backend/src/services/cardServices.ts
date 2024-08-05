@@ -87,3 +87,7 @@ export const addUserToCard = async (cardId: number, email: string) => {
 export const removeUserFromCard = async (cardId: number, userId: number) => {
   await CardModel.removeUserFromCard(cardId, userId);
 };
+
+export const deleteCardById = async (cardId: number) => {
+  await CardModel.deleteCardById(cardId);
+};
