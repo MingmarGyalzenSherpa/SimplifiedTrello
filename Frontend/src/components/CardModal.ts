@@ -159,10 +159,35 @@ export class CardModal {
   addEventListenerToMemberList = () => {
     const removeButtons =
       this.elements.memberListEl?.querySelectorAll(".remove-btn")!;
-    console.log(removeButtons);
+
+    //add event listener to each button
     removeButtons.forEach((removeBtn) =>
-      removeBtn.addEventListener("click", (e) => {
-        const userId = (removeBtn as HTMLElement).dataset.id;
+      removeBtn.addEventListener("click", async (e) => {
+        try {
+          const userId = (removeBtn as HTMLElement).dataset.id;
+          const response = await CardService.removeUserFromCard(
+            +this.state.card.id,
+            +userId!
+          );
+          console.log(response);
+          if (response.status === HttpStatusCode.Ok) {
+            //remove from state
+            this.state.card.members = this.state.card.members.filter(
+              (member) => member.id != userId
+            );
+
+            //render again
+            this.renderMembers(this.state.card.members);
+          }
+        } catch (error) {
+          Toastify({
+            text: "Error removing member",
+            duration: 2000,
+            style: {
+              background: "red",
+            },
+          }).showToast();
+        }
       })
     );
   };
