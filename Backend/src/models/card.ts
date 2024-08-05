@@ -56,7 +56,23 @@ export class CardModel extends BaseModel {
   };
 
   static addUserToCard = async (cardId: number, userId: number) => {
-    await this.queryBuilder().table("card_members").insert({ cardId, userId });
+    await this.queryBuilder()
+      .table("card_members")
+      .insert({ cardId, userId })
+      .returning("*");
+    return await this.queryBuilder()
+      .table("card_members")
+      .leftJoin("users", "users.id", "=", "card_members.user_id")
+      .select("users.id", "users.email", "users.username")
+      .where("card_members.cardId", "=", cardId)
+      .andWhere("card_members.userId", "=", userId);
+  };
+
+  static removeUserFromCard = async (cardId: number, userId: number) => {
+    await this.queryBuilder().table("card_members").delete().where({
+      cardId,
+      userId,
+    });
   };
 
   static getCardById = async (cardId: number) => {

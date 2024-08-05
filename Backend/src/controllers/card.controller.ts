@@ -32,10 +32,24 @@ export const addUserToCard = async (
   try {
     const { cardId } = req.params;
     const { email } = req.body;
-    await CardServices.addUserToCard(cardId, email);
+    const data = await CardServices.addUserToCard(cardId, email);
     res.status(HttpStatusCodes.CREATED).json({
       message: interpolate(successMessages.ADDED, { item: "User " }),
+      data,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const removeUserFromCard = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { cardId, userId } = req.params;
+    await CardServices.removeUserFromCard(cardId, userId);
   } catch (error) {
     next(error);
   }

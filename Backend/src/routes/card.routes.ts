@@ -3,7 +3,11 @@ import { authentication } from "../middlewares/auth.middleware";
 import { validateReqBody } from "../middlewares/validator.middleware";
 import { updateCardBodySchema } from "../schema/card.schema";
 import { updateCard } from "../controllers/list.controller";
-import { addUserToCard, getCardsOfUser } from "../controllers/card.controller";
+import {
+  addUserToCard,
+  getCardsOfUser,
+  removeUserFromCard,
+} from "../controllers/card.controller";
 
 const router = express();
 router.use(authentication);
@@ -16,4 +20,7 @@ router.get("/", getCardsOfUser);
 
 //add user to a card
 router.post("/:cardId/users", addUserToCard);
+
+//remove user from card
+router.delete("/:cardId/users/:userId", removeUserFromCard);
 export default router;

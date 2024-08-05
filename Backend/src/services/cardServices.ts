@@ -1,8 +1,8 @@
+import { CardModel } from "./../models/card";
 import { errorMessages } from "./../utils/message";
 import { interpolate } from "./../utils/interpolate";
 import { NotFoundError } from "./../errors/NotFoundError";
 import { BoardModel } from "../models/board";
-import { CardModel } from "../models/card";
 import { ListModel } from "../models/list";
 import { UserModel } from "../models/user";
 import { WorkspaceModel } from "../models/workspace";
@@ -80,5 +80,10 @@ export const addUserToCard = async (cardId: number, email: string) => {
     );
   }
 
-  await CardModel.addUserToCard(cardId, users[0].id!);
+  const data = await CardModel.addUserToCard(cardId, users[0].id!);
+  return data;
+};
+
+export const removeUserFromCard = async (cardId: number, userId: number) => {
+  await CardModel.removeUserFromCard(cardId, userId);
 };
