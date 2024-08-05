@@ -1,3 +1,5 @@
+import { IUser } from "./IUser";
+
 export interface ICard {
   id: string;
   position: number;
@@ -5,4 +7,5 @@ export interface ICard {
   description: string;
   listId: string;
   createAt: string;
+  members: Pick<IUser, "id" | "username" | "email">[];
 }

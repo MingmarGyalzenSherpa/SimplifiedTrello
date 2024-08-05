@@ -256,10 +256,22 @@ export class CardModal {
           <!-- List of added members would go here -->
           <ul class="member-list mb-4">
             <!-- Example list item -->
-            <li class="flex items-center justify-between bg-white p-2 rounded-md mb-2">
-              <span>Member Name</span>
-              <button class="text-red-500 hover:text-red-700">Remove</button>
-            </li>
+            ${this.state.card.members
+              .map(
+                (member) =>
+                  `<li class="flex items-center justify-between bg-white p-2 rounded-md mb-2">
+                <div class="flex items-center gap-5">
+                <span class="rounded-full flex justify-center items-center bg-blue-400 w-10 h-10" > ${member.username![0].toUpperCase()}</span>
+              <span>${member.username}</span>
+                </div>
+                
+              <button class="remove-${
+                member.id
+              } text-red-500 hover:text-red-700">Remove</button>
+            </li>`
+              )
+              .join("")}
+           
           </ul>
         </div>
       </div>
@@ -327,10 +339,13 @@ export class CardModal {
     this.elements.searchUserListEl =
       modalEl.querySelector(".search-user-list")!;
 
+    //store reference to add member button
     this.elements.addMemberButtonEl = modalEl.querySelector(".add-member-btn")!;
 
-    console.log(this.elements.searchMemberInputEl);
-    console.log(this.elements.addMemberButtonEl);
+    //store reference to member list element
+    this.elements.memberListEl = modalEl.querySelector(".member-list")!;
+    console.log(this.elements.memberListEl);
+
     //store description input reference
     this.elements.descriptionInputEl =
       modalEl.querySelector(".description-input")!;
