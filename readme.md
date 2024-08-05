@@ -78,9 +78,11 @@ npm run dev
 
 ### Usage
 
-Sign up for an account or log in
-Create a new board
-Add lists to your board
-Create cards within lists
-Drag and drop cards between lists
+- Sign up for an account or log in
+- Create a new workspace
+- Add lists to your board
+- Create cards within lists
+- Assign members to workspace
+- Assign members to card
+- Drag and drop cards between lists
 
