@@ -115,7 +115,10 @@ export class CardModal {
             },
           }).showToast();
 
-          this.renderNewlyAddedMember(response.data.data[0]);
+          const newMember = response.data.data[0];
+          this.state.card.members.push(newMember);
+          console.log(this.state.card.members);
+          this.renderMembers(this.state.card.members);
         }
       } catch (error) {
         Toastify({
@@ -127,22 +130,41 @@ export class CardModal {
         }).showToast();
       }
     });
+
+    //add event listeners to member list
+    this.addEventListenerToMemberList();
   };
 
-  renderNewlyAddedMember = (
-    member: Pick<IUser, "id" | "username" | "email">
-  ) => {
-    this.elements.memberListEl!.innerHTML += `
-    <li class="flex items-center justify-between bg-white p-2 rounded-md mb-2">
+  renderMembers = (members: Pick<IUser, "id" | "username" | "email">[]) => {
+    this.elements.memberListEl!.innerHTML = `
+         ${members
+           .map(
+             (member) =>
+               `<li class="flex items-center justify-between bg-white p-2 rounded-md mb-2">
                 <div class="flex items-center gap-5">
                 <span class="rounded-full flex justify-center items-center bg-blue-400 w-10 h-10" > ${member.username![0].toUpperCase()}</span>
               <span>${member.email}</span>
                 </div>
                 
-              <button class="remove-${
-                member.id
-              } text-red-500 hover:text-red-700">Remove</button>
-            </li>`;
+              <button data-id=${member.id} class=" remove-btn
+                text-red-500 hover:text-red-700">Remove</button>
+            </li>`
+           )
+           .join("")}
+      `;
+    //add event listeners
+    this.addEventListenerToMemberList();
+  };
+
+  addEventListenerToMemberList = () => {
+    const removeButtons =
+      this.elements.memberListEl?.querySelectorAll(".remove-btn")!;
+    console.log(removeButtons);
+    removeButtons.forEach((removeBtn) =>
+      removeBtn.addEventListener("click", (e) => {
+        const userId = (removeBtn as HTMLElement).dataset.id;
+      })
+    );
   };
 
   handleSearchMemberInput = async () => {
@@ -301,9 +323,8 @@ export class CardModal {
               <span>${member.email}</span>
                 </div>
                 
-              <button class="remove-${
-                member.id
-              } text-red-500 hover:text-red-700">Remove</button>
+             <button data-id=${member.id} class=" remove-btn
+                text-red-500 hover:text-red-700">Remove</button>
             </li>`
               )
               .join("")}

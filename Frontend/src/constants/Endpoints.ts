@@ -27,6 +27,7 @@ export const Endpoints = {
     UPDATE_CARD: "/cards/:cardId",
     GET_CARDS_OF_USER: "/cards/",
     ADD_USER_TO_CARD: "/cards/:cardId/users",
+    REMOVE_USER_FROM_CARD: "/cards/:cardId/users/:userId",
   },
   WORKSPACE: {
     CREATE_WORKSPACE: "/workspaces",

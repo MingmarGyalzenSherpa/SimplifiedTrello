@@ -2,6 +2,7 @@ import { ICard } from "./../interfaces/ICard";
 import { Endpoints } from "../constants/Endpoints";
 import { axiosInstance } from "../utils/axiosConfig";
 import { interpolate } from "../utils/interpolate";
+import axios from "axios";
 
 export const getCards = (listId: number) => {
   return axiosInstance.get(
@@ -34,3 +35,8 @@ export const addUserToCard = (cardId: number, email: string) =>
   axiosInstance.post(interpolate(Endpoints.CARD.ADD_USER_TO_CARD, { cardId }), {
     email,
   });
+
+export const removeUserFromCard = (cardId: number, userId: number) =>
+  axiosInstance.delete(
+    interpolate(Endpoints.CARD.REMOVE_USER_FROM_CARD, { cardId, userId })
+  );
