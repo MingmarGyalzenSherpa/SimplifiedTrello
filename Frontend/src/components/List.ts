@@ -23,6 +23,7 @@ export class List {
     cardListEl?: HTMLElement;
     listEl?: HTMLElement;
     optionBtnEl?: HTMLElement;
+    listContainer?: HTMLUListElement;
   };
   constructor(
     parentEl: HTMLElement,
@@ -161,17 +162,43 @@ export class List {
    * @param e
    */
   handleDragOver = (e: DragEvent) => {
+    e.preventDefault();
     const cardEl = document.querySelector(".dragging");
+    console.log(e.clientY);
     const afterElement = this.getDragAfterElement(e.clientY);
+    console.log(this.elements.listEl);
+    if (afterElement === undefined) {
+      this.elements.listContainer?.appendChild(cardEl!);
+    } else {
+      this.elements.listContainer?.insertBefore(cardEl!, afterElement);
+    }
     console.log(afterElement);
-    this.elements.cardListEl?.appendChild(cardEl!);
   };
 
   getDragAfterElement(y: number) {
+    console.log("y is here" + y);
     const draggableElements = [
       ...this.elements.cardListEl!.querySelectorAll(".card:not(.dragging)"),
     ];
     console.log(draggableElements);
+    return draggableElements.reduce<{
+      offset: number;
+      element: Element | undefined;
+    }>(
+      (closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      },
+      {
+        offset: Number.NEGATIVE_INFINITY,
+        element: undefined,
+      }
+    ).element;
   }
 
   /**
@@ -222,6 +249,11 @@ export class List {
 
     this.fetchCard();
     this.setupEventListener();
+
+    this.elements.listContainer = document.querySelector(
+      `#list-${this.state.list.id}-card-list`
+    )!;
+    console.log(this.elements.listContainer);
 
     //create a new list div
     //append it to parent

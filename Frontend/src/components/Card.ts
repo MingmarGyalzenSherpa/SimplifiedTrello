@@ -75,6 +75,7 @@ export class Card {
   render = () => {
     const cardEl = document.createElement("div");
     cardEl.dataset.id = this.state.card.id;
+    cardEl.dataset.position = `${this.state.card.position}`;
     cardEl.classList.add(
       "card",
       `card-${this.state.card.id}`,
