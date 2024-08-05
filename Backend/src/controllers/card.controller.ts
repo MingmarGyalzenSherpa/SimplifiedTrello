@@ -49,7 +49,12 @@ export const removeUserFromCard = async (
 ) => {
   try {
     const { cardId, userId } = req.params;
+
     await CardServices.removeUserFromCard(cardId, userId);
+
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.DELETED, { item: "Member" }),
+    });
   } catch (error) {
     next(error);
   }
