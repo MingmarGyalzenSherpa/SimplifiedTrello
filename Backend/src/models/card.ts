@@ -47,6 +47,14 @@ export class CardModel extends BaseModel {
     return data;
   };
 
+  static getMemberInCard = async (cardId: number) => {
+    return await this.queryBuilder()
+      .table("card_members")
+      .leftJoin("users", "users.id", "=", "card_members.user_id")
+      .select("users.id", "users.email", "users.username")
+      .where("card_members.cardId", "=", cardId);
+  };
+
   static addUserToCard = async (cardId: number, userId: number) => {
     await this.queryBuilder().table("card_members").insert({ cardId, userId });
   };

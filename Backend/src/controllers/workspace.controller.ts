@@ -166,7 +166,8 @@ export const searchUsersInWorkspace = async (
     const { query } = req;
     const { id: userId } = req.user!;
     const data = await UserServices.searchUsers(query, userId!, workspaceId);
-
+    console.log("hereeee");
+    console.log(data);
     res.status(HttpStatusCodes.OK).json({
       message: interpolate(successMessages.FETCHED, { item: "Users" }),
       data,

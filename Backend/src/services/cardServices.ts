@@ -14,9 +14,19 @@ export const createCard = async (listId: number, cardDetails: ICard) => {
 };
 
 export const getCards = async (listId: number) => {
-  const data = await CardModel.getCards(listId);
+  // Get cards
+  const cards = await CardModel.getCards(listId);
+  // Get members for each card
+  const cardsWithMembers = await Promise.all(
+    cards.map(async (card) => {
+      const members = await CardModel.getMemberInCard(card.id);
+      console.log(members);
 
-  return data;
+      return { ...card, members };
+    })
+  );
+
+  return cardsWithMembers;
 };
 
 export const updateCard = async (cardId: number, cardDetails: ICard) => {

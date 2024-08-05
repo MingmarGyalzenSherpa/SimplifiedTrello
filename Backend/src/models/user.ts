@@ -45,7 +45,7 @@ export class UserModel extends BaseModel {
     const { q } = filter;
 
     if (!q) {
-      return; 
+      return;
     }
     let query;
     if (workspaceId) {
