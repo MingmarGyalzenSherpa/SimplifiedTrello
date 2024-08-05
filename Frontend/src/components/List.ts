@@ -163,7 +163,7 @@ export class List {
   handleDragOver = (e: DragEvent) => {
     const cardEl = document.querySelector(".dragging");
     const afterElement = this.getDragAfterElement(e.clientY);
-
+    console.log(afterElement);
     this.elements.cardListEl?.appendChild(cardEl!);
   };
 
@@ -171,6 +171,7 @@ export class List {
     const draggableElements = [
       ...this.elements.cardListEl!.querySelectorAll(".card:not(.dragging)"),
     ];
+    console.log(draggableElements);
   }
 
   /**

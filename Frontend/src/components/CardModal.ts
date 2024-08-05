@@ -27,6 +27,7 @@ export class CardModal {
     addMemberButtonEl?: HTMLElement;
     searchUserListEl?: HTMLElement;
     memberListEl?: HTMLElement;
+    deleteCardBtnEl?: HTMLButtonElement;
   };
   constructor(card: ICard, boardId: number) {
     this.elements = {
@@ -67,7 +68,7 @@ export class CardModal {
     });
 
     //event listener for title input
-    this.elements.titleInputEl?.addEventListener("input", (e) => {
+    this.elements.titleInputEl?.addEventListener("input", (_) => {
       console.log("heheheh");
       if (this.state.titleInputTimeoutId) {
         clearTimeout(this.state.titleInputTimeoutId);
@@ -76,7 +77,7 @@ export class CardModal {
     });
 
     //event listener for description input
-    this.elements.descriptionInputEl?.addEventListener("input", (e) => {
+    this.elements.descriptionInputEl?.addEventListener("input", (_) => {
       if (this.state.descriptionInputTimeoutId) {
         clearTimeout(this.state.descriptionInputTimeoutId);
       }
@@ -87,7 +88,7 @@ export class CardModal {
     });
 
     //search member input element event
-    this.elements.searchMemberInputEl?.addEventListener("input", (e) => {
+    this.elements.searchMemberInputEl?.addEventListener("input", (_) => {
       if (this.state.searchMemberTimeoutId) {
         clearTimeout(this.state.searchMemberTimeoutId);
       }
@@ -99,7 +100,7 @@ export class CardModal {
     });
 
     //event listener to add member btn
-    this.elements.addMemberButtonEl?.addEventListener("click", async (e) => {
+    this.elements.addMemberButtonEl?.addEventListener("click", async (_) => {
       try {
         const response = await CardService.addUserToCard(
           +this.state.card.id,
@@ -133,6 +134,32 @@ export class CardModal {
 
     //add event listeners to member list
     this.addEventListenerToMemberList();
+
+    //delete card button event listener
+    this.elements.deleteCardBtnEl?.addEventListener("click", async (_) => {
+      try {
+        const response = await CardService.deleteCard(+this.state.card.id);
+
+        console.log(response);
+        if (response.status === HttpStatusCode.Ok) {
+          Toastify({
+            text: "Card deleted successfully!",
+            duration: 2000,
+            style: {
+              background: "green",
+            },
+          }).showToast();
+        }
+      } catch (error) {
+        Toastify({
+          text: "Error deleting card",
+          duration: 2000,
+          style: {
+            background: "red",
+          },
+        }).showToast();
+      }
+    });
   };
 
   renderMembers = (members: Pick<IUser, "id" | "username" | "email">[]) => {
@@ -162,7 +189,7 @@ export class CardModal {
 
     //add event listener to each button
     removeButtons.forEach((removeBtn) =>
-      removeBtn.addEventListener("click", async (e) => {
+      removeBtn.addEventListener("click", async (_) => {
         try {
           const userId = (removeBtn as HTMLElement).dataset.id;
           const response = await CardService.removeUserFromCard(
@@ -394,6 +421,9 @@ export class CardModal {
           <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full">
             Add Label
           </button>
+          <button class="delete-card-btn bg-red-500 mt-5 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">
+            DELETE CARD
+          </button>
         </div>
       </div>
     </div>
@@ -428,6 +458,9 @@ export class CardModal {
     //store description input reference
     this.elements.descriptionInputEl =
       modalEl.querySelector(".description-input")!;
+
+    //store delete card button reference
+    this.elements.deleteCardBtnEl = modalEl.querySelector(".delete-card-btn")!;
     //setup event listener
     this.setupEventListener();
   };
