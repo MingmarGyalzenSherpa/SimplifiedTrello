@@ -1,6 +1,10 @@
 import express from "express";
 import { authentication } from "../middlewares/auth.middleware";
-import { createCard, getCards } from "../controllers/list.controller";
+import {
+  createCard,
+  getCards,
+  getCardsCountInList,
+} from "../controllers/list.controller";
 import { validateReqBody } from "../middlewares/validator.middleware";
 import { createCardBodySchema } from "../schema/card.schema";
 
@@ -17,5 +21,8 @@ router.post(
 
 //get cards in list
 router.get("/:listId/cards", getCards);
+
+//get count of cards in list
+router.get("/:listId/cards/count", getCardsCountInList);
 
 export default router;

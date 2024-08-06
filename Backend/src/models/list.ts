@@ -60,4 +60,11 @@ export class ListModel extends BaseModel {
       .update({ deleted: true })
       .where({ id: listId });
   };
+
+  static getCardsCountInList = async (listId: number) => {
+    return await this.queryBuilder()
+      .table("cards")
+      .where({ listId, deleted: false })
+      .count("id");
+  };
 }

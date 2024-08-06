@@ -27,3 +27,12 @@ export const updateList = async (listId: number, updatedList: IList) => {
 export const deleteList = async (listId: number) => {
   await ListModel.deleteList(listId);
 };
+
+/**
+ * Get count of cards in a list
+ *
+ * @param listId - id of the list
+ */
+export const getCardsCountInList = async (listId: number) => {
+  return await ListModel.getCardsCountInList(listId);
+};

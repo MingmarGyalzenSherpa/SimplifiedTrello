@@ -89,5 +89,30 @@ export const removeUserFromCard = async (cardId: number, userId: number) => {
 };
 
 export const deleteCardById = async (cardId: number) => {
+  //get the card
+  const toBeDeletedCard = await CardModel.getCardById(cardId);
+
+  //get its list id
+  if (!toBeDeletedCard) {
+    throw new NotFoundError();
+  }
+
+  //get the  cards in the list
+  const cardsInList = await CardModel.getCards(toBeDeletedCard.listId);
+
+  //filter cards with position greater than to be deleted card
+  const filteredCard = cardsInList.filter(
+    (card) => card.position > toBeDeletedCard.position
+  );
+
+  //decrease position of each card by 1
+  await Promise.all(
+    filteredCard.map(async (card) => {
+      await CardModel.updateCard(card.id, {
+        ...updateCard,
+        position: +card.position - 1,
+      });
+    })
+  );
   await CardModel.deleteCardById(cardId);
 };

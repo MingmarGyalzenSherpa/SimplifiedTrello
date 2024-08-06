@@ -2,6 +2,7 @@ import HttpStatusCodes from "http-status-codes";
 import { NextFunction, Response } from "express";
 import { IExpressRequest } from "../interfaces/IExpressRequest";
 import * as CardServices from "../services/cardServices";
+import * as ListServices from "../services/ListServices";
 import { interpolate } from "../utils/interpolate";
 import { successMessages } from "../utils/message";
 
@@ -63,6 +64,26 @@ export const updateCard = async (
     });
   } catch (error) {
     console.log(error);
+    next(error);
+  }
+};
+
+export const getCardsCountInList = async (
+  req: IExpressRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { listId } = req.params;
+    const count = await ListServices.getCardsCountInList(listId);
+    console.log(count);
+    res.status(HttpStatusCodes.OK).json({
+      message: interpolate(successMessages.FETCHED, {
+        item: "Cards count in list",
+      }),
+      data: count,
+    });
+  } catch (error) {
     next(error);
   }
 };

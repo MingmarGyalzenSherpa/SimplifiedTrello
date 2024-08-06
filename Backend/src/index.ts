@@ -48,7 +48,18 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  socket.on("hello", (msg) => console.log(msg));
-
   console.log("a user connected");
+
+  //join room event
+  socket.on("join_room", (boardId) => {
+    socket.join(boardId);
+    console.log(Array.from(socket.rooms));
+  });
+
+  socket.on("card_moved", (data) => {
+    socket.to(data.id).emit("card_moved_response", data.msg);
+    socket.emit("card_moved_response", data.msg);
+  });
+
+  socket.on("hello", (msg) => console.log(msg));
 });
