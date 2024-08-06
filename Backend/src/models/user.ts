@@ -63,12 +63,11 @@ export class UserModel extends BaseModel {
         .andWhereLike("users.email", `${q}%`)
         .andWhereNot("id", userId);
     } else {
-      query ==
-        (await this.queryBuilder()
-          .table("users")
-          .select("id", "firstName", "lastName", "username", "email")
-          .whereLike("email", `${q}%`)
-          .andWhereNot("id", userId));
+      query = this.queryBuilder()
+        .table("users")
+        .select("id", "firstName", "lastName", "username", "email")
+        .whereLike("email", `${q}%`)
+        .andWhereNot("id", userId);
     }
     return await query;
   };

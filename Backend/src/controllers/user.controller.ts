@@ -16,7 +16,7 @@ export const searchUsers = async (
 
     res.status(HttpStatusCodes.OK).json({
       message: interpolate(successMessages.FETCHED, { item: "Users" }),
-      data,
+      data: data || [],
     });
   } catch (error) {
     next(error);
