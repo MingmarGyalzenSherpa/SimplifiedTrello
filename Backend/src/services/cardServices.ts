@@ -20,7 +20,6 @@ export const getCards = async (listId: number) => {
   const cardsWithMembers = await Promise.all(
     cards.map(async (card) => {
       const members = await CardModel.getMemberInCard(card.id);
-      console.log(members);
 
       return { ...card, members };
     })
@@ -30,8 +29,6 @@ export const getCards = async (listId: number) => {
 };
 
 export const updateCard = async (cardId: number, cardDetails: ICard) => {
-  console.log(cardDetails);
-
   //check if position exists
   if (!cardDetails.position) {
     //if it doesn't perform normal operation and return
@@ -42,7 +39,6 @@ export const updateCard = async (cardId: number, cardDetails: ICard) => {
 
   // if it does
   const card = await CardModel.getCardById(cardId);
-  console.log(card);
 
   if (cardDetails.listId === card.listId) {
     if (cardDetails.position > card.position!) {
@@ -137,7 +133,6 @@ export const updateCard = async (cardId: number, cardDetails: ICard) => {
 export const getCardsOfUser = async (userId: number) => {
   // Get cards
   const cards = await CardModel.getCardsOfUser(userId);
-  console.log(cards);
 
   // Use Promise.all to wait for all async operations to complete
   const updatedCards = await Promise.all(

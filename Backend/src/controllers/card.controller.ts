@@ -10,7 +10,6 @@ export const getCardsOfUser = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.user);
     const { id } = req.user!;
     const data = await CardServices.getCardsOfUser(id!);
 
@@ -19,7 +18,6 @@ export const getCardsOfUser = async (
       data,
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };

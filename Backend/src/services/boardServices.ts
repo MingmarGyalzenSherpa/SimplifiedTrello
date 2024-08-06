@@ -120,8 +120,6 @@ export const updateBoard = async (
   boardId: number,
   updatedBoard: IBoard
 ) => {
-  const board = await BoardModel.getBoardById(boardId);
-
   await BoardModel.updateBoard(boardId, updatedBoard);
 };
 

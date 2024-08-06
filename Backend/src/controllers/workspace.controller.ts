@@ -124,7 +124,6 @@ export const addUserToWorkspace = async (
   try {
     const { workspaceId } = req.params;
     const { email } = req.body;
-    console.log(email);
 
     await WorkspaceServices.addUserToWorkspace(+workspaceId, email);
     res.status(HttpStatusCodes.OK).json({
@@ -162,12 +161,9 @@ export const searchUsersInWorkspace = async (
 ) => {
   try {
     const { workspaceId } = req.params;
-    console.log(workspaceId);
     const { query } = req;
     const { id: userId } = req.user!;
     const data = await UserServices.searchUsers(query, userId!, workspaceId);
-    console.log("hereeee");
-    console.log(data);
     res.status(HttpStatusCodes.OK).json({
       message: interpolate(successMessages.FETCHED, { item: "Users" }),
       data,

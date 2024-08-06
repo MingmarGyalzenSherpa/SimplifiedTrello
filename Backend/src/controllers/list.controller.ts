@@ -63,7 +63,6 @@ export const updateCard = async (
       message: interpolate(successMessages.UPDATED, { item: "Card" }),
     });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -76,7 +75,6 @@ export const getCardsCountInList = async (
   try {
     const { listId } = req.params;
     const count = await ListServices.getCardsCountInList(listId);
-    console.log(count);
     res.status(HttpStatusCodes.OK).json({
       message: interpolate(successMessages.FETCHED, {
         item: "Cards count in list",
