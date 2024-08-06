@@ -76,6 +76,12 @@ export const login = async (credentials: ILoginPayload): Promise<object> => {
   };
 };
 
+/**
+ * Refresh token
+ *
+ * @param refreshToken - refresh token
+ * @returns
+ */
 export const refresh = (refreshToken: string) => {
   try {
     const payload = jwt.verify(

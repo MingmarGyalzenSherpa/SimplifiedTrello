@@ -24,6 +24,12 @@ export const createWorkspace = async (
   return data;
 };
 
+/**
+ * Get workspace by user
+ *
+ * @param userId - id of user
+ * @returns
+ */
 export const getWorkspacesByUser = async (userId: number) => {
   //get workspaces
   const workspaces = await WorkspaceModel.getWorkspaceByUser(userId);

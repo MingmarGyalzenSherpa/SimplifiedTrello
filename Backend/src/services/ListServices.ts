@@ -23,6 +23,12 @@ export const getLists = async (boardId: number) => {
   return data;
 };
 
+/**
+ * Update a list
+ *
+ * @param listId - id of list
+ * @param updatedList - updated list details
+ */
 export const updateList = async (listId: number, updatedList: IList) => {
   //check if position exists
   if (!updatedList.position) {

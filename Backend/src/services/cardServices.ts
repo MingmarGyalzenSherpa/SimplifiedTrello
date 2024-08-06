@@ -128,6 +128,12 @@ export const updateCard = async (cardId: number, cardDetails: ICard) => {
   await CardModel.updateCard(cardId, cardDetails);
 };
 
+/**
+ * Get cards of user
+ *
+ * @param userId - id of user
+ * @returns
+ */
 export const getCardsOfUser = async (userId: number) => {
   // Get cards
   const cards = await CardModel.getCardsOfUser(userId);
@@ -166,6 +172,13 @@ export const getCardsOfUser = async (userId: number) => {
   return updatedCards;
 };
 
+/**
+ * Add user to card
+ *
+ * @param cardId - card id
+ * @param email - email
+ * @returns
+ */
 export const addUserToCard = async (cardId: number, email: string) => {
   //find user
   const users = await UserModel.getUsersByEmail(email);
