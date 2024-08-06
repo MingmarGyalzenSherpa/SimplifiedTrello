@@ -50,7 +50,8 @@ export class NavBar {
       //clear tokens
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
-
+      localStorage.removeItem("workspaceId");
+      localStorage.removeItem("userId");
       navigateTo(Routes.LOGIN);
     });
   };
