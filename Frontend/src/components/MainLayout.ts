@@ -34,18 +34,8 @@ export class MainLayout implements IComponent {
       parentEl,
     };
 
-    this.getSubPath();
     setTimeout(this.initialSetup, 0);
   }
-
-  /**
-   * Get sub path
-   */
-  getSubPath = () => {
-    const path = window.location.pathname;
-    const subPath = path.slice(Routes.DASHBOARD.length - "(.*)".length);
-    if (subPath[0] != "/") navigateTo(Routes.CATCHALL);
-  };
 
   /**
    * Initial setup
