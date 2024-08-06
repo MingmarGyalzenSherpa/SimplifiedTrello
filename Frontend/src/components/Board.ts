@@ -6,7 +6,6 @@ import * as ListService from "../services/listService";
 import * as BoardService from "../services/boardService";
 import { IBoard } from "../interfaces/IBoard";
 import { HttpStatusCode } from "axios";
-import { Home } from "./Home";
 import { Workspace } from "./Workspace";
 
 /**
@@ -158,7 +157,7 @@ export class Board {
     });
 
     //handle input listener to title input
-    this.elements.boardTitleInput?.addEventListener("input", (e) => {
+    this.elements.boardTitleInput?.addEventListener("input", (_) => {
       if (this.state.inputTitleTimeoutId) {
         clearTimeout(this.state.inputTitleTimeoutId);
         this.state.inputTitleTimeoutId = undefined;
@@ -167,15 +166,13 @@ export class Board {
     });
 
     //toggle delete button event
-    this.elements.toggleDeleteEl?.addEventListener("click", (e) => {
+    this.elements.toggleDeleteEl?.addEventListener("click", (_) => {
       this.elements.deleteBoardBtn?.classList.toggle("invisible");
     });
 
     //delete button event
-    this.elements.deleteBoardBtn?.addEventListener("click", async (e) => {
+    this.elements.deleteBoardBtn?.addEventListener("click", async (_) => {
       try {
-        const userId = localStorage.getItem("userId");
-
         await BoardService.deleteBoard(+this.state.boardId);
 
         new Workspace(

@@ -59,7 +59,7 @@ export class CreateBoardModal {
     });
 
     //event listener for title input
-    this.elements.inputTitleElement?.addEventListener("input", (e) => {
+    this.elements.inputTitleElement?.addEventListener("input", (_) => {
       this.state.boardForm.title = this.elements.inputTitleElement?.value || "";
 
       //remove error message

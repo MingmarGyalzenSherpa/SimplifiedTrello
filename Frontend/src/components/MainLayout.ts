@@ -4,12 +4,11 @@ import { IUser } from "../interfaces/IUser";
 import { navigateTo } from "../utils/Navigate";
 import { Routes } from "../constants/Routes";
 import { SideNav } from "./SideNav";
-import { Board } from "./Board";
 import { IComponent } from "../interfaces/IComponent";
 import { Home } from "./Home";
 
 /**
- * Main layout for dashboard componentgoo
+ * Main layout for dashboard component
  */
 export class MainLayout implements IComponent {
   state: {

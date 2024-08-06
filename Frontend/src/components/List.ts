@@ -115,10 +115,7 @@ export class List {
           position: this.state.cards.length,
         };
 
-        const response = await CardService.addCard(
-          +this.state.list.id,
-          reqBody
-        );
+        await CardService.addCard(+this.state.list.id, reqBody);
         this.fetchCard();
       } catch (error) {}
     });

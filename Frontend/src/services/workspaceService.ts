@@ -1,4 +1,3 @@
-import { CreateWorkspace } from "./../components/CreateWorkspace";
 import { Endpoints } from "../constants/Endpoints";
 import { axiosInstance } from "../utils/axiosConfig";
 import { interpolate } from "../utils/interpolate";

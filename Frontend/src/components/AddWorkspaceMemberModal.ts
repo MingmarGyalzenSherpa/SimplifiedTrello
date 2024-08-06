@@ -70,7 +70,7 @@ export class AddWorkspaceMemberModal {
     });
 
     //add event listener to add member btn
-    this.elements.addMemberBtn?.addEventListener("click", async (e) => {
+    this.elements.addMemberBtn?.addEventListener("click", async (_) => {
       try {
         const response = await WorkspaceService.addUserToWorkspace(
           this.state.workspaceId,

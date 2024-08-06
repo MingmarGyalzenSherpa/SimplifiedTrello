@@ -93,7 +93,7 @@ export class Home implements IComponent {
       this.elements.cardsContainer?.querySelectorAll<HTMLElement>(".card");
     const contentEl = document.querySelector(".content");
     cardEls!.forEach((card) => {
-      card.addEventListener("click", (e: Event) => {
+      card.addEventListener("click", (_) => {
         new Board(
           contentEl as HTMLElement,
           (card as HTMLElement).dataset.boardId!
