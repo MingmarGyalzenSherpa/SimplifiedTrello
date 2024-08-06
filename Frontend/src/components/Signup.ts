@@ -202,7 +202,7 @@ export class Signup implements IComponent {
       try {
         e.preventDefault();
 
-        const { errors, success } = validate(
+        const { errors } = validate(
           createUserBodySchema,
           this.state.credential
         );

@@ -94,6 +94,9 @@ export class Workspace {
     }
   };
 
+  /**
+   * Fetch and render members
+   */
   fetchAndRenderMembers = async () => {
     try {
       const response = await WorkspaceService.getUsersInWorkspace(
