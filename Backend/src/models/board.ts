@@ -102,4 +102,11 @@ export class BoardModel extends BaseModel {
       .update({ deleted: true })
       .where({ id: boardId });
   };
+
+  static getListCountInBoard = async (boardId: number) => {
+    await this.queryBuilder()
+      .table("lists")
+      .where({ boardId, deleted: false })
+      .count("id");
+  };
 }
