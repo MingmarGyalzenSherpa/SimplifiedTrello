@@ -94,22 +94,24 @@ export const deleteCardById = async (cardId: number) => {
 
   //get its list id
   if (!toBeDeletedCard) {
-    throw new NotFoundError();
+    throw new NotFoundError(
+      interpolate(errorMessages.NOTFOUND, { item: "Card" })
+    );
   }
 
   //get the  cards in the list
   const cardsInList = await CardModel.getCards(toBeDeletedCard.listId);
 
   //filter cards with position greater than to be deleted card
-  const filteredCard = cardsInList.filter(
+  const filteredCards = cardsInList.filter(
     (card) => card.position > toBeDeletedCard.position
   );
 
   //decrease position of each card by 1
   await Promise.all(
-    filteredCard.map(async (card) => {
+    filteredCards.map(async (card) => {
       await CardModel.updateCard(card.id, {
-        ...updateCard,
+        ...card,
         position: +card.position - 1,
       });
     })

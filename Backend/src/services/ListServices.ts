@@ -1,5 +1,8 @@
 import { ListModel } from "../models/list";
 import { IList } from "../interfaces/IList";
+import { NotFoundError } from "../errors/NotFoundError";
+import { interpolate } from "../utils/interpolate";
+import { errorMessages } from "../utils/message";
 
 /**
  * Create a new list
@@ -25,6 +28,34 @@ export const updateList = async (listId: number, updatedList: IList) => {
 };
 
 export const deleteList = async (listId: number) => {
+  //get the list
+
+  const toBeDeletedList = await ListModel.getListById(listId);
+
+  if (!toBeDeletedList) {
+    throw new NotFoundError(
+      interpolate(errorMessages.NOTFOUND, { item: "List" })
+    );
+  }
+
+  //get the lists in the board
+  const listInBoard = await ListModel.getLists(toBeDeletedList.boardId);
+
+  //filter lists with position greater than to be deleted list
+  const filteredLists = listInBoard.filter(
+    (list) => list.position > toBeDeletedList.position
+  );
+
+  //decrease position of each list by 1
+  await Promise.all(
+    filteredLists.map(async (list) => {
+      await ListModel.updateList(list.id, {
+        ...list,
+        position: +list.position - 1,
+      });
+    })
+  );
+
   await ListModel.deleteList(listId);
 };
 
