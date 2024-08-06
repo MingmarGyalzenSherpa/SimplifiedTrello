@@ -21,6 +21,9 @@ export const updateCardBodySchema = joi
     position: joi.number().optional().messages({
       "base.number": "Position must be a number",
     }),
+    listId: joi.number().optional().messages({
+      "base.number": "List id must be a number",
+    }),
   })
   .options({
     stripUnknown: true,

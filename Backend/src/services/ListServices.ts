@@ -24,7 +24,31 @@ export const getLists = async (boardId: number) => {
 };
 
 export const updateList = async (listId: number, updatedList: IList) => {
-  await ListModel.updateList(listId, updatedList);
+  //check if position exists
+  if (!updatedList.position) {
+    await ListModel.updateList(listId, updatedList);
+  }
+
+  //get list
+  const list = await ListModel.getListById(listId);
+
+  //get all the list in board
+  const listsInBoard = await ListModel.getLists(list.boardId);
+
+  //filter list with position >= new position
+  const filteredLists = listsInBoard.filter(
+    (list) => list.position >= updatedList.position!
+  );
+
+  //update filtered list
+  await Promise.all(
+    filteredLists.map(async (list) => {
+      await ListModel.updateList(list.id, {
+        ...list,
+        position: +list.position + 1,
+      });
+    })
+  );
 };
 
 export const deleteList = async (listId: number) => {

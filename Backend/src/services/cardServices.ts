@@ -30,7 +30,35 @@ export const getCards = async (listId: number) => {
 };
 
 export const updateCard = async (cardId: number, cardDetails: ICard) => {
-  await CardModel.updateCard(cardId, cardDetails);
+  console.log(cardDetails);
+  //check if position exists
+  if (!cardDetails.position) {
+    //if it doesn't perform normal operation and return
+
+    await CardModel.updateCard(cardId, cardDetails);
+    return;
+  }
+
+  // if it does
+  const card = await CardModel.getCardById(cardId);
+  //get all the cards in the list
+  const cardsInList = await CardModel.getCards(card.listId);
+
+  const filteredCards = cardsInList.filter(
+    (card) => card.position >= cardDetails.position!
+  );
+
+  //filter card with position >= new position
+
+  await Promise.all(
+    filteredCards.map(async (card) => {
+      await CardModel.updateCard(card.id, {
+        ...card,
+        position: +card.position! + 1,
+      });
+    })
+  );
+  //increase each by 1
 };
 
 export const getCardsOfUser = async (userId: number) => {
