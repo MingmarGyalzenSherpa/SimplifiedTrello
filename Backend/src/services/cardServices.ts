@@ -31,6 +31,7 @@ export const getCards = async (listId: number) => {
 
 export const updateCard = async (cardId: number, cardDetails: ICard) => {
   console.log(cardDetails);
+
   //check if position exists
   if (!cardDetails.position) {
     //if it doesn't perform normal operation and return
@@ -41,24 +42,90 @@ export const updateCard = async (cardId: number, cardDetails: ICard) => {
 
   // if it does
   const card = await CardModel.getCardById(cardId);
-  //get all the cards in the list
-  const cardsInList = await CardModel.getCards(card.listId);
+  console.log(card);
 
-  const filteredCards = cardsInList.filter(
+  if (cardDetails.listId === card.listId) {
+    if (cardDetails.position > card.position!) {
+      const currentCardList = await CardModel.getCards(card.listId);
+
+      const filteredCurrentCardList = currentCardList.filter(
+        (cardInfo) =>
+          cardInfo.position >= card.position &&
+          cardInfo.position <= cardDetails.position!
+      );
+
+      await Promise.all(
+        filteredCurrentCardList.map(async (card) => {
+          await CardModel.updateCard(card.id, {
+            ...card,
+            position: +card.position! - 1,
+          });
+        })
+      );
+    } else {
+      const currentCardList = await CardModel.getCards(card.listId);
+
+      const filteredCurrentCardList = currentCardList.filter(
+        (cardInfo) =>
+          cardInfo.position <= card.position &&
+          cardInfo.position >= cardDetails.position!
+      );
+
+      await Promise.all(
+        filteredCurrentCardList.map(async (card) => {
+          await CardModel.updateCard(card.id, {
+            ...card,
+            position: +card.position! - 1,
+          });
+        })
+      );
+    }
+
+    return;
+  }
+  //get all the cards in the old list
+  const cardsInOldList = await CardModel.getCards(card.listId);
+
+  //filter the old list
+  const filteredCardsInOldList = cardsInOldList.filter(
     (card) => card.position >= cardDetails.position!
   );
 
   //filter card with position >= new position
 
+  //increase each by 1
+
   await Promise.all(
-    filteredCards.map(async (card) => {
+    filteredCardsInOldList.map(async (card) => {
+      await CardModel.updateCard(card.id, {
+        ...card,
+        position: +card.position! - 1,
+      });
+    })
+  );
+
+  //get new list cards
+  const cardsInNewList = await CardModel.getCards(cardDetails.listId!);
+
+  //filter the old list
+  const filteredCardsInNewList = cardsInNewList.filter(
+    (card) => card.position >= cardDetails.position!
+  );
+
+  //filter card with position >= new position
+
+  //increase each by 1
+
+  await Promise.all(
+    filteredCardsInNewList.map(async (card) => {
       await CardModel.updateCard(card.id, {
         ...card,
         position: +card.position! + 1,
       });
     })
   );
-  //increase each by 1
+
+  await CardModel.updateCard(cardId, cardDetails);
 };
 
 export const getCardsOfUser = async (userId: number) => {
