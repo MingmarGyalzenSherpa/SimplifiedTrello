@@ -221,7 +221,6 @@ export class List {
       count++;
       this.elements.listContainer!.dataset.count = `${count}`;
 
-      console.log(this.state.drop);
       const response = await CardService.updateCard(this.state.drop?.cardId!, {
         position: this.state.drop?.newPosition,
         listId: this.state.drop?.listId,

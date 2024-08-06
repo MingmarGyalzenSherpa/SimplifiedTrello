@@ -6,9 +6,7 @@ import * as ListService from "../services/listService";
 import * as BoardService from "../services/boardService";
 import { IBoard } from "../interfaces/IBoard";
 import { HttpStatusCode } from "axios";
-import { Socket } from "socket.io-client";
 import { Home } from "./Home";
-import { socketInstance } from "../utils/socket";
 
 /**
  * Board component
@@ -18,7 +16,6 @@ export class Board {
     boardId: string;
     board?: IBoard;
     lists: List[];
-    socket?: Socket;
     inputTitleTimeoutId?: number;
   };
   elements: {
@@ -38,7 +35,6 @@ export class Board {
     this.elements = {
       parentEl,
     };
-    this.setupSocket();
     console.log(id);
     setTimeout(this.initialSetup, 0);
   }
@@ -122,18 +118,6 @@ export class Board {
         },
       }).showToast();
     }
-  };
-
-  setupSocket = () => {
-    console.log("hey");
-    socketInstance.emit("hello", "hello");
-
-    //join the board
-    socketInstance.emit("join_room", this.state.boardId);
-
-    socketInstance.emit("card_moved", { msg: "moved", id: this.state.boardId });
-
-    socketInstance.on("card_moved_response", (msg) => console.log(msg));
   };
 
   /**
