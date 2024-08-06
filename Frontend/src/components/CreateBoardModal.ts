@@ -164,7 +164,7 @@ export class CreateBoardModal {
      `;
 
     // Create the modal content
-    modalEl.innerHTML = `
+    modalEl.innerHTML = /*html*/ `
          <div class="bg-gray-100 rounded-lg shadow-xl max-w-xl mx-auto p-4">
   <h4 class="block text-center font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
     Create board

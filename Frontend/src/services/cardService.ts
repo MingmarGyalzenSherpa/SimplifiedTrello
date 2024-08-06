@@ -20,7 +20,12 @@ export const addCard = (
 
 export const updateCard = (
   cardId: number,
-  reqBody: { title?: string; position?: number; description?: string }
+  reqBody: {
+    title?: string;
+    position?: number;
+    description?: string;
+    listId?: number;
+  }
 ) =>
   axiosInstance.put(
     interpolate(Endpoints.CARD.UPDATE_CARD, { cardId }),

@@ -66,7 +66,7 @@ export class SettingsPopup implements IComponent {
     this.elements.parentEl?.appendChild(settingOptionEl);
 
     //set inner html
-    settingOptionEl.innerHTML = `
+    settingOptionEl.innerHTML = /*html*/ `
   
    <button class=" delete-btn hover:bg-red-600 w-full text-white font-semibold py-2 px-4 rounded flex-grow  transition duration-300 ease-in-out">
      Delete

@@ -39,7 +39,7 @@ export class Board {
       parentEl,
     };
     this.setupSocket();
-
+    console.log(id);
     setTimeout(this.initialSetup, 0);
   }
 
@@ -242,7 +242,7 @@ export class Board {
    * Render html
    */
   render() {
-    this.elements.parentEl.innerHTML = `
+    this.elements.parentEl.innerHTML = /*html*/ `
     <div class="h-[93vh]">
     <nav class="h-[8%] fixed  bg-black w-[85vw]  bg-opacity-30 px-10 ">
       <div class=" h-full flex items-center justify-between">

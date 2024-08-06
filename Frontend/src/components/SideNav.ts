@@ -3,6 +3,7 @@ import { IWorkspace } from "./../interfaces/IWorkspace";
 import { IUser } from "../interfaces/IUser";
 import * as WorkspaceService from "../services/workspaceService";
 import { Workspace } from "./Workspace";
+import { Home } from "./Home";
 
 /**
  * Side nav component
@@ -107,6 +108,12 @@ export class SideNav {
 
       // Update state
       this.state.activeLink = linkName;
+      if (this.state.activeLink === "home") {
+        new Home(
+          document.querySelector(".content")!,
+          +localStorage.getItem("userId")!
+        );
+      }
     }
   };
 
@@ -114,7 +121,7 @@ export class SideNav {
    * Render html
    */
   render = () => {
-    this.elements.parentEl.innerHTML = `
+    this.elements.parentEl.innerHTML = /*html*/ `
         <div
       class="relative flex h-[93vh] w-min-[10%]   w-max-[10%] flex-col  bg-primary bg-clip-border p-4 text-white shadow-xl shadow-blue-gray-900/5">
 
@@ -133,19 +140,7 @@ export class SideNav {
 
             </button>
           </div>
-          <div role="button" id="nav_item" data-link="boards"
-            class="link flex items-center w-full p-0 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover: focus:bg-blue-gray-50 focus:bg-opacity-80 focus: active:bg-blue-gray-50 active:bg-opacity-80 active:">
-            <button type="button" 
-              class=" flex items-center justify-between w-full p-3 font-sans text-xl antialiased font-semibold leading-snug text-left transition-colors border-b-0 select-none border-b-blue-gray-100  hover:">
-                <div class="grid mr-3 place-items-center">
-               <i class="fa-solid fa-square"></i>
-              </div>
-              <p class="block mr-auto font-sans text-base antialiased font-normal leading-relaxed ">
-                Boards
-              </p>
-
-            </button>
-        </div>
+        
         <hr class="my-2 border-blue-gray-50" />
 
          <div id="workspaces-toggle"
@@ -170,11 +165,6 @@ export class SideNav {
 
         </ul>
 
-        <div role="button"
-          class="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover: focus:bg-blue-gray-50 focus:bg-opacity-80 focus: active:bg-blue-gray-50 active:bg-opacity-80 active:">
-
-          Log Out
-        </div>
       </nav>
     </div>`;
 

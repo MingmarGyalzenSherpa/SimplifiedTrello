@@ -143,7 +143,7 @@ export class AddWorkspaceMemberModal {
          `;
 
     // Create the modal content
-    modalEl.innerHTML = `
+    modalEl.innerHTML = /*html*/ `
              <div class="bg-gray-100 rounded-lg flex items-center gap-2 justify-center shadow-xl w-full max-w-2xl h-[100px] mx-auto">
              <div class="w-[300px] flex flex-col relative">
               <input active class="search-input px-4 py-2 h-[60px] rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter member email">

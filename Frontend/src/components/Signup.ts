@@ -132,7 +132,7 @@ export class Signup implements IComponent {
 
   /**
    * Handle user name
-   * @param e 
+   * @param e
    */
   private handleUserName = (e: Event) => {
     this.state.credential.username = (e.target as HTMLInputElement)?.value;
@@ -141,7 +141,7 @@ export class Signup implements IComponent {
 
   /**
    * Handle email
-   * @param e 
+   * @param e
    */
   private handleEmail = (e: Event) => {
     this.state.credential.email = (e.target as HTMLInputElement)?.value;
@@ -266,7 +266,7 @@ export class Signup implements IComponent {
    * Render html
    */
   render = () => {
-    this.elements.parentEl!.innerHTML = `
+    this.elements.parentEl!.innerHTML = /*html*/ `
      <div id="signup-container" class="mx-auto w-min h-min my-10 border px-5 py-10 shadow-lg relative flex flex-col text-gray-700 bg-transparent  rounded-xl bg-clip-border">
   
   <div class="flex gap-1 justify-center align-baseline mb-2">

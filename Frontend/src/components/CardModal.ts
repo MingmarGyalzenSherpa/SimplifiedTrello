@@ -166,8 +166,9 @@ export class CardModal {
     this.elements.memberListEl!.innerHTML = `
          ${members
            .map(
-             (member) =>
-               `<li class="flex items-center justify-between bg-white p-2 rounded-md mb-2">
+             (
+               member
+             ) => `<li class="flex items-center justify-between bg-white p-2 rounded-md mb-2">
                 <div class="flex items-center gap-5">
                 <span class="rounded-full flex justify-center items-center bg-blue-400 w-10 h-10" > ${member.username![0].toUpperCase()}</span>
               <span>${member.email}</span>
@@ -329,7 +330,7 @@ export class CardModal {
      `;
 
     // Create the modal content
-    modalEl.innerHTML = `
+    modalEl.innerHTML = /*html*/ `
           <div class="bg-gray-100 rounded-lg shadow-xl w-full max-w-3xl mx-auto">
   <div class="flex justify-between items-start p-4 border-b border-gray-200">
     <input class="title-input bg-transparent text-xl font-semibold text-gray-700" value="${

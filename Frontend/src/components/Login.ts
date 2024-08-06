@@ -24,7 +24,7 @@ export class Login implements IComponent {
     this.elements = {};
     this.elements.parentEl = parentEL;
 
-    this.state = { 
+    this.state = {
       credential: {
         email: "",
         password: "",
@@ -108,7 +108,6 @@ export class Login implements IComponent {
         //add to local storage
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-        
 
         //redirect to dashboard
         navigateTo(Routes.DASHBOARD);
@@ -120,7 +119,7 @@ export class Login implements IComponent {
    * Render html
    */
   render() {
-    this.elements.parentEl!.innerHTML = `
+    this.elements.parentEl!.innerHTML = /*html*/ `
     <div id="" class="mx-auto w-min h-min my-10 border px-5 py-10 shadow-lg relative flex flex-col text-gray-700 bg-transparent  rounded-xl bg-clip-border">
   
     <div class="flex gap-1 w-full justify-center align-baseline mb-2">

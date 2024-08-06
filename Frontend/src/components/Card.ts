@@ -58,7 +58,15 @@ export class Card {
   handleDragStart = (e: DragEvent) => {
     this.elements.cardEl?.classList.add("dragging");
 
-    e.dataTransfer?.setData("text/plain", this.state.card.id);
+    const parentContainer = this.elements.cardEl?.closest(
+      ".list-ul"
+    ) as HTMLElement;
+    //decrease data count of parent container
+    let count = +parentContainer.dataset.count!;
+    count--;
+    parentContainer.dataset.count = `${count}`;
+
+    e.dataTransfer?.setData("text/plain", this.state.card.listId);
   };
 
   /**
@@ -76,6 +84,7 @@ export class Card {
     const cardEl = document.createElement("div");
     cardEl.dataset.id = this.state.card.id;
     cardEl.dataset.position = `${this.state.card.position}`;
+    cardEl.dataset.listId = `${this.state.card.listId}`;
     cardEl.classList.add(
       "card",
       `card-${this.state.card.id}`,

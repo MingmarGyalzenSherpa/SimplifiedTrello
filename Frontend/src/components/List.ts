@@ -15,7 +15,15 @@ export class List {
     list: IList;
     boardId: number;
     cards: Card[];
+    cardLength: number;
     parentRender: Function;
+    drop?: {
+      newPosition?: number;
+      afterElement?: HTMLElement;
+      cardId: number;
+      cardEl: HTMLElement;
+      listId: number;
+    };
   };
   elements: {
     parentEl: HTMLElement;
@@ -36,6 +44,7 @@ export class List {
       cards: [],
       boardId,
       parentRender,
+      cardLength: 0,
     };
     this.elements = {
       parentEl,
@@ -64,6 +73,11 @@ export class List {
       this.state.cards = sortedCards.map(
         (card) => new Card(this.elements.cardListEl!, card, this.state.boardId)
       );
+      //set length of the cards
+      this.state.cardLength = this.state.cards.length;
+
+      //set data count
+      this.elements.listContainer!.dataset.count = `${this.state.cards.length}`;
     } catch (error) {
       Toastify({
         text: "Something went wrong",
@@ -111,6 +125,9 @@ export class List {
 
     //drag over event
     this.elements.listEl?.addEventListener("dragover", this.handleDragOver);
+
+    //drop event
+    this.elements.listEl?.addEventListener("drop", this.handleDrop);
 
     //option button event listener
     const optionBtnEl = this.elements.parentEl.querySelector<HTMLElement>(
@@ -161,18 +178,75 @@ export class List {
    * Handle dragover event
    * @param e
    */
-  handleDragOver = (e: DragEvent) => {
+  handleDragOver = async (e: DragEvent) => {
     e.preventDefault();
-    const cardEl = document.querySelector(".dragging");
-    console.log(e.clientY);
-    const afterElement = this.getDragAfterElement(e.clientY);
-    console.log(this.elements.listEl);
-    if (afterElement === undefined) {
-      this.elements.listContainer?.appendChild(cardEl!);
-    } else {
-      this.elements.listContainer?.insertBefore(cardEl!, afterElement);
+    const cardEl = document.querySelector(".dragging") as HTMLElement;
+    if (!cardEl) return;
+    const afterElement = this.getDragAfterElement(e.clientY) as HTMLElement;
+    const newListId = this.state.list.id;
+
+    const cardId = cardEl.dataset.id;
+
+    //decrease the card length
+
+    this.state.drop = {
+      cardId: +cardId!,
+
+      cardEl: cardEl!,
+      listId: +newListId,
+      afterElement,
+    };
+  };
+
+  handleDrop = async (e: DragEvent) => {
+    e.preventDefault();
+    try {
+      console.log("list container = ");
+      console.log(this.elements.listContainer);
+
+      let count = +this.elements.listContainer!.dataset.count!;
+
+      //get new position
+      const newPosition =
+        this.state.drop!.afterElement === undefined
+          ? count
+          : this.state.drop!.afterElement.dataset.position;
+
+      console.log(this.state.drop?.afterElement);
+      console.log("new position = " + newPosition);
+      //increase count of list container
+      this.state.drop!.newPosition = +newPosition!;
+      this.state.drop!.cardEl.dataset.position = `${count}`;
+
+      count++;
+      this.elements.listContainer!.dataset.count = `${count}`;
+
+      console.log(this.state.drop);
+      const response = await CardService.updateCard(this.state.drop?.cardId!, {
+        position: this.state.drop?.newPosition,
+        listId: this.state.drop?.listId,
+      });
+
+      if (response.status === HttpStatusCode.Ok) {
+        if (this.state.drop!.afterElement === undefined) {
+          this.elements.listContainer?.appendChild(this.state.drop!.cardEl);
+        } else {
+          this.elements.listContainer?.insertBefore(
+            this.state.drop!.cardEl!,
+            this.state.drop!.afterElement
+          );
+        }
+        //update position of card
+      }
+    } catch (error) {
+      Toastify({
+        text: "Error updating card",
+        duration: 2000,
+        style: {
+          background: "red",
+        },
+      }).showToast();
     }
-    console.log(afterElement);
   };
 
   getDragAfterElement(y: number) {
@@ -208,7 +282,7 @@ export class List {
     const listEl = document.createElement("div");
 
     listEl.className = "rounded-xl relative";
-    listEl.innerHTML += `
+    listEl.innerHTML += /*html*/ `
     <div id="list" class="bg-[#F1F2F4] min-w-[300px]   max-h-[600px] min-h-min rounded-2xl">
     <div class="flex justify-between items-center">
           <span class="block list-title mb-3 pt-3 px-4 text-[#3F506C]"> ${this.state.list.title}</span>
@@ -219,7 +293,7 @@ export class List {
           </button>
             
     </div>
-          <ul id="list-${this.state.list.id}-card-list" class="text-black flex flex-col gap-5 max-h-[450px] p-2 overflow-y-scroll  ">
+          <ul id="list-${this.state.list.id}-card-list" class="list-ul  text-black flex flex-col gap-5 max-h-[450px] p-2 overflow-y-scroll  ">
          
 
           </ul>

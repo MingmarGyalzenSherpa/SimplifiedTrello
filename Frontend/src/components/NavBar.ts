@@ -59,7 +59,7 @@ export class NavBar {
    * Render html
    */
   render = () => {
-    this.elements.parentEl.innerHTML = `
+    this.elements.parentEl.innerHTML = /*html*/ `
     <nav
   class="block w-full px-4 py-2 mx-auto text-white bg-primary border  border-black  h-[7vh]  lg:px-8 ">
   <div class="container flex items-center justify-between mx-auto ">

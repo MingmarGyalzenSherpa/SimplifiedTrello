@@ -141,7 +141,7 @@ export class Workspace {
    * Render function
    */
   render = () => {
-    this.elements.parentEl.innerHTML = `
+    this.elements.parentEl.innerHTML = /*html*/ `
       <div class="h-[93vh]  p-16">
 <div class="flex justify-between   mb-10 ">
     <div class="flex gap-4  items-center ">
