@@ -4,6 +4,7 @@ import { IUser } from "../interfaces/IUser";
 import * as WorkspaceService from "../services/workspaceService";
 import { Workspace } from "./Workspace";
 import { Home } from "./Home";
+import { CreateWorkspace } from "./CreateWorkspace";
 
 /**
  * Side nav component
@@ -93,7 +94,6 @@ export class SideNav {
   setActiveLink = (e: Event) => {
     const clickedElement = e.currentTarget as HTMLElement;
     const linkName = clickedElement.dataset.link;
-
     if (linkName) {
       // Remove active class from previously active link
       const previousActiveLink =
@@ -113,6 +113,10 @@ export class SideNav {
           document.querySelector(".content")!,
           +localStorage.getItem("userId")!
         );
+      }
+
+      if (this.state.activeLink === "create-workspace") {
+        new CreateWorkspace(document.querySelector(".content")!);
       }
     }
   };
@@ -163,6 +167,8 @@ export class SideNav {
                )
                .join("")}
 
+               <li data-link="create-workspace" class="link py-3 px-2 mb-2 rounded hover: bg-blue-600 hover:bg-blue-gray-50 hover:bg-opacity-80 hover: focus:bg-blue-gray-50 focus:bg-opacity-80 focus: active:bg-blue-gray-50 active:bg-opacity-80 active:">
+               Create Workspace </li>
         </ul>
 
       </nav>

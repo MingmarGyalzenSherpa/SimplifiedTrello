@@ -56,7 +56,6 @@ export class AddWorkspaceMemberModal {
           const response = await UserService.searchUser(
             (e.target! as HTMLInputElement).value
           );
-
           this.renderUserList(response.data.data);
         } catch (error: any) {
           Toastify({

@@ -38,7 +38,6 @@ export class CardModal {
       card,
       boardId,
     };
-    console.log(this.state.card);
     this.render();
   }
 
@@ -69,7 +68,6 @@ export class CardModal {
 
     //event listener for title input
     this.elements.titleInputEl?.addEventListener("input", (_) => {
-      console.log("heheheh");
       if (this.state.titleInputTimeoutId) {
         clearTimeout(this.state.titleInputTimeoutId);
       }
@@ -106,7 +104,6 @@ export class CardModal {
           +this.state.card.id,
           this.elements.searchMemberInputEl!.value
         );
-        console.log(response.data.data);
         if (response.status === HttpStatusCode.Created) {
           Toastify({
             text: "User added successfully!",
@@ -118,7 +115,6 @@ export class CardModal {
 
           const newMember = response.data.data[0];
           this.state.card.members.push(newMember);
-          console.log(this.state.card.members);
           this.renderMembers(this.state.card.members);
         }
       } catch (error) {
@@ -140,7 +136,6 @@ export class CardModal {
       try {
         const response = await CardService.deleteCard(+this.state.card.id);
 
-        console.log(response);
         if (response.status === HttpStatusCode.Ok) {
           Toastify({
             text: "Card deleted successfully!",
@@ -197,7 +192,6 @@ export class CardModal {
             +this.state.card.id,
             +userId!
           );
-          console.log(response);
           if (response.status === HttpStatusCode.Ok) {
             //remove from state
             this.state.card.members = this.state.card.members.filter(
@@ -230,7 +224,6 @@ export class CardModal {
         +workspaceId,
         email
       );
-      console.log(response.data);
       const users = response.data.data;
       this.renderSearchedUserList(users);
     } catch (error) {}

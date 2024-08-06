@@ -68,7 +68,6 @@ export class Login implements IComponent {
 
     signUpLink?.addEventListener("click", (e: Event) => {
       e.preventDefault();
-      console.log("clicked");
       navigateTo(Routes.SIGNUP);
     });
 

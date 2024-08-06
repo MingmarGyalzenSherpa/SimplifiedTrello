@@ -7,6 +7,7 @@ import * as BoardService from "../services/boardService";
 import { IBoard } from "../interfaces/IBoard";
 import { HttpStatusCode } from "axios";
 import { Home } from "./Home";
+import { Workspace } from "./Workspace";
 
 /**
  * Board component
@@ -35,7 +36,6 @@ export class Board {
     this.elements = {
       parentEl,
     };
-    console.log(id);
     setTimeout(this.initialSetup, 0);
   }
 
@@ -175,11 +175,13 @@ export class Board {
     this.elements.deleteBoardBtn?.addEventListener("click", async (e) => {
       try {
         const userId = localStorage.getItem("userId");
-        console.log(userId);
 
         await BoardService.deleteBoard(+this.state.boardId);
 
-        new Home(document.querySelector(".content")!, +userId!);
+        new Workspace(
+          document.querySelector(".content")!,
+          +localStorage.getItem("workspaceId")!
+        );
         // go to home
       } catch (error) {
         Toastify({

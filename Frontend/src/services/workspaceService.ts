@@ -1,3 +1,4 @@
+import { CreateWorkspace } from "./../components/CreateWorkspace";
 import { Endpoints } from "../constants/Endpoints";
 import { axiosInstance } from "../utils/axiosConfig";
 import { interpolate } from "../utils/interpolate";
@@ -47,7 +48,7 @@ export const getUsersInWorkspace = (workspaceId: number) =>
 
 /**
  *Search users in workspace
- 
+
  * @param workspaceId - id of the workspace
  * @param email - email
  * @returns
@@ -59,3 +60,8 @@ export const searchUsersInWorkspace = (workspaceId: number, email: string) =>
       email,
     })
   );
+
+export const createWorkspace = (title: string) =>
+  axiosInstance.post(Endpoints.WORKSPACE.CREATE_WORKSPACE, {
+    title,
+  });

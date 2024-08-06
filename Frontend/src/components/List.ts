@@ -201,9 +201,6 @@ export class List {
   handleDrop = async (e: DragEvent) => {
     e.preventDefault();
     try {
-      console.log("list container = ");
-      console.log(this.elements.listContainer);
-
       let count = +this.elements.listContainer!.dataset.count!;
 
       //get new position
@@ -212,8 +209,6 @@ export class List {
           ? count
           : this.state.drop!.afterElement.dataset.position;
 
-      console.log(this.state.drop?.afterElement);
-      console.log("new position = " + newPosition);
       //increase count of list container
       this.state.drop!.newPosition = +newPosition!;
       this.state.drop!.cardEl.dataset.position = `${count}`;
@@ -249,11 +244,9 @@ export class List {
   };
 
   getDragAfterElement(y: number) {
-    console.log("y is here" + y);
     const draggableElements = [
       ...this.elements.cardListEl!.querySelectorAll(".card:not(.dragging)"),
     ];
-    console.log(draggableElements);
     return draggableElements.reduce<{
       offset: number;
       element: Element | undefined;
@@ -326,7 +319,6 @@ export class List {
     this.elements.listContainer = document.querySelector(
       `#list-${this.state.list.id}-card-list`
     )!;
-    console.log(this.elements.listContainer);
 
     //create a new list div
     //append it to parent
