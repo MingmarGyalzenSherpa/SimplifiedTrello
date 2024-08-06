@@ -391,30 +391,10 @@ export class CardModal {
         </button>
       </div>
 
-      <!-- Labels -->
       <div class="flex items-start space-x-4">
-        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-        </svg>
+       
         <div class="flex-grow">
-          <h3 class="text-lg font-semibold mb-2">Label</h3>
-          <input type="text" placeholder="Enter label name..." class="flex-grow p-2 border rounded-md w-full mb-2">
-          <h6 class="block mb-2 font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-blue-gray-900">
-            Background
-          </h6>
-          <div class="h-11 w-[100%] flex min-w-[200px] gap-1 mb-4">
-            <div data-background="bg-green-300" class="background-option w-12 h-12 hover:scale-95 transition-all hover:cursor-pointer rounded-md bg-green-300"></div>
-            <div data-background="bg-blue-300" class="background-option w-12 h-12 hover:scale-95 transition-all hover:cursor-pointer rounded-md bg-blue-300"></div>
-            <div data-background="bg-orange-300" class="background-option w-12 h-12 hover:scale-95 transition-all hover:cursor-pointer rounded-md bg-orange-300"></div>
-            <div data-background="bg-purple-100" class="background-option w-12 h-12 hover:scale-95 transition-all hover:cursor-pointer rounded-md bg-purple-100"></div>
-            <div data-background="bg-pink-200" class="background-option w-12 h-12 border-2 border-black hover:scale-95 transition-all hover:cursor-pointer rounded-md bg-pink-200"></div>
-            <div data-background="bg-brown-400" class="background-option w-12 h-12 hover:scale-95 transition-all hover:cursor-pointer rounded-md bg-brown-400"></div>
-            <div data-background="bg-white" class="background-option w-12 h-12 hover:scale-95 transition-all hover:cursor-pointer rounded-md bg-white"></div>
-            <div data-background="bg-gray-800" class="background-option w-12 h-12 hover:scale-95 transition-all hover:cursor-pointer rounded-md bg-gray-800"></div>
-          </div>
-          <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full">
-            Add Label
-          </button>
+         
           <button class="delete-card-btn bg-red-500 mt-5 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">
             DELETE CARD
           </button>
