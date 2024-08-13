@@ -3,7 +3,7 @@ import { Knex } from "knex";
 const TABLE_NAME = "workspaces";
 
 /**
- * Create table TABLE_NAME.
+ * Create table workspaces.
  *
  * @param   {Knex} knex
  * @returns {Promise}
